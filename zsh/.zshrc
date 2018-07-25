@@ -6,6 +6,7 @@ unsetopt no_match
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 export PATH=/opt/cxoffice/bin:$PATH
+export PATH=$HOME/.npm-global/bin:$PATH
 
 # default editor
 export EDITOR=nvim
