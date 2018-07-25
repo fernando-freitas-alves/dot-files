@@ -13,3 +13,5 @@ esac
 
 xsetroot -solid "#333333"
 
+setxkbmap -layout us(intl),br
+setxkbmap -option 'grp:alt_space_toggle'
