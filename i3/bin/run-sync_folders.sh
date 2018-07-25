@@ -7,10 +7,12 @@
 # fi
 
 SRC=""
+SRC="$SRC /home/developer/.config/compton.conf"
 SRC="$SRC /home/developer/.config/i3"
 SRC="$SRC /home/developer/.config/nvim"
 SRC="$SRC /home/developer/.config/polybar"
 SRC="$SRC /home/developer/.config/ranger"
+SRC="$SRC /home/developer/.config/rofi"
 SRC="$SRC /home/developer/.config/tmux"
 SRC="$SRC /home/developer/.config/zsh"
 SRC="$SRC /home/developer/.local/share/fonts"
