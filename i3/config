@@ -402,11 +402,27 @@ bindsym Mod1+Control+Sys_Req exec --no-startup-id "maim -m 1 -us --format=png /t
 # Active window
 bindsym Mod1+Mod4+Sys_Req exec --no-startup-id "maim -m 1 -ui \$(xdotool getactivewindow) --format=png /tmp/screenshot.png; $imgur_uploader /tmp/screenshot.png | xclip -selection clipboard"
 
+# Set background
+exec_always --no-startup-id xsetroot -solid "#333333"
+exec_always --no-startup-id hsetroot -solid "#333333"
+
 # Fix screen displays
-exec --no-startup-id ~/.screenlayout/load-configuration.sh
+exec_always --no-startup-id ~/.screenlayout/load-configuration.sh
 
 # Sync folders
 exec_always --no-startup-id ~/.config/i3/bin/run-sync_folders.sh
 
 # albert
-exec albert
+# exec albert
+
+# Rotas
+exec_always --no-startup-id /usr/local/bin/rotas
+
+# Composition
+exec_always --no-startup-id compton
+
+# Mouse configuration
+exec_always --no-startup-id xinput set-prop "Logitech M325" "libinput Accel Speed" -0.4
+
+# Keyboard layout
+exec_always --no-startup-id setxkbmap -layout us(intl),br -option grp:alt_space_toggle
