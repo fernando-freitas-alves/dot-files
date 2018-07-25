@@ -1,14 +1,10 @@
 #!/bin/bash
 
-if [[ $(ps aux | grep -E "^sync_folders$") ]] || [[ $(ps aux | grep -E "^inotifywait$") ]]; then
-    sleep 60
-    if [[ $(ps aux | grep -E "^sync_folders$") ]]; then
-        killall sync_folders
-    fi
-    if  [[ $(ps aux | grep -E "^inotifywait$") ]]; then
-        killall inotifywait
-    fi
-fi
+# if [[ $(ps aux | grep -E "^sync_folders$") ]] || [[ $(ps aux | grep -E "^inotifywait$") ]]; then
+    # sleep 60
+    killall sync_folders
+    killall inotifywait
+# fi
 
 SRC=""
 SRC="$SRC /home/developer/.config/i3"
@@ -20,7 +16,7 @@ SRC="$SRC /home/developer/.config/zsh"
 SRC="$SRC /home/developer/.local/share/fonts"
 SRC="$SRC /home/developer/.xinitrc"
 
-DEST1="/fileserver/Fernando/config"
+DEST1="/fileserver/fernando.freitas/config"
 DEST2="/home/developer/github/dot-files"
 
 echo "Syncing folders:"
@@ -41,7 +37,7 @@ echo -e "\n"
 SRC=""
 SRC="$SRC \"/home/developer/.bin/\*\""
 
-DEST="/fileserver/Fernando/bin/"
+DEST="/fileserver/fernando.freitas/bin/"
 
 echo "Syncing folders:"
 echo $SRC | tr ' ' '\n' | sed '/^\s*$/d' | sed 's/'$(echo $HOME | sed 's/\//\\\//g')'/~/g'
@@ -57,7 +53,7 @@ echo -e "\n"
 SRC=""
 SRC="$SRC \"/home/developer/.screenlayout/\*\""
 
-DEST="/fileserver/Fernando/config/screenlayout/"
+DEST="/fileserver/fernando.freitas/config/screenlayout/"
 
 echo "Syncing folders:"
 echo $SRC | tr ' ' '\n' | sed '/^\s*$/d' | sed 's/'$(echo $HOME | sed 's/\//\\\//g')'/~/g'
