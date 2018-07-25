@@ -344,11 +344,11 @@ bindsym --release XF86AudioPlay exec "playerctl play-pause"
 #bindsym --release XF86AudioPlay exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
 # Next
 bindsym Control+XF86AudioRaiseVolume exec "playerctl next"
-# bindsym --release XF86AudioNext exec "playerctl next"
+bindsym --release XF86AudioNext exec "playerctl next"
 #bindsym --release XF86AudioNext exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
 # Previous
 bindsym Control+XF86AudioLowerVolume exec "playerctl previous"
-# bindsym --release XF86AudioPrev exec "playerctl previous"
+bindsym --release XF86AudioPrev exec "playerctl previous"
 #bindsym --release XF86AudioPrev exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
 # Stop
 #bindsym --release XF86AudioStop exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
