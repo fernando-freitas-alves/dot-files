@@ -190,6 +190,7 @@ for_window [window_role="app"] floating enable border pixel 1
 for_window [class="Terminator" title="Terminator Preferences"] floating enable border pixel 1
 for_window [class="X-terminal-emulator" title="Terminator Preferences"] floating enable border pixel 1
 for_window [class="Gpick"] floating enable border pixel 1
+for_window [class="Peek"] floating enable border pixel 1
 # for_window [instance="albert"] move position center
 
 # switch to workspace with urgent window automatically
