@@ -31,8 +31,10 @@ bindcode --release 37+113+64 exec xkill
 # bindcode --release 113 exec --no-startup-id xkill
 
 # start program launcher
-bindsym $mod+d exec --no-startup-id rofi -show run
+bindsym $mod+d exec --no-startup-id rofi -show drun -i -p "abc"
+bindsym $mod+r exec --no-startup-id rofi -show run -i -p "test"
 # bindcode --release 133 exec --no-startup-id rofi -show run 
+bindsym $mod+c exec --no-startup-id "rofi -show calc -modi calc -no-show-match -no-sort"
 
 # change focus
 # bindsym $mod+j focus left
