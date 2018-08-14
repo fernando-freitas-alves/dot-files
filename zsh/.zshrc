@@ -7,6 +7,7 @@ unsetopt no_match
 export PATH=$HOME/.cargo/bin:$PATH
 export PATH=/opt/cxoffice/bin:$PATH
 export PATH=$HOME/.npm-global/bin:$PATH
+export PATH=$HOME/.bin:$PATH
 
 # default editor
 export EDITOR=nvim
@@ -175,6 +176,7 @@ alias vi=nvim
 alias editor=nvim
 alias calc='gnome-calculator'
 alias tailf='tail -f'
+alias exa='exa -l'
 
 export AUTOMATED_TESTS_DIR=~/automated_tests
 export VM_INSTALL_DIR=~/vm

@@ -70,7 +70,7 @@ bindsym $mod+Shift+q split toggle
 
 # toggle fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
-bindsym $mod+Control+space fullscreen toggle
+# bindsym $mod+Control+space fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
@@ -78,7 +78,8 @@ bindsym $mod+w layout tabbed
 bindsym $mod+x layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Control+Mod1+space floating toggle border pixel 1
+# bindsym $mod+Control+Mod1+space floating toggle border pixel 1
+bindsym $mod+Control+space floating toggle border pixel 1
 
 # change focus between tiling / floating windows
 # bindsym $mod+space focus mode_toggle
@@ -192,6 +193,10 @@ for_window [class="X-terminal-emulator" title="Terminator Preferences"] floating
 for_window [class="Gpick"] floating enable border pixel 1
 for_window [class="Peek"] floating enable border pixel 1
 # for_window [instance="albert"] move position center
+for_window [class="Jamin"] floating enable border pixel 1
+for_window [class="Google-chrome" title="Tabman" window_role="pop-up"] floating disable border pixel 1
+for_window [class="Google-chrome" title="Sidewise" window_role="pop-up"] floating disable border pixel 1
+for_window [class="Google-chrome" title="Tabs Outliner" window_role="pop-up"] floating disable border pixel 1
 
 # switch to workspace with urgent window automatically
 for_window [urgent=latest] focus
@@ -371,8 +376,8 @@ bindsym $mod+g exec google-chrome
 
 
 # Open Spotify in workspace 4 on the right display
-for_window [class="Spotify"] move container to workspace 4, focus, move workspace to output DP-2
-# for_window [class="Spotify"] move container to workspace 4, move workspace to output DP-2
+for_window [class="Spotify"] move container to workspace 8, focus, move workspace to output DP-2
+# for_window [class="Spotify"] move container to workspace 8, move workspace to output DP-2
 # bindsym $mod+p exec spotify
 bindsym $mod+p exec ~/.config/i3/bin/run-or-focus-spotify.sh
 
@@ -402,13 +407,6 @@ bindsym Mod1+Control+Sys_Req exec --no-startup-id "maim -m 1 -us --format=png /t
 # Active window
 bindsym Mod1+Mod4+Sys_Req exec --no-startup-id "maim -m 1 -ui \$(xdotool getactivewindow) --format=png /tmp/screenshot.png; $imgur_uploader /tmp/screenshot.png | xclip -selection clipboard"
 
-# Set background
-exec_always --no-startup-id xsetroot -solid "#333333"
-exec_always --no-startup-id hsetroot -solid "#333333"
-
-# Fix screen displays
-exec_always --no-startup-id ~/.screenlayout/load-configuration.sh
-
 # Sync folders
 exec_always --no-startup-id ~/.config/i3/bin/run-sync_folders.sh
 
@@ -426,3 +424,13 @@ exec_always --no-startup-id xinput set-prop "Logitech M325" "libinput Accel Spee
 
 # Keyboard layout
 exec_always --no-startup-id setxkbmap -layout us(intl),br -option grp:alt_space_toggle
+
+# Set background
+exec_always --no-startup-id xsetroot -solid "#333333"
+exec_always --no-startup-id hsetroot -solid "#333333"
+
+# Fix screen displays
+exec_always --no-startup-id ~/.screenlayout/load-configuration.sh
+
+# Mount filesystems
+exec_always --no-startup-id ~/.bin/mountall
