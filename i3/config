@@ -416,7 +416,7 @@ exec_always --no-startup-id ~/.config/i3/bin/run-sync_folders.sh
 # exec albert
 
 # Rotas
-exec_always --no-startup-id /usr/local/bin/rotas
+exec_always --no-startup-id ~/.bin/rotas
 
 # Composition
 exec_always --no-startup-id compton

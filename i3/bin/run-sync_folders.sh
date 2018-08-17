@@ -1,4 +1,9 @@
 #!/bin/bash
+#############################################################
+# Sync your home folders listed bellow to fileserver
+# This script works together with the script `sync_folders`
+#
+
 
 # if [[ $(ps aux | grep -E "^sync_folders$") ]] || [[ $(ps aux | grep -E "^inotifywait$") ]]; then
     # sleep 60
