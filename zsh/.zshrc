@@ -181,6 +181,7 @@ alias exa='exa -l'
 
 export AUTOMATED_TESTS_DIR=~/automated_tests
 export VM_INSTALL_DIR=~/vm
+export TSP_FOLDER=~/vm
 alias installTsp='sudo python $AUTOMATED_TESTS_DIR/acs_tools/mps_tools/vm_scripts/installTsp.py'
 alias robot='sudo $AUTOMATED_TESTS_DIR/venv/bin/robot'
 alias robot_TSP='robot --variable TSP_FOLDER:$VM_INSTALL_DIR'
