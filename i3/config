@@ -408,10 +408,10 @@ bindsym $mod+g exec google-chrome
 
 
 # Open Spotify in workspace 4 on the right display
-for_window [class="Spotify"] move container to workspace 6, focus, move workspace to output DP-4
-# for_window [class="Spotify"] move container to workspace 6, move workspace to output DP-4
-# bindsym $mod+p exec spotify
-bindsym $mod+p exec ~/.config/i3/bin/run-or-focus-spotify.sh
+# for_window [class="Spotify"] move container to workspace 6, focus, move workspace to output DP-4
+# # for_window [class="Spotify"] move container to workspace 6, move workspace to output DP-4
+# # bindsym $mod+p exec spotify
+# bindsym $mod+p exec ~/.config/i3/bin/run-or-focus-spotify.sh
 
 
 # Screenshot to clipboard
