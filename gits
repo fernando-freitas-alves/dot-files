@@ -1,0 +1,48 @@
+git clone https://github.com/ranger/ranger.git
+git clone https://github.com/Anachron/i3blocks.git
+git clone https://github.com/dunst-project/dunst.git
+git clone https://aur.archlinux.org/dunstify.git
+git clone https://github.com/budRich/i3ass.git
+git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+git clone https://github.com/powerline/fonts.git --depth=1
+git clone https://github.com/gabrielelana/awesome-terminal-fonts.git
+git clone https://github.com/neovim/neovim.git
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+git clone https://github.com/supercrabtree/k $ZSH_CUSTOM/plugins/k
+git clone https://github.com/guimeira/i3lock-fancy-multimonitor.git
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf\
+git clone https://github.com/ErichDonGubler/vim-sublime-monokai.git
+git clone https://github.com/vim-airline/vim-airline/raw/master/plugin/airline.vim
+git clone https://github.com/vim-airline/vim-airline-themes.git ~/Downloads/vim-airline-themes
+git clone https://github.com/nhdaly/tmux-better-mouse-mode ~/.tmux/tmux-better-mouse-mode
+git clone --recursive https://github.com/jaagr/polybar
+git clone https://github.com/unix121/i3wm-themer
+git clone https://github.com/tmux/tmux.git
+git clone https://github.com/acrisci/playerctl.git
+git clone https://github.com/B00merang-Project/macOS-High-Sierra.git
+git clone https://github.com/DaveDavenport/rofi-themes.git
+git clone https://github.com/albertlauncher/albert.git
+git clone https://github.com/vinceliuice/Sierra-gtk-theme.git
+git clone https://github.com/giuscri/notify-when-done-i3 nwd
+git clone https://github.com/rvoicilas/inotify-tools.git
+git clone https://github.com/karlstav/cava.git
+git clone https://github.com/wavexx/screenkey.git
+git clone https://github.com/dpayne/cli-visualizer.git
+git clone https://github.com/SimonKagstrom/kcov.git
+git clone https://github.com/DaveDavenport/rofi-themes.git ~/.config/rofi/rofi-themes
+git clone https://github.com/supermarin/YosemiteSanFranciscoFont.git
+git clone https://github.com/DaveDavenport/rofi.git
+git clone https://github.com/tuhinc/canceller.git
+git clone https://github.com/svenstaro/rofi-calc.git
+git clone https://github.com/biggreenogre/mm2.git
+git clone https://github.com/lsevero/rdv.git
+git clone https://github.com/letoram/safespaces.git
+git clone https://github.com/BurntSushi/ripgrep
+git clone git@github.com:flatpak/flatpak.git
+git clone https://github.com/flatpak/flatpak.git
+git clone https://github.com/jsamr/bootiso.git
+git clone https://github.com/wwmm/pulseeffects.git
+git clone https://github.com/walac/pyusb
+git clone https://github.com/vanhauser-thc/thc-hydra.git
+git clone https://github.com/oblique/create_ap\
