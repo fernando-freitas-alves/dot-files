@@ -18,6 +18,10 @@ bindsym $mod+n border normal
 
 font xft:URWGothic-Book 11
 
+# Tab switching
+bindsym Mod4+Tab         exec --no-startup-id ~/.config/i3/bin/i3flip next
+bindsym Mod4+Shift+Tab   exec --no-startup-id ~/.config/i3/bin/i3flip prev
+
 # floating_modifier $mod
 floating_modifier Control
 
