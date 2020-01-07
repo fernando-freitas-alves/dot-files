@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-# Ctrl-o opens zsh at the current location, and on exit, cd into ranger's last location.
+# Ctrl-O opens zsh at the current location, and on exit, cd into ranger's last location.
 ranger-cd() {
   tempfile=$(mktemp)
   ranger --choosedir="$tempfile" "${@:-$(pwd)}" < $TTY
@@ -15,7 +15,7 @@ ranger-cd() {
 zle -N ranger-cd
 bindkey '^o' ranger-cd
 
-# Ctrl-f opens fzf and buffers its output to the shell input
+# Ctrl-F opens fzf and buffers its output to the shell input
 open-fzf() {
   LBUFFER+=$(fzf < $TTY)
 }
@@ -47,3 +47,17 @@ open-fpp-code() {
 }
 zle -N open-fpp-code
 bindkey '^[' open-fpp-code
+
+# Ctrl-Alt-L opens git log
+git-log() {
+  git log --oneline --decorate --graph  2> /dev/null
+}
+zle -N git-log
+bindkey '^[^L' git-log
+
+# Ctrl-G opens git log
+open-lazygit() {
+  lazygit && zle reset-prompt
+}
+zle -N open-lazygit
+bindkey '^G' open-lazygit
