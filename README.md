@@ -1,1 +1,3 @@
-dot-files
+```
+sh -c ./install.sh
+```
