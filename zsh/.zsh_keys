@@ -1,0 +1,49 @@
+#!/usr/bin/env zsh
+
+# Ctrl-o opens zsh at the current location, and on exit, cd into ranger's last location.
+ranger-cd() {
+  tempfile=$(mktemp)
+  ranger --choosedir="$tempfile" "${@:-$(pwd)}" < $TTY
+  test -f "$tempfile" &&
+  if [ "$(/bin/cat -- "$tempfile")" != "$(echo -n `pwd`)" ]; then
+    cd -- "$(/bin/cat "$tempfile")"
+  fi
+  rm -f -- "$tempfile"
+  # hacky way of transferring over previous command and updating the screen
+  VISUAL=true zle edit-command-line
+}
+zle -N ranger-cd
+bindkey '^o' ranger-cd
+
+# Ctrl-f opens fzf and buffers its output to the shell input
+open-fzf() {
+  LBUFFER+=$(fzf < $TTY)
+}
+zle -N open-fzf
+bindkey '^f' open-fzf
+
+export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --color=always'
+export FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --preview 'bat --color=always --line-range :300 {}'"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Ctrl-p opens fpp
+open-fpp() {
+  tmux capture-pane -J
+  tmux save-buffer /tmp/tmux-buffer
+  tmux delete-buffer
+  cat /tmp/tmux-buffer | fpp
+  rm /tmp/tmux-buffer
+}
+zle -N open-fpp
+bindkey '^p' open-fpp
+
+# Ctrl-[ opens fpp with editor=code
+open-fpp-code() {
+  tmux capture-pane -J
+  tmux save-buffer /tmp/tmux-buffer
+  tmux delete-buffer
+  cat /tmp/tmux-buffer | FPP_EDITOR=code fpp
+  rm /tmp/tmux-buffer
+}
+zle -N open-fpp-code
+bindkey '^[' open-fpp-code

@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# killall volnoti
+volnoti -t 2 -a 0.25
+
+STEP=3
+UNIT="%"   # dB, %, etc.
+# SETVOL="/usr/bin/amixer -qc 0 set Master"
+# SETVOL="/usr/bin/amixer -D pulse sset Master"
+SETVOL="/usr/bin/amixer -D pulse sset Master"
+DIRECTION=$1
+
+case "$1" in
+    "up")
+          echo $SETVOL $STEP$UNIT+
+          $SETVOL $STEP$UNIT+
+          ;;
+  "down")
+          echo $SETVOL $STEP$UNIT+
+          $SETVOL $STEP$UNIT-
+          ;;
+  "mute")
+          echo $SETVOL toggle
+          $SETVOL toggle
+          ;;
+esac
+
+VOLUME=$(amixer get -D pulse Master | grep "Playback.*\[.*%\]" | head -1 | awk '{print $5;}' | sed 's/\[\(.*\)%\]/\1/')
+STATE=$(amixer get -D pulse Master | grep 'Front Left:' | grep -o "\[off\]")
+
+# Show volume with volnoti
+if [ "$STATE" = "" ]; then
+    volnoti-show $VOLUME
+else
+    volnoti-show -m
+fi
+
+exit 0

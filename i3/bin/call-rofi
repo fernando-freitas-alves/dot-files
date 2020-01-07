@@ -1,0 +1,3 @@
+#!/bin/bash
+
+rofi -matching fuzzy -combi-modi drun,run,window -show combi

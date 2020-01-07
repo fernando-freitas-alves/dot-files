@@ -1,0 +1,12 @@
+#!/bin/bash
+set +e
+
+# ws=$(i3-msg -t get_workspaces | jq '.[] | select(.focused).num')
+ws=$1
+windows_list=$(i3-msg -t get_tree | jq -e -r '(.nodes[].nodes[].nodes[]) | select(.num == '"$ws"').nodes[]')
+
+
+i3-msg workspace number "${@:1}" #2>&1 > /dev/null
+if [ "$windows_list" == "" ]; then
+    ~/.i3/bin/call-rofi #2>&1 > /dev/null
+fi

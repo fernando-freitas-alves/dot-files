@@ -1,0 +1,20 @@
+#!/usr/bin/env zsh
+
+apply_theme
+
+if [ "$TMUX" = "" ] && [ "$SSH_TTY" = "" ] && [ "$VSCODE" = "" ] && [ "$NAUTILUS" = "" ]; then
+    tmux new-session -A -s Dashboard -n monitor
+    exit
+elif [ "$NAUTILUS" != "" ]; then
+    basedir=$(basename "$NAUTILUS")
+    session="nautilus"
+    tmux has-session -t $session >/dev/null 2>&1
+    has_session=$?
+    if [ $has_session -eq 0 ]; then
+        tmux new-window -t $session -n "$basedir"
+        tmux attach-session -t $session
+    else
+        tmux new-session -A -s $session -n "$basedir"
+    fi
+    exit
+fi

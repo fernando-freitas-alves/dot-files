@@ -1,0 +1,72 @@
+#!/usr/bin/env zsh
+
+ZSH_THEME="powerlevel9k/powerlevel9k"
+
+powerlevel9k_apply_theme()
+{
+    ps1_name="$1"
+    ps1_frg="$2"
+    ps1_bkg="$3"
+
+    # theme configuration
+    POWERLEVEL9K_DIR_PATH_SEPARATOR="%F{black} $(print_icon 'LEFT_SUBSEGMENT_SEPARATOR') %F{black}"
+    POWERLEVEL9K_DIR_HOME_BACKGROUND='033'
+    POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND='033'
+    POWERLEVEL9K_DIR_DEFAULT_BACKGROUND='033'
+
+    POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=0
+
+    POWERLEVEL9K_BACKGROUND_JOBS_FOREGROUND='black'
+    POWERLEVEL9K_BACKGROUND_JOBS_BACKGROUND='178'
+    POWERLEVEL9K_NVM_BACKGROUND="238"
+    POWERLEVEL9K_NVM_FOREGROUND="green"
+    POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND="blue"
+    POWERLEVEL9K_DIR_WRITABLE_FORBIDDEN_FOREGROUND="015"
+
+    POWERLEVEL9K_TIME_BACKGROUND='255'
+    POWERLEVEL9K_TIME_FORMAT="%D{%H:%M}"
+
+    #POWERLEVEL9K_COMMAND_TIME_FOREGROUND='gray'
+    POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND='black'
+    POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND='white'
+
+    POWERLEVEL9K_CUSTOM_MACHINE_NAME="echo $ps1_name"
+    POWERLEVEL9K_CUSTOM_MACHINE_NAME_BACKGROUND="$ps1_bkg"
+    POWERLEVEL9K_CUSTOM_MACHINE_NAME_FOREGROUND="$ps1_frg"
+
+    POWERLEVEL9K_HIDE_BRANCH_ICON=true
+    POWERLEVEL9K_VCS_HIDE_TAGS=true
+    POWERLEVEL9K_SHOW_CHANGESET=false
+    POWERLEVEL9K_VCS_BACKGROUND='040'
+    POWERLEVEL9K_VCS_FOREGROUND="black"
+
+    POWERLEVEL9K_CUSTOM_PROMPT="echo ⯈"
+    POWERLEVEL9K_CUSTOM_PROMPT_BACKGROUND="black"
+    POWERLEVEL9K_CUSTOM_PROMPT_FOREGROUND="white"
+
+    # POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(newline custom_machine_name dir_writable dir nodeenv virtualenv anaconda pyenv chruby rbenv aws_eb_env docker_machine vcs newline)
+    POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(newline custom_machine_name dir_writable dir nodeenv virtualenv pyenv chruby rbenv aws_eb_env docker_machine vcs newline)# custom_prompt)
+    # POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(newline custom_machine_name dir_writable dir newline)
+    POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status background_jobs command_execution_time history time)
+
+    typeset -gA ZSH_HIGHLIGHT_STYLES
+    ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+    ZSH_HIGHLIGHT_STYLES[cursor]='bold'
+
+    ZSH_HIGHLIGHT_STYLES[alias]='fg=green,bold'
+    ZSH_HIGHLIGHT_STYLES[suffix-alias]='fg=green,bold'
+    ZSH_HIGHLIGHT_STYLES[builtin]='fg=green,bold'
+    ZSH_HIGHLIGHT_STYLES[function]='fg=green,bold'
+    ZSH_HIGHLIGHT_STYLES[command]='fg=green,bold'
+    ZSH_HIGHLIGHT_STYLES[precommand]='fg=green,bold'
+    ZSH_HIGHLIGHT_STYLES[hashed-command]='fg=green,bold'
+}
+
+apply_theme()
+{
+    if [ "$SSH_TTY" = "" ]; then
+        powerlevel9k_apply_theme host red black
+    else
+        powerlevel9k_apply_theme "fernando" black red
+    fi
+}

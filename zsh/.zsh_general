@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+# Get rid of unmatch error messages
+unset nomatch
+unsetopt no_match

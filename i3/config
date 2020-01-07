@@ -12,15 +12,11 @@ new_float none
 
 hide_edge_borders smart
 
-bindsym $mod+u border none
-bindsym $mod+y border pixel 1
-bindsym $mod+n border normal
-
 font xft:URWGothic-Book 11
 
 # Tab switching
-bindsym Mod4+Tab         exec --no-startup-id ~/.config/i3/bin/i3flip next
-bindsym Mod4+Shift+Tab   exec --no-startup-id ~/.config/i3/bin/i3flip prev
+bindsym Mod4+Tab         exec ~/.config/i3/bin/i3flip next
+bindsym Mod4+Shift+Tab   exec ~/.config/i3/bin/i3flip prev
 
 # floating_modifier $mod
 floating_modifier Control
@@ -35,10 +31,12 @@ bindsym $mod+q kill
 # bindcode --release 113 exec --no-startup-id xkill
 
 # start program launcher
-bindsym $mod+d exec --no-startup-id rofi -show drun -i -p "abc"
-bindsym $mod+r exec --no-startup-id rofi -show run -i -p "test"
-# bindcode --release 133 exec --no-startup-id rofi -show run 
-bindsym $mod+c exec --no-startup-id "rofi -show calc -modi calc -no-show-match -no-sort"
+bindsym $mod+r exec --no-startup-id ~/.i3/bin/call-rofi
+# bindsym $mod+space exec --no-startup-id "rofi -matching fuzzy -combi-modi drun,run,window -show combi"
+# bindsym $mod+w exec --no-startup-id "rofi -matching fuzzy -show window"
+# bindcode --release 133 exec --no-startup-id rofi -show run
+# bindsym $mod+c exec --no-startup-id "rofi -show calc -modi calc -no-show-match -no-sort"
+bindsym $mod+c exec /usr/bin/gnome-calculator
 
 # change focus
 # bindsym $mod+j focus left
@@ -63,23 +61,35 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # workspace back and forth (with/without active container)
-workspace_auto_back_and_forth yes
-bindsym $mod+b workspace back_and_forth
-bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_forth
+# workspace_auto_back_and_forth yes
+# bindsym $mod+b workspace back_and_forth
+# bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_forth
 
 # split orientation
 bindsym $mod+h split h;exec notify-send 'tile horizontally'
 bindsym $mod+v split v;exec notify-send 'tile vertically'
+bindcode $mod+51 split h;exec notify-send 'tile horizontally'
+bindcode $mod+20 split v;exec notify-send 'tile vertically'
+bindcode $mod+Shift+51 split h;exec notify-send 'tile horizontally'
+bindcode $mod+Shift+20 split v;exec notify-send 'tile vertically'
 bindsym $mod+Shift+q split toggle
 
 # toggle fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 # bindsym $mod+Control+space fullscreen toggle
 
+# toggle bar mode
+# bindsym $mod+minus bar mode toggle
+
+# change border/titble bar
+bindsym $mod+comma border none
+bindsym $mod+period border pixel 1
+bindsym $mod+slash border normal
+
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+x layout toggle split
+bindsym $mod+Shift+comma  layout stacking
+bindsym $mod+Shift+period layout tabbed
+bindsym $mod+Shift+slash  layout toggle split
 
 # toggle tiling / floating
 # bindsym $mod+Control+Mod1+space floating toggle border pixel 1
@@ -89,22 +99,30 @@ bindsym $mod+Control+space floating toggle border pixel 1
 # bindsym $mod+space focus mode_toggle
 
 # toggle sticky
-bindsym $mod+Shift+s sticky toggle
+# bindsym $mod+Shift+s sticky toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
 
 # move the currently focused window to the scratchpad
-bindsym $mod+Shift+space move scratchpad
-bindsym $mod+Shift+Mod1+space mark irssi; move scratchpad
+# bindsym $mod+Shift+space move scratchpad
+# bindsym $mod+Shift+Mod1+space mark --add irssi; move scratchpad
+bindsym $mod+Shift+space mark --add scratchpad1; move scratchpad
+bindsym $mod+Shift+z     mark --add scratchpad2; move scratchpad
+bindsym $mod+Shift+equal mark --add scratchpad3; move scratchpad
 
 # Show the next scratchpad window or hide the focused scratchpad window.
 # If there are multiple scratchpad windows, this command cycles through them.
-bindsym $mod+space scratchpad show
-bindsym $mod+Mod1+space exec ~/.config/i3/bin/select-scratchpad.rb
+# bindsym $mod+space scratchpad show
+# bindsym $mod+Mod1+space exec ~/.config/i3/bin/select-scratchpad.rb
+bindsym $mod+space [con_mark="scratchpad1"] scratchpad show
+bindsym $mod+z     [con_mark="scratchpad2"] scratchpad show
+bindsym $mod+equal [con_mark="scratchpad3"] scratchpad show
 
 # remove a floating window from scratchpad
 bindsym $mod+Control+Shift+space floating disable; floating enable
+bindsym $mod+Control+Shift+z     floating disable; floating enable
+bindsym $mod+Control+Shift+equal floating disable; floating enable
 
 # navigate workspaces next / previous
 bindsym $mod+Ctrl+Right workspace next
@@ -119,72 +137,114 @@ set $ws5 5
 set $ws6 6
 set $ws7 7
 set $ws8 8
+set $ws9 9
+set $ws10 10
+set $ws11 11
+set $ws12 12
+set $ws13 13
+set $ws14 14
+set $ws15 15
+set $ws16 16
+set $ws17 17
+set $ws18 18
+set $ws19 19
+set $ws20 20
+# set $ws11 F1
+# set $ws12 F2
+# set $ws13 F3
+# set $ws14 F4
+# set $ws15 F5
+# set $ws16 F6
+# set $ws17 F7
+# set $ws18 F8
+# set $ws19 F9
+# set $ws20 F10
 
 # switch to workspace
-bindsym $mod+1   workspace $ws1
-bindsym $mod+2   workspace $ws2
-bindsym $mod+3   workspace $ws3
-bindsym $mod+4   workspace $ws4
-bindsym $mod+5   workspace $ws5
-bindsym $mod+6   workspace $ws6
-bindsym $mod+7   workspace $ws7
-bindsym $mod+8   workspace $ws8
-bindsym $mod+9   workspace $ws9
-bindsym $mod+0   workspace $ws10
-bindsym $mod+F1  workspace $ws11
-bindsym $mod+F2  workspace $ws12
-bindsym $mod+F3  workspace $ws13
-bindsym $mod+F4  workspace $ws14
-bindsym $mod+F5  workspace $ws15
-bindsym $mod+F6  workspace $ws16
-bindsym $mod+F7  workspace $ws17
-bindsym $mod+F8  workspace $ws18
-bindsym $mod+F9  workspace $ws19
-bindsym $mod+F10 workspace $ws20
+bindsym $mod+1   exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws1
+bindsym $mod+2   exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws2
+bindsym $mod+3   exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws3
+bindsym $mod+4   exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws4
+bindsym $mod+5   exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws5
+bindsym $mod+6   exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws6
+bindsym $mod+7   exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws7
+bindsym $mod+8   exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws8
+bindsym $mod+9   exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws9
+bindsym $mod+0   exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws10
+bindsym $mod+F1  exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws11
+bindsym $mod+F2  exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws12
+bindsym $mod+F3  exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws13
+bindsym $mod+F4  exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws14
+bindsym $mod+F5  exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws15
+bindsym $mod+F6  exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws16
+bindsym $mod+F7  exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws17
+bindsym $mod+F8  exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws18
+bindsym $mod+F9  exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws19
+bindsym $mod+F10 exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws20
+# bindsym $mod+1   workspace number $ws1
+# bindsym $mod+2   workspace number $ws2
+# bindsym $mod+3   workspace number $ws3
+# bindsym $mod+4   workspace number $ws4
+# bindsym $mod+5   workspace number $ws5
+# bindsym $mod+6   workspace number $ws6
+# bindsym $mod+7   workspace number $ws7
+# bindsym $mod+8   workspace number $ws8
+# bindsym $mod+9   workspace number $ws9
+# bindsym $mod+0   workspace number $ws10
+# bindsym $mod+F1  workspace number $ws11
+# bindsym $mod+F2  workspace number $ws12
+# bindsym $mod+F3  workspace number $ws13
+# bindsym $mod+F4  workspace number $ws14
+# bindsym $mod+F5  workspace number $ws15
+# bindsym $mod+F6  workspace number $ws16
+# bindsym $mod+F7  workspace number $ws17
+# bindsym $mod+F8  workspace number $ws18
+# bindsym $mod+F9  workspace number $ws19
+# bindsym $mod+F10 workspace number $ws20
 
 # Move focused container to workspace
-bindsym $mod+Ctrl+1   move container to workspace $ws1
-bindsym $mod+Ctrl+2   move container to workspace $ws2
-bindsym $mod+Ctrl+3   move container to workspace $ws3
-bindsym $mod+Ctrl+4   move container to workspace $ws4
-bindsym $mod+Ctrl+5   move container to workspace $ws5
-bindsym $mod+Ctrl+6   move container to workspace $ws6
-bindsym $mod+Ctrl+7   move container to workspace $ws7
-bindsym $mod+Ctrl+8   move container to workspace $ws8
-bindsym $mod+Ctrl+9   move container to workspace $ws9
-bindsym $mod+Ctrl+0   move container to workspace $ws10
-bindsym $mod+Ctrl+F1  move container to workspace $ws11
-bindsym $mod+Ctrl+F2  move container to workspace $ws12
-bindsym $mod+Ctrl+F3  move container to workspace $ws13
-bindsym $mod+Ctrl+F4  move container to workspace $ws14
-bindsym $mod+Ctrl+F5  move container to workspace $ws15
-bindsym $mod+Ctrl+F6  move container to workspace $ws16
-bindsym $mod+Ctrl+F7  move container to workspace $ws17
-bindsym $mod+Ctrl+F8  move container to workspace $ws18
-bindsym $mod+Ctrl+F9  move container to workspace $ws19
-bindsym $mod+Ctrl+F10 move container to workspace $ws20
+bindsym $mod+Ctrl+1   move container to workspace number $ws1
+bindsym $mod+Ctrl+2   move container to workspace number $ws2
+bindsym $mod+Ctrl+3   move container to workspace number $ws3
+bindsym $mod+Ctrl+4   move container to workspace number $ws4
+bindsym $mod+Ctrl+5   move container to workspace number $ws5
+bindsym $mod+Ctrl+6   move container to workspace number $ws6
+bindsym $mod+Ctrl+7   move container to workspace number $ws7
+bindsym $mod+Ctrl+8   move container to workspace number $ws8
+bindsym $mod+Ctrl+9   move container to workspace number $ws9
+bindsym $mod+Ctrl+0   move container to workspace number $ws10
+bindsym $mod+Ctrl+F1  move container to workspace number $ws11
+bindsym $mod+Ctrl+F2  move container to workspace number $ws12
+bindsym $mod+Ctrl+F3  move container to workspace number $ws13
+bindsym $mod+Ctrl+F4  move container to workspace number $ws14
+bindsym $mod+Ctrl+F5  move container to workspace number $ws15
+bindsym $mod+Ctrl+F6  move container to workspace number $ws16
+bindsym $mod+Ctrl+F7  move container to workspace number $ws17
+bindsym $mod+Ctrl+F8  move container to workspace number $ws18
+bindsym $mod+Ctrl+F9  move container to workspace number $ws19
+bindsym $mod+Ctrl+F10 move container to workspace number $ws20
 
 # Move to workspace with focused container
-bindsym $mod+Shift+1   move container to workspace $ws1; workspace $ws1
-bindsym $mod+Shift+2   move container to workspace $ws2; workspace $ws2
-bindsym $mod+Shift+3   move container to workspace $ws3; workspace $ws3
-bindsym $mod+Shift+4   move container to workspace $ws4; workspace $ws4
-bindsym $mod+Shift+5   move container to workspace $ws5; workspace $ws5
-bindsym $mod+Shift+6   move container to workspace $ws6; workspace $ws6
-bindsym $mod+Shift+7   move container to workspace $ws7; workspace $ws7
-bindsym $mod+Shift+8   move container to workspace $ws8; workspace $ws8
-bindsym $mod+Shift+9   move container to workspace $ws8; workspace $ws9
-bindsym $mod+Shift+0   move container to workspace $ws8; workspace $ws10
-bindsym $mod+Shift+F1  move container to workspace $ws8; workspace $ws11
-bindsym $mod+Shift+F2  move container to workspace $ws8; workspace $ws12
-bindsym $mod+Shift+F3  move container to workspace $ws8; workspace $ws13
-bindsym $mod+Shift+F4  move container to workspace $ws8; workspace $ws14
-bindsym $mod+Shift+F5  move container to workspace $ws8; workspace $ws15
-bindsym $mod+Shift+F6  move container to workspace $ws8; workspace $ws16
-bindsym $mod+Shift+F7  move container to workspace $ws8; workspace $ws17
-bindsym $mod+Shift+F8  move container to workspace $ws8; workspace $ws18
-bindsym $mod+Shift+F9  move container to workspace $ws8; workspace $ws19
-bindsym $mod+Shift+F10 move container to workspace $ws8; workspace $ws20
+bindsym $mod+Shift+1   move container to workspace number $ws1;  workspace number $ws1
+bindsym $mod+Shift+2   move container to workspace number $ws2;  workspace number $ws2
+bindsym $mod+Shift+3   move container to workspace number $ws3;  workspace number $ws3
+bindsym $mod+Shift+4   move container to workspace number $ws4;  workspace number $ws4
+bindsym $mod+Shift+5   move container to workspace number $ws5;  workspace number $ws5
+bindsym $mod+Shift+6   move container to workspace number $ws6;  workspace number $ws6
+bindsym $mod+Shift+7   move container to workspace number $ws7;  workspace number $ws7
+bindsym $mod+Shift+8   move container to workspace number $ws8;  workspace number $ws8
+bindsym $mod+Shift+9   move container to workspace number $ws9;  workspace number $ws9
+bindsym $mod+Shift+0   move container to workspace number $ws10; workspace number $ws10
+bindsym $mod+Shift+F1  move container to workspace number $ws11; workspace number $ws11
+bindsym $mod+Shift+F2  move container to workspace number $ws12; workspace number $ws12
+bindsym $mod+Shift+F3  move container to workspace number $ws13; workspace number $ws13
+bindsym $mod+Shift+F4  move container to workspace number $ws14; workspace number $ws14
+bindsym $mod+Shift+F5  move container to workspace number $ws15; workspace number $ws15
+bindsym $mod+Shift+F6  move container to workspace number $ws16; workspace number $ws16
+bindsym $mod+Shift+F7  move container to workspace number $ws17; workspace number $ws17
+bindsym $mod+Shift+F8  move container to workspace number $ws18; workspace number $ws18
+bindsym $mod+Shift+F9  move container to workspace number $ws19; workspace number $ws19
+bindsym $mod+Shift+F10 move container to workspace number $ws20; workspace number $ws20
 
 # Move focused workspace to display
 bindsym $mod+Ctrl+Shift+Left   move workspace to output left
@@ -233,6 +293,18 @@ for_window [class="Jamin"] floating enable border pixel 1
 for_window [class="Google-chrome" title="Tabman" window_role="pop-up"] floating disable border pixel 1
 for_window [class="Google-chrome" title="Sidewise" window_role="pop-up"] floating disable border pixel 1
 for_window [class="Vivaldi-stable" title="YouTube" window_role="browser"] floating disable border pixel 1
+# for_window [class="osgViewer"] floating enable border normal
+for_window [class="MATLAB R2018a" title="^(?!MATLAB R2018a$).*"] floating enable border normal
+for_window [class="MATLABWindow"] floating enable border normal
+for_window [class="Blueman-manager"] floating enable border pixel 1
+for_window [instance="gnome-calculator"] floating enable border pixel 1
+
+set $monitor_left DP-7
+workspace $ws10 output $monitor_left
+assign [title="CAEX STREV.*"] $ws10
+for_window [title="CAEX STREV.*"] focus
+for_window [title="CAEX STREV.*"] floating enable border normal
+
 
 # switch to workspace with urgent window automatically
 for_window [urgent=latest] focus
@@ -248,11 +320,11 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 
 # Set shut down, restart and locking features
 bindsym $mod+F11 mode "$mode_system"
-set $mode_system (l)ock, logo(u)t, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
+set $mode_system (l)ock, logo(u)t, s(w)itch_user, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 mode "$mode_system" {
     bindsym l exec --no-startup-id ~/.config/i3/bin/i3exit lock, mode "default"
     bindsym s exec --no-startup-id ~/.config/i3/bin/i3exit suspend, mode "default"
-    bindsym u exec --no-startup-id ~/.config/i3/bin/i3exit switch_user, mode "default"
+    bindsym w exec --no-startup-id ~/.config/i3/bin/i3exit switch_user, mode "default"
     bindsym u exec --no-startup-id ~/.config/i3/bin/i3exit logout, mode "default"
     bindsym h exec --no-startup-id ~/.config/i3/bin/i3exit hibernate, mode "default"
     bindsym r exec --no-startup-id ~/.config/i3/bin/i3exit reboot, mode "default"
@@ -267,29 +339,29 @@ bindsym $mod+l exec ~/.i3/bin/i3lock-fancy-multimonitor.sh
 exec_always --no-startup-id ~/.i3/bin/i3lock-fancy-multimonitor-xautolock.sh
 
 
-# Resize window (you can also use the mouse for that)
-bindsym $mod+Control+r mode "resize"
-mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        # bindsym j resize shrink width 5 px or 5 ppt
-        # bindsym k resize grow height 5 px or 5 ppt
-        # bindsym l resize shrink height 5 px or 5 ppt
-        # bindsym semicolon resize grow width 5 px or 5 ppt
+# # Resize window (you can also use the mouse for that)
+# bindsym $mod+Control+r mode "resize"
+# mode "resize" {
+#         # These bindings trigger as soon as you enter the resize mode
+#         # Pressing left will shrink the window’s width.
+#         # Pressing right will grow the window’s width.
+#         # Pressing up will shrink the window’s height.
+#         # Pressing down will grow the window’s height.
+#         # bindsym j resize shrink width 5 px or 5 ppt
+#         # bindsym k resize grow height 5 px or 5 ppt
+#         # bindsym l resize shrink height 5 px or 5 ppt
+#         # bindsym semicolon resize grow width 5 px or 5 ppt
 
-        # same bindings, but for the arrow keys
-        bindsym Left  resize shrink width  10 px or 10 ppt
-        bindsym Down  resize grow   height 10 px or 10 ppt
-        bindsym Up    resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow   width  10 px or 10 ppt
+#         # same bindings, but for the arrow keys
+#         bindsym Left  resize shrink width  10 px or 10 ppt
+#         bindsym Down  resize grow   height 10 px or 10 ppt
+#         bindsym Up    resize shrink height 10 px or 10 ppt
+#         bindsym Right resize grow   width  10 px or 10 ppt
 
-        # exit resize mode: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
+#         # exit resize mode: Enter or Escape
+#         bindsym Return mode "default"
+#         bindsym Escape mode "default"
+# }
 
 # Resize window with mouse scroll
 bindsym --whole-window $mod+$mouse_whell_up         resize grow   height 1 px or 1 ppt
@@ -297,14 +369,24 @@ bindsym --whole-window $mod+$mouse_whell_down       resize shrink height 1 px or
 bindsym --whole-window Shift+$mod+$mouse_whell_up   resize grow   width  1 px or 1 ppt
 bindsym --whole-window Shift+$mod+$mouse_whell_down resize shrink width  1 px or 1 ppt
 
+bindsym --whole-window Mod4+Mod1+Up    resize grow   height 1 px or 1 ppt
+bindsym --whole-window Mod4+Mod1+Down  resize shrink height 1 px or 1 ppt
+bindsym --whole-window Mod4+Mod1+Right resize grow   width  1 px or 1 ppt
+bindsym --whole-window Mod4+Mod1+Left  resize shrink width  1 px or 1 ppt
+
+bindsym --whole-window Control+Mod4+Mod1+Up    resize grow   height 1 px
+bindsym --whole-window Control+Mod4+Mod1+Down  resize shrink height 1 px
+bindsym --whole-window Control+Mod4+Mod1+Right resize grow   width  1 px
+bindsym --whole-window Control+Mod4+Mod1+Left  resize shrink width  1 px
+
 # Autostart applications
-exec --no-startup-id nitrogen --restore; sleep 1; compton -b
+# exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 exec --no-startup-id nm-applet
-exec --no-startup-id xfce4-power-manager
-exec --no-startup-id pamac-tray
-exec --no-startup-id clipit
-exec_always --no-startup-id ff-theme-util
-exec_always --no-startup-id fix_xcursor
+# exec --no-startup-id xfce4-power-manager
+# exec --no-startup-id pamac-tray
+# exec --no-startup-id clipit
+# exec_always --no-startup-id ff-theme-util
+# exec_always --no-startup-id fix_xcursor
 exec_always --no-startup-id ~/.config/polybar/i3wmthemer_bar_launch.sh
 
 # Theme colors
@@ -314,8 +396,8 @@ set $inactive-bg-color   #383C4A
 set $inactive-bd-color   #383C4A
 set $text-color          #f3f4f5
 set $inactive-text-color #778E8D
-#                           border          background      text                 indicator  child border 
-client.focused              $bd-color       $bg-color       $text-color          $bd-color  $bd-color  
+#                           border          background      text                 indicator  child border
+client.focused              $bd-color       $bg-color       $text-color          $bd-color  $bd-color
 client.unfocused            $bg-color       $bg-color       $inactive-text-color $bg-color  $bg-color
 client.focused_inactive     $bg-color       $bg-color       $inactive-text-color $bg-color  $bg-color
 client.urgent               $bg-color       $bg-color       $text-color          $bg-color  $bg-color
@@ -324,47 +406,47 @@ client.background                           $bg-color
 # Gaps
 # gaps inner 4
 # gaps outer -2
-gaps inner 0
-gaps outer 0
+# gaps inner 0
+# gaps outer 0
 
-smart_gaps on
+# smart_gaps on
 
-# Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
-set $mode_gaps Gaps: (o) outer, (i) inner
-set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
-set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
-bindsym $mod+Shift+g mode "$mode_gaps"
+# # Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
+# set $mode_gaps Gaps: (o) outer, (i) inner
+# set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+# set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+# bindsym $mod+Shift+g mode "$mode_gaps"
 
-mode "$mode_gaps" {
-        bindsym o      mode "$mode_gaps_outer"
-        bindsym i      mode "$mode_gaps_inner"
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
-mode "$mode_gaps_inner" {
-        bindsym plus  gaps inner current plus 5
-        bindsym minus gaps inner current minus 5
-        bindsym 0     gaps inner current set 0
+# mode "$mode_gaps" {
+#         bindsym o      mode "$mode_gaps_outer"
+#         bindsym i      mode "$mode_gaps_inner"
+#         bindsym Return mode "default"
+#         bindsym Escape mode "default"
+# }
+# mode "$mode_gaps_inner" {
+#         bindsym plus  gaps inner current plus 5
+#         bindsym minus gaps inner current minus 5
+#         bindsym 0     gaps inner current set 0
 
-        bindsym Shift+plus  gaps inner all plus 5
-        bindsym Shift+minus gaps inner all minus 5
-        bindsym Shift+0     gaps inner all set 0
+#         bindsym Shift+plus  gaps inner all plus 5
+#         bindsym Shift+minus gaps inner all minus 5
+#         bindsym Shift+0     gaps inner all set 0
 
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
-mode "$mode_gaps_outer" {
-        bindsym plus  gaps outer current plus 5
-        bindsym minus gaps outer current minus 5
-        bindsym 0     gaps outer current set 0
+#         bindsym Return mode "default"
+#         bindsym Escape mode "default"
+# }
+# mode "$mode_gaps_outer" {
+#         bindsym plus  gaps outer current plus 5
+#         bindsym minus gaps outer current minus 5
+#         bindsym 0     gaps outer current set 0
 
-        bindsym Shift+plus  gaps outer all plus 5
-        bindsym Shift+minus gaps outer all minus 5
-        bindsym Shift+0     gaps outer all set 0
+#         bindsym Shift+plus  gaps outer all plus 5
+#         bindsym Shift+minus gaps outer all minus 5
+#         bindsym Shift+0     gaps outer all set 0
 
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
+#         bindsym Return mode "default"
+#         bindsym Escape mode "default"
+# }
 
 
 # Change volume or toggle mute
@@ -374,9 +456,16 @@ mode "$mode_gaps_outer" {
 # multimedia keys
 # bindsym Control+$mod+$mouse_whell_up   exec "amixer -D pulse sset Master '3%+'"
 # bindsym Control+$mod+$mouse_whell_down exec "amixer -D pulse sset Master '3%-'"
-bindsym --release XF86AudioRaiseVolume exec "amixer -D pulse sset Master '3%+'"
-bindsym --release XF86AudioLowerVolume exec "amixer -D pulse sset Master '3%-'"
-bindsym --release XF86AudioMute        exec "amixer -D pulse set Master toggle"
+
+# bindsym --release XF86AudioRaiseVolume exec "amixer -D pulse sset Master '3%-'"
+# bindsym --release XF86AudioLowerVolume exec "amixer -D pulse sset Master '3%+'"
+# bindsym --release XF86AudioMute        exec "amixer -D pulse set Master toggle"
+# bindsym --release XF86AudioMicMute     exec "amixer -D pulse sset Capture toggle"
+
+exec-always --no-startup-id volnoti -t 2 -a 0.25
+bindsym --release XF86AudioRaiseVolume exec ~/.config/i3/bin/volnoti-handle down
+bindsym --release XF86AudioLowerVolume exec ~/.config/i3/bin/volnoti-handle up
+bindsym --release XF86AudioMute        exec ~/.config/i3/bin/volnoti-handle mute
 bindsym --release XF86AudioMicMute     exec "amixer -D pulse sset Capture toggle"
 
 
@@ -401,14 +490,28 @@ bindsym --release XF86TouchpadToggle exec "synclient TouchpadOff=$(synclient | a
 bindsym --release XF86MonBrightnessDown exec "xbacklight -5"
 bindsym --release XF86MonBrightnessUp   exec "xbacklight +5"
 
-
-
 # Open file manager
-bindsym $mod+e exec nautilus
-
+# bindsym $mod+e exec nautilus
+# bindsym $mod+e exec ~/.bin/nautilus-scratchpad
+bindsym $mod+e exec ~/.bin/scratchpad nautilus
 
 # Open Google Chrome
-bindsym $mod+g exec google-chrome
+bindsym $mod+g exec vivaldi-stable --allow-file-access-from-files
+
+# Open Youtube
+bindsym $mod+y exec ~/.bin/scratchpad vivaldi-stable --allow-file-access-from-files --app=https://www.youtube.com/ # not working
+
+# Open Spotify
+bindsym $mod+s exec ~/.bin/scratchpad spotify
+
+# Open Blueman
+bindsym $mod+b exec ~/.bin/scratchpad blueman-manager
+
+# Open PulseEffects
+bindsym $mod+p exec ~/.bin/scratchpad pulseeffects
+
+# Open terminal
+bindsym $mod+Shift+Return exec ~/.bin/scratchpad i3-sensible-terminal # not working
 
 
 # Open Spotify in workspace 4 on the right display
@@ -444,7 +547,7 @@ bindsym Mod1+Control+Sys_Req exec --no-startup-id "maim -m 1 -us --format=png /t
 bindsym Mod1+Mod4+Sys_Req exec --no-startup-id "maim -m 1 -ui \$(xdotool getactivewindow) --format=png /tmp/screenshot.png; $imgur_uploader /tmp/screenshot.png | xclip -selection clipboard"
 
 # Sync folders
-exec_always --no-startup-id ~/.config/i3/bin/run-sync_folders.sh
+# exec_always --no-startup-id ~/.config/i3/bin/run-sync_folders.sh
 
 # albert
 # exec albert
@@ -453,13 +556,17 @@ exec_always --no-startup-id ~/.config/i3/bin/run-sync_folders.sh
 exec_always --no-startup-id ~/.bin/rotas
 
 # Composition
-exec_always --no-startup-id compton
+# exec_always --no-startup-id compton
 
 # Mouse configuration
 exec_always --no-startup-id xinput set-prop "Logitech M325" "libinput Accel Speed" -0.4
 
-# Keyboard layout
-exec_always --no-startup-id setxkbmap -layout us(intl),br -option grp:alt_space_toggle
+# Keyboard layout & sensitivity
+exec_always --no-startup-id setxkbmap -layout us(altgr-intl),br -option grp:alt_space_toggle
+exec_always --no-stattup-id set r rate 225 25x
+
+# Apple Magic Trackpad 2 speed
+exec_always --no-stattup-id ~/.bin/xinputspeed 'Magic Trackpad 2' 1
 
 # Set background
 exec_always --no-startup-id xsetroot -solid "#333333"
@@ -472,4 +579,23 @@ exec_always --no-startup-id ~/.screenlayout/load-configuration.sh
 exec_always --no-startup-id ~/.bin/mountall
 
 # Tunnel service
-exec_always --no-startup-id ~/.bin/tadeu_tunnel
+# exec_always --no-startup-id ~/.bin/tadeu_tunnel
+
+# Scripts
+# exec_always --no-startup-id python3 ~/.i3/i3scripts/autoname_workspaces.py --norenumber_workspaces
+# bindsym $mod+n exec "python3 ~/.ni3/i3scripts/new_workspace.py"
+# bindsym $mod+Control+n exec "python3 ~/.i3/i3scripts/rename_workspace.py"
+
+# HUD menu
+# exec --no-startup-id ~/repo/i3-hud-menu/i3-appmenu-service.py
+# bindsym $mod+Control+x exec ~/repo/i3-hud-menu/i3-hud-menu.py
+
+# VSCode
+# bindsym $mod+v exec code
+
+# Unicode special character selector
+# bindsym $mod+grave exec --no-startup-id ~/.i3/bin/dmenuunicode
+bindcode $mod+49 exec --no-startup-id "rofi -modi 'run,drun,emoji:~/.config/rofi/bin/rofiemoji' -show emoji -font 'Inconsolata 12'"
+
+# Leap Motion
+# exec_always --no-startup-io "sudo leapd"

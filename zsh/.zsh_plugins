@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+
+# Remove previous aliases to prevent plugins errors
+unalias k 2>/dev/null
+
+# Plugins list
+plugins=(
+  colored-man-pages
+  git
+  k
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+)
