@@ -1,0 +1,12 @@
+#!/bin/bash
+
+wid=$(xwininfo | grep -i "Window id" | awk -F' ' '{print $4}')
+wid=$(echo $(("$wid")))
+ws=$(i3-msg -t get_workspaces | jq '.[] | select(.focused).num')
+marks=$(i3-msg -t get_tree | jq -e -r '(.nodes[].nodes[].nodes[]) | select(.num == '"$ws"').nodes[] | select(.window == '"$wid"').marks[]')
+
+case $? in
+  0)
+    echo $marks
+    ;;
+esac

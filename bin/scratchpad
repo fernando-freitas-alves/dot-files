@@ -1,0 +1,100 @@
+#!/bin/bash
+
+# scratchpad creates a float window in i3 of any given input command and allow it to be hidden/show whenever this scratchpad command is repeated
+#
+# Author:
+#   Fernando Freitas Alves
+# Requirements:
+#   i3
+#   wmctrl
+# To install (ubuntu):
+#   sudo apt install -y i3 wmctrl
+#
+
+# Get input arguments
+args="${@:1}"
+args_str="${args// /_}"
+mark=$args_str
+
+echo $mark
+# # Get pid of the program, if it is already running
+# pid=$(pgrep "$args")
+
+# Check if there is already any window with the program mark
+i3-msg -t get_tree | jq -er '.nodes[].nodes[].nodes[].floating_nodes[].nodes[].marks[]?' | grep -w $mark #> /dev/null 2>&1
+# echo $?
+
+# echo $args
+# echo $pid
+
+# Checks if the program is already running
+# if [ "x$pid" == "x" ]; then
+
+
+
+if [ $? -ne 0 ]; then
+
+    # Starts the program detached from script
+    # "$args" </dev/null &>/dev/null & disown
+    nohup $args </dev/null &>/dev/null & disown
+    # _TAG=123321 nohup $args </dev/null &>/dev/null & disown
+    pid="$!"
+
+    # echo $pid
+    # # ps_out1=$(pstree -a $pid)
+    # # ps_out1=$(ps --ppid $pid)
+    # ps_out1=$(grep -l "\b_TAG=$_TAG\b" /proc/*/environ 2>&1 | grep -v "Permission denied" | cut -d/ -f3)
+    # while [ "x$ps_out1" != "x" ] ; do
+    #     ps_out2=$ps_out1
+    #     # ps_out1=$(ps h -Hg $pid)
+    #     # ps_out1=$(pstree -a $pid)
+    #     # ps_out1=$(ps --ppid $pid)
+    #     ps_out1=$(grep -l "\b_TAG=$_TAG\b" /proc/*/environ 2>&1 | grep -v "Permission denied" | cut -d/ -f3 2>&1)
+    #     # ps_out1=$(ps --no-headers -g$pid)
+    #     echo "ps_out1: $ps_out1"
+    #     echo
+    #     # echo
+    #     # echo
+    #     # echo
+    # done
+    # echo "ps_out2: $ps_out2"
+    # # echo $args
+    # echo $pid
+
+    # Checks if the program is running now
+    if [ "x$pid" != "x" ]; then
+
+        # # Get program exec name
+        # proc=$(ps -p $pid -o comm=)
+
+        # Wait for the window to open and grab its window ID
+        # winid=''
+        while : ; do
+            # winid="`wmctrl -lp | awk -vpid=$pid '$3==pid {print $1; exit}'`"
+            winid=$(wmctrl -lp | awk -vpid=$pid '$3==pid {print $1; exit}')
+            echo wmctrl -lp" | "awk -vpid=$pid '$3==pid {print $1; exit}'
+            echo $winid
+            [[ -z "${winid}" ]] || break
+            sleep 1
+        done
+
+        # Focus the found window
+        wmctrl -ia "${winid}"
+
+        # Mark and move it to the scratchpad
+        # i3-msg [instance="$proc"] "mark --add $mark" > /dev/null 2>&1
+        # i3-msg [id="$winid"] "mark --add $mark" > /dev/null 2>&1
+        i3-msg "mark --add $mark" > /dev/null 2>&1
+        i3-msg [con_mark="$mark"] "move scratchpad"      > /dev/null 2>&1
+
+        # Show the window (scratchpad automatically hides when a new window is moved to it)
+        i3-msg [con_mark="$mark"] "scratchpad show"      > /dev/null 2>&1
+
+    fi
+
+else
+
+    # Show/hide the window
+    i3-msg [con_mark="$mark"] "scratchpad show"      > /dev/null 2>&1
+
+fi

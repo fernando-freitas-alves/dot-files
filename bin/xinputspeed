@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ID=$(xinput list | grep "$1" | awk -F"id=" '{ print $2 }' | awk -F' ' '{ print $1 }')
+xinput --set-prop $ID 'libinput Accel Speed' "$2"

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+spicy -h localhost -p 5900 --spice-shared-dir=/home/developer
+

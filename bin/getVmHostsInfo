@@ -1,0 +1,15 @@
+#!/bin/bash
+bsname=$(basename $0)
+if [ -z "$1" ]; then
+    echo -e "`basename $bsname`: missing VM name -- get the IPv4 address port user and ssh password of a virtual machine registered in libvirt default URI $LIBVIRT_DEFAULT_URI"
+    echo -e "Example:"
+    echo -e "\t`basename $bsname` devCAEX"
+    exit 0
+fi
+vmName=$1
+netname=$(virsh net-list | sed '3!d' | cut -d ' ' -f 2 | head -n1)
+ip=$(virsh net-dhcp-leases $netname | grep -E " $vmName " | grep -o -E -- "ipv4 +\w+\.\w+\.\w+\.\w+" | tr -s ' ' | cut -d ' ' -f 2)
+port=22
+user=caex
+pass=Thales01*
+echo $ip $port $user $pass

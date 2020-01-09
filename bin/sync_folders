@@ -1,0 +1,62 @@
+#!/bin/bash
+
+show_definition()
+{
+    printf "sync one or more folders into another folder\n"
+}
+show_usage()
+{
+    printf "Usage: `basename $0` SOURCE1 [SOURCE2 SOURCE3 ...] DESTINATION\n\n"
+}
+show_examples()
+{
+    printf "Use \* and double quotes after the source path to specify that the source folder is going to be watched and the content synced rather than both watching and syncing only the content.\n\n"
+    printf "Example:\n"
+    printf "  Sync zsh entire folder to config folder:\n      `basename $0` ~/.config/zsh /fileserver/developer/config\n\n"
+    printf "  Sync zsh content to zsh_backup folder:\n      `basename $0` \"~/.config/zsh/\*\" /fileserver/developer/config/zsh_backup\n\n"
+    printf "  Sync each file of zsh folder to zsh_backup folder independently:\n      `basename $0` ~/.config/zsh/* /fileserver/developer/config/zsh_backup\n\n"
+    printf "  Sync zsh and tmux folder to config folder:\n      `basename $0` ~/.config/zsh ~/.config/tmux /fileserver/developer/config\n\n"
+    exit 0
+}
+if [ -z "$1" ]; then
+    printf "`basename $0`: missing source -- "; show_definition; printf "\n"
+    show_usage
+    show_examples
+    exit 0
+elif [ -z "$2" ]; then
+    printf "`basename $0`: missing destination -- "; show_definition; printf "\n"
+    show_usage
+    show_examples
+    exit 0
+fi
+
+ARGS=("$@")
+
+DEST=${ARGS[-1]}
+unset ARGS[${#ARGS[@]}-1]
+
+SRC=${ARGS[@]}
+
+PATTERN='\/\\\*'
+SUBS='\/\*'
+SRC2=$SRC
+if [ $(echo $SRC2 | grep -E $PATTERN'$|'$PATTERN'\s') ]; then
+    SRC2=$(echo "$SRC2" | sed 's/'$PATTERN'$/'$SUBS'/g')
+    SRC2=$(echo "$SRC2" | sed 's/'$PATTERN'\s/'$SUBS' /g')
+fi
+
+SYNC="rsync -avz $SRC2 $DEST"
+
+echo $SYNC
+eval $SYNC
+for folder in $SRC; do
+    if [ $(echo $folder | grep -E $PATTERN'$') ]; then
+        folder=$(echo "$folder" | sed 's/'$PATTERN'$//g')
+    fi
+    folder=$(echo $folder | sed 's/\~/'$(echo $HOME | sed 's/\//\\\//g')'/g')
+    echo -e "\n"
+    echo "Watching $folder"
+    while inotifywait -r -e modify,create,delete $folder; do
+        eval $SYNC
+    done&
+done

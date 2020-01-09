@@ -1,0 +1,222 @@
+#!/bin/bash
+#
+# Este script ajuda a debugar aplicações geradas em Rhapsody
+# Ele deve ser executado dentro do diretório /devroot/acs_src/KACommonSrc/RhapsodyGenerated/.../DefaultConfig/
+# Ele analisará os arquivos dentro deste diretório para setar breakpoints em uma lista que será passada para o gdb,
+# em seguida matará qualquer processo do mesmo componente já em execução na conn vm e então inicializará o componente
+# ouvindo pelos breakpoints que forem especificados. Caso a execução seja interrompida com CTRL+C ele se encarregará
+# de matar os processos gerados durante sua execução na conn vm.
+#
+# Formas de uso (NECESSARIAMENTE de dentro do diretório /devroot/acs_src/KACommonSrc/RhapsodyGenerated/.../DefaultConfig/)
+# rhapper -s           : Identificará os objetos que são também máquinas de estado e criará breakpoints para ouvir
+#                        sempre que houver uma mudança de estado nessas máquinas. Traduzirá tbm o número desses 
+#                        estados para o nome do estado em si, de acordo com o especificado no header do arquivo.
+#
+# rhapper -m           : Colocará breakpoints em TODAS as chamadas de métodos da aplicação e emitirá um WARNING pois,
+#                        dependendo da aplicação, serão muitos breakpoints, tornando o acompanhamento da execução
+#                        difícil de ler e podendo ocasionar falhas de execução devido ao excesso de breakpoints.
+#
+# rhapper -m [PATTERN] : Setará breakpoints nos métodos que atenderem a algum critério, podendo ser esse PATTERN
+#                        o nome da classe cujos métodos queremos ouvir quando chamados, por ex. FileOffloader ou
+#                        alguma keyword relacionada aos nomes dos métodos que queremos ouvir, por ex. MxcLink
+#
+# rhapper -e           : Colocará breakpoints e avisará sempre que for gerado um novo evento na aplicação, seja
+#                        através do GEN(ev...) ou listener->GEN(ev...).
+#
+# Qualquer combinação entre as opções anteriores também é possível, por ex.: rhapper -sem FileOffloader
+# contudo, a utilização desta forma não eh recomendável pois torna o acompanhamento posterior do funcionamento da
+# aplicação mais difícil de ser lido.
+#
+
+DBG="/tmp/rh.gdb"
+GDB_LOG="/root/gdb.txt"
+SPAWNER="spawner"
+
+CONN_PORT="48135"
+CONN_IP="10.0.0.101"
+CONN_USER="root"
+CONN_PASS="livetv123"
+
+HOST_IP="192.168.123.1"
+HOST_USER="developer"
+
+if [[ $(ssh-copy-id $HOST_USER@$HOST_IP > /dev/null 2>&1; echo $?) == "1" ]]; then
+  echo -e "\033[0;31msshd not running on host machine. Start it with systemctl start sshd...\033[0;0m"
+  exit 1
+fi
+
+ if [[ $(ssh-copy-id -p $CONN_PORT $CONN_USER@$CONN_IP > /dev/null 2>&1; echo $?) == "1" ]]; then
+   echo -e "\033[0;31mConn VM not running on host machine or needs to be remounted rw.\033[0;0m"
+   exit 1
+ fi
+
+ssh -t $HOST_USER@$HOST_IP 'if [[ "$(command -v expect)" == "" ]]; then sudo apt install expect; fi'
+
+set -e
+comp=$(ls | grep Comp | grep -v "\.")
+echo $comp
+
+function cleanup1 {
+  set +e
+  echo -e "\n\n\033[0;31mCLEANING UP...\033[0;0m"
+  ssh -p $CONN_PORT  $CONN_USER@$CONN_IP 'kill -9 $(ps aux | grep "gdb\|nohup" | awk "{print $2}"); killall '$comp'; pkill gdb; y | rm '$GDB_LOG > /dev/null 2>&1
+  # ssh -p $CONN_PORT  $CONN_USER@$CONN_IP 'kill -9 $(ps aux | grep "gdb\|nohup" | awk "{print $2}"); pkill gdb; y | rm '$GDB_LOG > /dev/null 2>&1
+  kill -9 $(ps aux | grep "gdb\|nohup" | awk "{print $2}") > /dev/null 2>&1
+}
+
+function cleanup2 {
+  ssh -p $CONN_PORT  $CONN_USER@$CONN_IP 'kill -9 $(ps aux | grep "gdb\|nohup" | awk "{print $2}"); killall '$comp'; pkill gdb; y | rm '$GDB_LOG > /dev/null 2>&1
+  # ssh -p $CONN_PORT $CONN_USER@$CONN_IP 'kill -9 $(ps aux | grep "gdb\|nohup" | awk "{print $2}"); pkill gdb; y | rm '$GDB_LOG > /dev/null 2>&1
+  kill -9 $(ps aux | grep "gdb\|nohup" | awk '{print $2}') > /dev/null 2>&1
+}
+
+trap cleanup1 EXIT > /dev/null 2>&1
+trap cleanup2 INT > /dev/null 2>&1
+
+echo "" > $SPAWNER
+echo -e '#!/usr/bin/expect\n\nspawn ssh -p '$CONN_PORT $CONN_USER'@'$CONN_IP'\n\nexpect "*password*"\n\nsend "'$CONN_PASS'\\r"\n\nexpect "*'$CONN_USER'*"\n\nsend "nohup gdb /opt/ltv/bin/'$comp' -x '$DBG' &\\r"\n\nexpect "*'$CONN_USER'*"' > $SPAWNER
+
+scp $SPAWNER $HOST_USER@$HOST_IP:/tmp/ > /dev/null 2>&1
+echo "" > $SPAWNER
+
+echo -e "set logging on\nset logging overwrite on\nset logging redirect on\nshow logging\n\n" > $DBG
+pushd $(pwd) > /dev/null 2>&1
+
+if [[ "${1}" != "-"*"m"* && "${1}" != "-"*"s"* && "${1}" != "-"*"e"* ]]; then
+  echo -e "\033[0;31mNo option given. Use -m PATTERN or -s. Quitting\033[0;0m"
+  exit 1
+fi
+
+if [[ "${1}" == "-"*"e"* ]]; then
+  for i in $(seq 1 $(grep -rn "GEN(ev" | wc -l)); do
+    file=$(grep -rn "GEN(ev" | awk '{print $1}' | cut -d ':' -f 1 | sed -n "${i}p")
+    obj=$(echo ${file} | cut -d '.' -f 1)
+    line=$(grep -rn "GEN(ev" | awk '{print $1}' | cut -d ':' -f 2 | sed -n "${i}p")
+    ev=$(grep -rn "GEN(ev" | awk '{print $2}' | sed -n "${i}p")
+    echo -e "b ${file}:${line}\ncommand\n  p \"${obj}+++>${ev}\"\n  c\nend\n\n" >> $DBG
+  done
+fi
+
+if [[ "${1}" == "-"*"m"* ]]; then
+  if [[ "${2}" == "" ]]; then
+    echo -e "\033[0;31mWARNING: No pattern given to the -m option, which may cause the component to stop abruptly or cause unstable behaviour.\033[0;0m"
+#    exit 1
+  fi
+
+  if [[ "${2}" != "" ]]; then
+    n_methods=$(grep -rn "^.* .*::.*\(.*\) {" | grep $2 | grep "\.cpp" | wc -l)
+  else
+    n_methods=$(grep -rn "^.* .*::.*\(.*\) {" | grep "\.cpp" | wc -l)
+  fi
+
+  echo -e "\033[0;31mSetting breakpoints on ${n_methods} methods...\033[0;0m"
+
+  if [[ "${2}" != "" ]]; then
+    for i in $(seq 1 $(grep -rn "^.* .*::.*\(.*\) {" | grep $2 | grep "\.cpp" | wc -l)); do
+      file=$(grep -rn "^.* .*::.*\(.*\) {" | grep $2 | grep "\.cpp" | sed -n "${i}p" | cut -d ":" -f 1)
+      line=$(grep -rn "^.* .*::.*\(.*\) {" | grep $2 | grep "\.cpp" | sed -n "${i}p" | cut -d ":" -f 2)
+      method=$(grep -rn "^.* .*::.\(.*\) {" | grep $2 | grep "\.cpp" | sed -n "${i}p" | cut -d ":" -f 3- | cut -d "{" -f 1)
+      let "line=$line + 1"
+      echo "${file} ${line} ${method}"
+      echo -e "b ${file}:${line}\ncommand\n  p \"--->${method}\"\n  c\nend\n\n" >> $DBG
+    done
+  else
+    for i in $(seq 1 $(grep -rn "^.* .*::.*\(.*\) {" | grep "\.cpp" | wc -l)); do
+      file=$(grep -rn "^.* .*::.*\(.*\) {" | grep "\.cpp" | sed -n "${i}p" | cut -d ":" -f 1)
+      line=$(grep -rn "^.* .*::.*\(.*\) {" | grep "\.cpp" | sed -n "${i}p" | cut -d ":" -f 2)
+      method=$(grep -rn "^.* .*::.\(.*\) {" | grep "\.cpp" | sed -n "${i}p" | cut -d ":" -f 3- | cut -d "{" -f 1)
+      let "line=$line + 1"
+      echo "${file} ${line} ${method}"
+      echo -e "b ${file}:${line}\ncommand\n  p \"--->${method}\"\n  c\nend\n\n" >> $DBG
+    done
+  fi
+fi
+if [[ "${1}" == "-"*"s"* ]]; then
+  list=$(grep -r "switch (rootState_active) {" | cut -d ":" -f 1)
+  n=$(echo $list | wc -w)
+
+  # let "n=$n-1"
+  echo -e "\033[0;31mState machines found:\033[0;0m"
+  for i in $(seq 1 $n); do
+    file=$(echo ${list} | cut -d " " -f $i | cut -d "." -f 1)
+    echo ${file}
+    states=$(sed -n -e "/enum ${file}_Enum {/,/}/ p" "${file}.h" | sed "s/ //g")
+
+    for j in $(seq 1 $(echo ${states} | wc -w)); do
+      if [[ "$(echo ${states} | cut -d ' ' -f ${j} | grep '=')" != "" ]]; then
+        declare -a array${file}[$(echo ${states} | cut -d ' ' -f ${j} | cut -d '=' -f 2 | cut -d ',' -f 1)]="$(echo ${states} | cut -d ' ' -f ${j} | grep '=' | cut -d '=' -f 1)"
+      fi
+    done
+
+    line=$(cat -n "${file}.cpp" | grep "switch (rootState_active) {" | awk '{print $1}')
+    echo -e "b ${file}.cpp:${line}\ncommand\n  p \"${file}\"\n  p rootState_active\n  c\nend\n\n" >> $DBG
+
+  done
+fi
+
+echo "r" >> $DBG
+
+scp -P $CONN_PORT $DBG $CONN_USER@$CONN_IP:/tmp/ > /dev/null 2>&1
+ssh -p $CONN_PORT $CONN_USER@$CONN_IP "remount / rw; echo '' > "$GDB_LOG > /dev/null 2>&1
+
+info=""
+if [[ "${1}" == "-"*"m"* ]]; then
+  info="method calls"
+fi
+if [[ "${1}" == "-"*"s"* ]]; then
+  if [[ "${info}" == "" ]]; then
+    info="state changes"
+  else
+    info="${info}, state changes"
+  fi
+fi
+if [[ "${1}" == "-"*"e"* ]]; then
+  if [[ "${info}" == "" ]]; then
+    info="generated events"
+  else
+    info="${info}, generated events"
+  fi
+fi
+
+echo -e "\n\033[0;31mStarting component ${comp} and listening for ${info}...\033[0;0m"
+ssh -p $CONN_PORT $CONN_USER@$CONN_IP "monit stop ${comp}"
+ssh $HOST_USER@$HOST_IP "chmod 777 /tmp/${SPAWNER}; /tmp/$SPAWNER" > /dev/null 2>&1
+
+if [[ "${1}" == "-"*"m"* ]]; then
+#  ssh -p $CONN_PORT $CONN_USER@$CONN_IP "tail -f "$GDB_LOG" | grep --line-buffered ${2} | grep --line-buffered '\-\-\->'" | sed -r "s/.*[0-9] = //" 2>&1 & 
+  ssh -p $CONN_PORT $CONN_USER@$CONN_IP "tail -f "$GDB_LOG" | grep --line-buffered '\-\-\->'" | sed -r "s/.*[0-9] = //" 2>&1 & 
+fi
+if [[ "${1}" == "-"*"e"* ]]; then
+  ssh -p $CONN_PORT $CONN_USER@$CONN_IP "tail -f "$GDB_LOG" | grep --line-buffered '\+\+\+>'" | sed -r "s/.*[0-9] = //" 2>&1 &
+fi
+if [[ "${1}" == "-"*"s"* ]]; then
+  for k in $(seq $(echo ${list} | wc -w)); do
+    file=$(echo ${list} | cut -d " " -f $k | cut -d "." -f 1)
+
+    if [[ "${file}" == "1" ]]; then
+      continue
+    fi
+    array=$(declare -p "array${file}") > /dev/null
+    sed_cmd=""
+    l=0
+    # echo "file: $file"
+    # echo "array: $array"
+    # echo "{array[@]}: ${array[@]}"
+    for state in ${array[@]}; do
+      stateName=$(echo $state | rev | cut -d "=" -f 1 | rev | sed "s/\"//g" | sed "s/)//g" | sed "s/'//g")
+      stateNum=$(echo $state | rev | cut -d "=" -f 2 | rev | sed "s/\[//g" | sed "s/\]//g" | sed "s/'(//g")
+      # echo "stateName: $stateName"
+      # echo "stateNum: $stateNum"
+      sed_cmd="${sed_cmd} ; s/^${stateNum}/${stateName}/"
+      let "l=$l+1"
+    done
+
+    ssh -p $CONN_PORT $CONN_USER@$CONN_IP "tail -f "$GDB_LOG" | grep --line-buffered -v ".cpp" | grep --line-buffered ' = \"${file}\"' -A 1" | sed -r "s/.*[0-9] = //${sed_cmd}" 2>&1 &
+  done
+fi
+
+while true; do
+  sleep 1
+done 2> /dev/null
+
+popd

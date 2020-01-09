@@ -1,0 +1,9 @@
+#!/bin/bash
+bsname=$(basename $0)
+if [ -z "$1" ]; then
+    echo -e  "`basename $bsname`: missing VM name -- get the ssh password of a virtual machine registered in libvirt default URI $LIBVIRT_DEFAULT_URI"
+    echo -e  "Example:"
+    echo -e "\t`basename $bsname` devCAEX"
+    exit 0
+fi
+echo $(getVmHostsInfo $1 | awk -F' ' '{ print(substr($0,index($0,$4))) }')
