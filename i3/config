@@ -21,7 +21,7 @@ bindsym Mod4+Shift+Tab   exec ~/.config/i3/bin/i3flip prev
 # floating_modifier $mod
 floating_modifier Control
 
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Shift+Return exec i3-sensible-terminal
 
 # Window kill command
 bindsym $mod+q kill
@@ -36,7 +36,9 @@ bindsym $mod+r exec --no-startup-id ~/.i3/bin/call-rofi
 # bindsym $mod+w exec --no-startup-id "rofi -matching fuzzy -show window"
 # bindcode --release 133 exec --no-startup-id rofi -show run
 # bindsym $mod+c exec --no-startup-id "rofi -show calc -modi calc -no-show-match -no-sort"
-bindsym $mod+c exec /usr/bin/gnome-calculator
+# bindsym $mod+c exec /usr/bin/gnome-calculator
+bindsym $mod+c exec "CALC=1 i3-sensible-terminal --class CALC --override initial_window_width=640 --override initial_window_height=400
+# bindsym $mod+c exec ~/.bin/scratchpad CALC=1 i3-sensible-terminal --class CALC --override initial_window_width=640 --override initial_window_height=400
 
 # change focus
 # bindsym $mod+j focus left
@@ -72,7 +74,7 @@ bindcode $mod+51 split h;exec notify-send 'tile horizontally'
 bindcode $mod+20 split v;exec notify-send 'tile vertically'
 bindcode $mod+Shift+51 split h;exec notify-send 'tile horizontally'
 bindcode $mod+Shift+20 split v;exec notify-send 'tile vertically'
-bindsym $mod+Shift+q split toggle
+bindsym $mod+Shift+s split toggle
 
 # toggle fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -294,10 +296,17 @@ for_window [class="Google-chrome" title="Tabman" window_role="pop-up"] floating 
 for_window [class="Google-chrome" title="Sidewise" window_role="pop-up"] floating disable border pixel 1
 for_window [class="Vivaldi-stable" title="YouTube" window_role="browser"] floating disable border pixel 1
 # for_window [class="osgViewer"] floating enable border normal
-for_window [class="MATLAB R2018a" title="^(?!MATLAB R2018a$).*"] floating enable border normal
-for_window [class="MATLABWindow"] floating enable border normal
+# for_window [class="MATLAB R2018a" title="^(?!MATLAB R2018a$).*"] floating enable border normal; move position center
+for_window [class="MATLABWindow"] floating enable border normal; move position center
+for_window [class="MATLAB.*" title="Mask Editor : .*"]                 floating enable border normal; move position center
+for_window [class="MATLAB.*" title="Promoted Parameter Selector : .*"] floating enable border normal; move position center
+for_window [class="MATLAB.*" instance="Matlab-GLEE" title="Configuration Parameters: .*"] floating enable border normal; move position center
 for_window [class="Blueman-manager"] floating enable border pixel 1
 for_window [instance="gnome-calculator"] floating enable border pixel 1
+for_window [class="CALC"] floating enable border pixel 1
+for_window [class="teste_ui"] floating enable border pixel 1
+for_window [class="osgViewer"] floating enable border pixel 1
+for_window [class="Yad" title="yad-calendar"] floating enable
 
 set $monitor_left DP-7
 workspace $ws10 output $monitor_left
@@ -316,18 +325,18 @@ for_window [urgent=latest] focus
 bindsym $mod+Shift+r reload; restart
 
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # Set shut down, restart and locking features
 bindsym $mod+F11 mode "$mode_system"
 set $mode_system (l)ock, logo(u)t, s(w)itch_user, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 mode "$mode_system" {
-    bindsym l exec --no-startup-id ~/.config/i3/bin/i3exit lock, mode "default"
-    bindsym s exec --no-startup-id ~/.config/i3/bin/i3exit suspend, mode "default"
-    bindsym w exec --no-startup-id ~/.config/i3/bin/i3exit switch_user, mode "default"
-    bindsym u exec --no-startup-id ~/.config/i3/bin/i3exit logout, mode "default"
-    bindsym h exec --no-startup-id ~/.config/i3/bin/i3exit hibernate, mode "default"
-    bindsym r exec --no-startup-id ~/.config/i3/bin/i3exit reboot, mode "default"
+    bindsym l exec --no-startup-id      ~/.config/i3/bin/i3exit lock,        mode "default"
+    bindsym s exec --no-startup-id sudo ~/.config/i3/bin/i3exit suspend,     mode "default"
+    bindsym w exec --no-startup-id      ~/.config/i3/bin/i3exit switch_user, mode "default"
+    bindsym u exec --no-startup-id      ~/.config/i3/bin/i3exit logout,      mode "default"
+    bindsym h exec --no-startup-id sudo ~/.config/i3/bin/i3exit hibernate,   mode "default"
+    bindsym r exec --no-startup-id      ~/.config/i3/bin/i3exit reboot,      mode "default"
     bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
 
     # exit system mode: "Enter" or "Escape"
@@ -382,6 +391,7 @@ bindsym --whole-window Control+Mod4+Mod1+Left  resize shrink width  1 px
 # Autostart applications
 # exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 exec --no-startup-id nm-applet
+exec --no-startup-id pa-applet
 # exec --no-startup-id xfce4-power-manager
 # exec --no-startup-id pamac-tray
 # exec --no-startup-id clipit
@@ -493,7 +503,8 @@ bindsym --release XF86MonBrightnessUp   exec "xbacklight +5"
 # Open file manager
 # bindsym $mod+e exec nautilus
 # bindsym $mod+e exec ~/.bin/nautilus-scratchpad
-bindsym $mod+e exec ~/.bin/scratchpad nautilus
+bindsym $mod+e       exec ~/.bin/scratchpad 1 nemo
+bindsym $mod+Shift+e exec ~/.bin/scratchpad 2 nemo
 
 # Open Google Chrome
 bindsym $mod+g exec vivaldi-stable --allow-file-access-from-files
@@ -511,7 +522,7 @@ bindsym $mod+b exec ~/.bin/scratchpad blueman-manager
 bindsym $mod+p exec ~/.bin/scratchpad pulseeffects
 
 # Open terminal
-bindsym $mod+Shift+Return exec ~/.bin/scratchpad i3-sensible-terminal # not working
+bindsym $mod+Return exec ~/.bin/scratchpad i3-sensible-terminal # not working
 
 
 # Open Spotify in workspace 4 on the right display

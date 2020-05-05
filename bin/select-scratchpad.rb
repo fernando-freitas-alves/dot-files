@@ -1,0 +1,1 @@
+/home/developer/.i3/bin/select-scratchpad.rb
