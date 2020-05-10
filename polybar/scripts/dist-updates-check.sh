@@ -47,7 +47,7 @@ num_of_upgradable_pkgs()
 
 # Update number of runs, N
 N=$(load N 0)
-if [ "$CALLS" = "0" ]; then
+if [ "$CALLS" -eq "0" ]; then
     N=$(((N+1) % TIME_RATE))
     save N $N
 fi
@@ -65,14 +65,13 @@ case "$1" in
         # num_of_upgradable_pkgs
         ;;
     *)
-        # echo $N
-        if [ "$N" = "0" ]; then
+        if [ "$N" -eq "0" ]; then
             num_of_updates=$(num_of_upgradable_pkgs)
         else
             num_of_updates=$(load num_of_updates 0)
         fi
         if [ "$num_of_updates" -gt 0 ]; then
-            if [ "$N" = "0" ]; then
+            if [ "$N" -eq "0" ]; then
                 notify-send -u low -i system-software-update "There are $num_of_updates dist package updates"
             fi
             echo "%{B#EF233C}%{F#500}%{u#500}%{+u}  $num_of_updates %{u-}%{B- F-}"
