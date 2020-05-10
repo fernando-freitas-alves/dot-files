@@ -1,3 +1,4 @@
 #!/bin/bash
 
-rofi -matching fuzzy -combi-modi drun,run,window -show combi
+rofi -matching fuzzy -combi-modi drun,run,window -show combi -show-icons -display-drun "" -display-run "" -display-window ""
+

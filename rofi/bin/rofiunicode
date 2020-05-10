@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-unipicker --command 'rofi -dmenu' | tr -d '\n' | xclip -sel clip
+unipicker --command 'rofi -dmenu -theme-str "prompt { enabled: false; }"' | tr -d '\n' | xclip -sel clip
+
