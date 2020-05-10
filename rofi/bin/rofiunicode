@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+unipicker --command 'rofi -dmenu' | tr -d '\n' | xclip -sel clip

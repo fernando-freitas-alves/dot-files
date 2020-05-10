@@ -8,9 +8,10 @@ margin-bottom = 0
 [bar/i3wmthemer_bar]
 monitor = ${env:MONITOR:}
 modules-left = i3
-modules-center = date
+/* modules-center = date popup-calendar */
+modules-center = popup-calendar
 /* modules-right = wlan eth battery powermenu */
-modules-right = wlan eth cpu memory filesystem pulseaudio battery
+modules-right = terminal wlan eth cpu memory filesystem pulseaudio battery dist-updates-check
 
 tray-position = right
 ;tray-padding =
@@ -441,7 +442,7 @@ format-unmounted = <label-unmounted>
 ;   %free%
 ;   %used%
 ; Default: %mountpoint% %percentage_free%%
-label-mounted = %percentage_used%% 
+label-mounted = %free% 
 
 ; Available tokens:
 ;   %mountpoint%
@@ -622,5 +623,26 @@ label-muted-foreground = #66
 ramp-volume-0 = 
 ramp-volume-1 = 
 ramp-volume-2 = 
+
+
+[module/popup-calendar]
+type = custom/script
+exec = ~/.config/polybar/scripts/popup-calendar.sh
+interval = 1
+click-left = ~/.config/polybar/scripts/popup-calendar.sh --popup &
+
+
+[module/dist-updates-check]
+type = custom/script
+exec = ~/.config/polybar/scripts/dist-updates-check.sh
+interval = 1
+click-left = ~/.config/polybar/scripts/dist-updates-check.sh --click &
+
+
+[module/terminal]
+type = custom/script
+exec = ~/.config/polybar/scripts/terminal.sh
+interval = 1
+click-left = ~/.config/polybar/scripts/terminal.sh --click &
 
 

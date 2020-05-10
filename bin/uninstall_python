@@ -1,0 +1,49 @@
+#!/bin/bash
+
+prefix='/usr/local/'
+version="$1"
+
+delcheck() {
+	if [[ "$@" = "" ]]; then
+		printf 'No file found to remove\n'
+	else
+		printf 'Removing the following %d files:\n\n' "$#"
+		printf '%s\n' "$@"
+		printf '\n'
+		read -p 'Do you want to delete them? [y/N] ' doit
+		case "$doit" in
+			[yY])
+				rm -rf "$@"
+				;;
+			*)
+				printf 'No files deleted\n'
+				;;
+		esac
+	fi
+}
+export -f delcheck
+
+if [[ "$version" = "" ]]; then
+	echo "The python version has to be specified"
+	exit 1
+else
+	delcheck \
+	$(ls -d1 \
+		${prefix}bin/2to3-${version} \
+		${prefix}bin/idle${version} \
+		${prefix}bin/pip${version} \
+		${prefix}bin/pydoc${version} \
+		${prefix}bin/python${version} \
+		${prefix}bin/python${version}m \
+		${prefix}bin/python${version}m-config \
+		${prefix}bin/pyvenv-${version} \
+		${prefix}include/python${version} \
+		${prefix}include/python${version}m \
+		${prefix}lib/libpython${version}.a \
+		${prefix}lib/libpython${version}m.a \
+		${prefix}lib/pkgconfig/python-${version}.pc \
+		${prefix}lib/python${version} \
+		${prefix}share/man/man1/python${version}.1 \
+    2> /dev/null)
+fi
+

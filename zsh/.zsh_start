@@ -2,7 +2,7 @@
 
 apply_theme
 
-if [ "$TMUX" = "" ] && [ "$SSH_TTY" = "" ] && [ "$VSCODE" = "" ] && [ "$NAUTILUS" = "" ]; then
+if [ "$TMUX" = "" ] && [ "$SSH_TTY" = "" ] && [ "$VSCODE" = "" ] && [ "$NAUTILUS" = "" ] && [ "$CALC" = "" ]; then
     tmux new-session -A -s Dashboard -n monitor
     exit
 elif [ "$NAUTILUS" != "" ]; then
@@ -15,6 +15,17 @@ elif [ "$NAUTILUS" != "" ]; then
         tmux attach-session -t $session
     else
         tmux new-session -A -s $session -n "$basedir"
+    fi
+    exit
+elif [ "$CALC" != "" ]; then
+    session="calc"
+    tmux has-session -t $session >/dev/null 2>&1
+    has_session=$?
+    if [ $has_session -eq 0 ]; then
+        # tmux new-window -t $session
+        tmux attach-session -t $session
+    else
+        tmux new-session -A -s $session 'tmux set status off; insect'
     fi
     exit
 fi

@@ -74,7 +74,7 @@ bindcode $mod+51 split h;exec notify-send 'tile horizontally'
 bindcode $mod+20 split v;exec notify-send 'tile vertically'
 bindcode $mod+Shift+51 split h;exec notify-send 'tile horizontally'
 bindcode $mod+Shift+20 split v;exec notify-send 'tile vertically'
-bindsym $mod+Shift+s split toggle
+# bindsym $mod+Shift+s split toggle
 
 # toggle fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -522,7 +522,10 @@ bindsym $mod+b exec ~/.bin/scratchpad blueman-manager
 bindsym $mod+p exec ~/.bin/scratchpad pulseeffects
 
 # Open terminal
-bindsym $mod+Return exec ~/.bin/scratchpad i3-sensible-terminal # not working
+bindsym $mod+Return exec ~/.bin/scratchpad i3-sensible-terminal
+
+# Open Slack
+bindsym $mod+Shift+s exec ~/.bin/scratchpad slack
 
 
 # Open Spotify in workspace 4 on the right display
@@ -606,7 +609,8 @@ exec_always --no-startup-id ~/.bin/mountall
 
 # Unicode special character selector
 # bindsym $mod+grave exec --no-startup-id ~/.i3/bin/dmenuunicode
-bindcode $mod+49 exec --no-startup-id "rofi -modi 'run,drun,emoji:~/.config/rofi/bin/rofiemoji' -show emoji -font 'Inconsolata 12'"
+# bindcode $mod+49 exec --no-startup-id "rofi -modi 'run,drun,emoji:~/.config/rofi/bin/rofiemoji' -show emoji -font 'Inconsolata 12'"
+bindcode $mod+49 exec --no-startup-id ~/.config/rofi/bin/rofiunicode
 
 # Leap Motion
 # exec_always --no-startup-io "sudo leapd"

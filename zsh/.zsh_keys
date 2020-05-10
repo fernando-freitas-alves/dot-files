@@ -17,14 +17,11 @@ bindkey '^o' ranger-cd
 
 # Ctrl-F opens fzf and buffers its output to the shell input
 open-fzf() {
-  LBUFFER+=$(fzf < $TTY)
+  # LBUFFER+=$(fd --type file --follow --hidden --exclude .git --color=always | fzf --ansi --preview-window 'right:60%' --preview 'bat --color=always --line-range :300 {}' < $TTY)
+  LBUFFER+=$(fzf --preview-window 'right:60%' --preview 'bat --color=always --line-range :300 {}' < $TTY)
 }
 zle -N open-fzf
 bindkey '^f' open-fzf
-
-export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --color=always'
-export FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --preview 'bat --color=always --line-range :300 {}'"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Ctrl-p opens fpp
 open-fpp() {
@@ -61,3 +58,4 @@ open-lazygit() {
 }
 zle -N open-lazygit
 bindkey '^G' open-lazygit
+

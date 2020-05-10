@@ -305,7 +305,7 @@ set-window-option -g xterm-keys on
 set -g terminal-overrides "xterm*:kLFT5=\eOD:kRIT5=\eOC:kUP5=\eOA:kDN5=\eOB:smkx@:rmkx@"
 set -g terminal-overrides "screen*:kLFT5=\eOD:kRIT5=\eOC:kUP5=\eOA:kDN5=\eOB:smkx@:rmkx@"
 
-set -g default-terminal "screen-256color-bce"
+#set -g default-terminal "screen-256color-bce"
 
 bind-key -n C-v run "tmux set-buffer \"$(xclip -o -sel clipboard)\"; tmux paste-buffer"
 

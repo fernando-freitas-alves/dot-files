@@ -13,7 +13,11 @@ alias k='k -h'
 alias tailf='tail -f'
 alias watch='watch '
 alias xclip='xclip -selection c'
+alias benchmark='hyperfine'
+alias bench='benchmark'
+alias bm='benchmark'
 
+alias cddev='cd /mnt/dev/home/caex/develop'
 
 ######################################3
 ## SSH
@@ -23,6 +27,9 @@ export FAST_CYPHER="-c aes128-gcm@openssh.com"
 
 alias dev="ssh $SSH_OPTIONS $FAST_CYPHER dev"
 alias dev-build="ssh $SSH_OPTIONS $FAST_CYPHER dev-build"
+
+alias omniwarrior="ssh $SSH_OPTIONS $FAST_CYPHER omniwarrior"
+alias ow="omniwarrior"
 
 alias jira="ssh $SSH_OPTIONS $FAST_CYPHER jira"
 
@@ -44,6 +51,7 @@ alias samu="samuel"
 
 alias vitor="ssh $SSH_OPTIONS $FAST_CYPHER vitor"
 alias vic="vitor"
+alias eleven="ssh $SSH_OPTIONS $FAST_CYPHER eleven"
 
 alias tadeu="ssh $SSH_OPTIONS $FAST_CYPHER tadeu"
 alias t="tadeu"

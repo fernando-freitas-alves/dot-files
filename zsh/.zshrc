@@ -7,6 +7,7 @@
 [[ -f $ZSH/oh-my-zsh.sh ]] && . $ZSH/oh-my-zsh.sh
 [[ -f ~/.aliases        ]] && . ~/.aliases
 [[ -f ~/.grep_color     ]] && . ~/.grep_color
-[[ -f ~/.keys           ]] && . ~/.keys
+[[ -f ~/.zsh_keys       ]] && . ~/.zsh_keys
+[[ -f ~/.fzf.zsh        ]] && . ~/.fzf.zsh
 [[ -f ~/.nwd/preexec.sh ]] && . ~/.nwd/preexec.sh
 [[ -f ~/.zsh_start      ]] && . ~/.zsh_start

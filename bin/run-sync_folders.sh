@@ -1,1 +1,0 @@
-/home/developer/.i3/bin/run-sync_folders.sh
