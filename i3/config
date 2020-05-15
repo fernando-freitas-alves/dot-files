@@ -510,7 +510,10 @@ bindsym $mod+Shift+e exec ~/.bin/scratchpad 2 nemo
 bindsym $mod+g exec vivaldi-stable --allow-file-access-from-files
 
 # Open Youtube
-bindsym $mod+y exec ~/.bin/scratchpad vivaldi-stable --allow-file-access-from-files --app=https://www.youtube.com/ # not working
+bindsym $mod+y exec ~/.bin/scratchpad vivaldi-stable --allow-file-access-from-files --app=https://www.youtube.com/
+
+# Open Jupyter
+bindsym $mod+j exec ~/.bin/scratchpad vivaldi-stable --allow-file-access-from-files --app=http://127.0.0.1:8000/
 
 # Open Spotify
 bindsym $mod+s exec ~/.bin/scratchpad spotify
