@@ -3,10 +3,10 @@
 # Call time unit rate
 TIME_RATE=3600
 NUM_OF_MONITORS_DISPLAYING_POLYBAR=3
+BASENAME=$(basename "$0")
 TMP_FILE="/tmp/$BASENAME"
 
 # Load/Save function for persistent variables
-BASENAME=$(basename "$0")
 save()
 {
     VAR_NAME="$1"
