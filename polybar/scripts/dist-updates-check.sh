@@ -58,11 +58,11 @@ case "$1" in
         BASEDIR=$(dirname "$0")
         i3open-float "$BASEDIR/dist-updates-check-new-window.sh"
         # TODO: implement a callback to update the number
-        # PID=$!
-        # num_of_upgradable_pkgs
-        # sleep 60s
-        # wait $PID
-        # num_of_upgradable_pkgs
+        PID=$!
+        num_of_upgradable_pkgs
+        sleep 60s
+        wait $PID
+        num_of_upgradable_pkgs
         ;;
     *)
         if [ "$N" -eq "0" ]; then
