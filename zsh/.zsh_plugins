@@ -30,3 +30,6 @@ FZF_TAB_GROUP_COLORS=(
 zstyle ':fzf-tab:*' group-colors $FZF_TAB_GROUP_COLORS
 zstyle ':complete:*:description' format '[%d]'
 zstyle ':fzf-tab:*' show-group full
+
+# chamge git diff to diff-so-fancy
+git config --global core.pager "diff-so-fancy | less --tabs=4 -RFX"
