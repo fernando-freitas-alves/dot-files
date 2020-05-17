@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# ping 10.0.0.1 | awk -F'time=' '/time/ {str=$2; split(str,spl," "); t=spl[1]; x+=t; n+=1; u=x/n; if (n==1) { M=x; s=0; } else { M1+=(x-M)/n; S+=(x-M1)*(x-M)/(n-1); M+=M1;} s=sqrt(S); printf("%6.2f ms (mean = %6.2f ms, variance = %6.2f ms)\n", t, u, s)}'
+ping 10.0.0.1 | awk -F'time=' '/time/ {split($2,spl," "); x=spl[1]; xs+=x; n+=1; u=xs/n; if (n==1) { M=x; S=0; s=0; } else { Mp=M; M+=(x-M)/n; S+=(x-Mp)*(x-M); s=sqrt(S/(n-1)); } printf("ping = %6.2f ms\t(%6.2f ± %6.2f) ms\n", x, u, s)}'
