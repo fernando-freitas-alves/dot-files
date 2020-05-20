@@ -30,6 +30,7 @@ open-fpp() {
   tmux delete-buffer
   cat /tmp/tmux-buffer | fpp
   rm /tmp/tmux-buffer
+  zle reset-prompt
 }
 zle -N open-fpp
 bindkey '^p' open-fpp
@@ -41,6 +42,7 @@ open-fpp-code() {
   tmux delete-buffer
   cat /tmp/tmux-buffer | FPP_EDITOR=code fpp
   rm /tmp/tmux-buffer
+  zle reset-prompt
 }
 zle -N open-fpp-code
 bindkey '^[' open-fpp-code
@@ -48,13 +50,15 @@ bindkey '^[' open-fpp-code
 # Ctrl-Alt-L opens git log
 git-log() {
   git log --oneline --decorate --graph  2> /dev/null
+  zle reset-prompt
 }
 zle -N git-log
 bindkey '^[^L' git-log
 
 # Ctrl-G opens git log
 open-lazygit() {
-  lazygit && zle reset-prompt
+  lazygit
+  zle reset-prompt
 }
 zle -N open-lazygit
 bindkey '^G' open-lazygit
