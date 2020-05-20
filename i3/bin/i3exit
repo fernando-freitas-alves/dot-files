@@ -8,13 +8,13 @@ case "$1" in
         i3-msg exit
         ;;
     suspend)
-        # gksu pm-suspend
-        sudo /usr/sbin/pm-suspend
+        /bin/systemctl suspend
+        ;;
+    hybrid-sleep)
+        /bin/systemctl hybrid-sleep
         ;;
     hibernate)
-        # lock && dbus-send --system --print-reply --dest="org.freedesktop.ConsoleKit" /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Hibernate
-        # /sbin/reboot
-        sudo /usr/sbin/pm-hibernate
+        /bin/systemctl hibernate
         ;;
     reboot)
         dbus-send --system --print-reply --dest="org.freedesktop.ConsoleKit" /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Restart
