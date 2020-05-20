@@ -300,7 +300,8 @@ for_window [class="Vivaldi-stable" title="YouTube" window_role="browser"] floati
 for_window [class="MATLABWindow"] floating enable border normal; move position center
 for_window [class="MATLAB.*" title="Mask Editor : .*"]                 floating enable border normal; move position center
 for_window [class="MATLAB.*" title="Promoted Parameter Selector : .*"] floating enable border normal; move position center
-for_window [class="MATLAB.*" instance="Matlab-GLEE" title="Configuration Parameters: .*"] floating enable border normal; move position center
+# for_window [class="MATLAB.*" instance="Matlab-GLEE" title="Configuration Parameters: .*"] floating enable border normal; move position center
+for_window [class="MATLAB.*" instance="Matlab-GLEE"] floating enable border normal; move position center
 for_window [class="Blueman-manager"] floating enable border pixel 1
 for_window [instance="gnome-calculator"] floating enable border pixel 1
 for_window [class="CALC"] floating enable border pixel 1
