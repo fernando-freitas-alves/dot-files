@@ -9,6 +9,7 @@ plugins=(
   fzf-tab
   git
   git-open
+  git-extra-commands
   forgit
   k
   zsh-autosuggestions
