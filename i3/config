@@ -517,6 +517,9 @@ bindsym $mod+y exec ~/.bin/scratchpad vivaldi-stable --allow-file-access-from-fi
 # Open Jupyter
 bindsym $mod+j exec ~/.bin/scratchpad vivaldi-stable --allow-file-access-from-files --app=http://127.0.0.1:8000/
 
+# Open CoCalc
+bindsym $mod+Shift+c exec ~/.bin/scratchpad vivaldi-stable --allow-file-access-from-files --app=https://localhost/
+
 # Open Spotify
 bindsym $mod+s exec ~/.bin/scratchpad spotify
 
