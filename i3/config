@@ -312,6 +312,7 @@ for_window [class="osgViewer"] floating enable border pixel 1
 for_window [class="Yad" title="yad-calendar"] floating enable
 for_window [class="Matplotlib"] floating enable border pixel 1
 for_window [class="Toplevel"] floating enable border pixel 1
+for_window [class="Nemo" instance="bookmarks"] floating enable border pixel 1
 
 set $monitor_left DP-7
 workspace $ws10 output $monitor_left
