@@ -63,3 +63,10 @@ open-lazygit() {
 zle -N open-lazygit
 bindkey '^G' open-lazygit
 
+# Ctrl-Alt-A opens aptitude
+open-aptitude() {
+  aptitude -i < $TTY 2> /dev/null
+  zle reset-prompt
+}
+zle -N open-aptitude
+bindkey '^[^A' open-aptitude
