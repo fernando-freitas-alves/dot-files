@@ -104,7 +104,7 @@ bindsym $mod+Control+space floating toggle border pixel 1
 bindsym $mod+Shift+s sticky toggle
 
 # focus the parent container
-bindsym $mod+a focus parent
+# bindsym $mod+a focus parent
 
 # move the currently focused window to the scratchpad
 # bindsym $mod+Shift+space move scratchpad
@@ -513,6 +513,7 @@ bindsym --release XF86MonBrightnessUp   exec "xbacklight +5"
 # bindsym $mod+Shift+e exec ~/.bin/scratchpad 2 nemo
 bindsym $mod+e       exec ~/.i3/bin/i3-float -s -m file-explorer-1 -W 1000 -H 1000 nemo
 bindsym $mod+Shift+e exec ~/.i3/bin/i3-float -s -m file-explorer-2 -W 1000 -H 1000 nemo
+bindsym $mod+a       exec ~/.i3/bin/dist-updates-check-new-window.sh
 
 # Open Google Chrome
 bindsym $mod+g exec vivaldi-stable --allow-file-access-from-files
@@ -573,7 +574,7 @@ bindsym Control+Print exec --no-startup-id maim -m 1 -us --format=png ~/Pictures
 # Active window
 bindsym Mod4+Print exec --no-startup-id maim -m 1 -ui $(xdotool getactivewindow) --format=png ~/Pictures/$(date +%s).png
 
-# Screenshot to imgur
+# Screenshot to imgur+a
 set $imgur_uploader ~/.i3/bin/imgur-uploader
 # Whole screen
 bindsym Mod1+Sys_Req exec --no-startup-id "maim -m 1 -u --format=png /tmp/screenshot.png; $imgur_uploader /tmp/screenshot.png | xclip -selection clipboard"

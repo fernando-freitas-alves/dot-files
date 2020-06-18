@@ -56,7 +56,8 @@ fi
 case "$1" in
     --click)
         BASEDIR=$(dirname "$0")
-        i3open-float "$BASEDIR/dist-updates-check-new-window.sh"
+        # i3open-float "$BASEDIR/dist-updates-check-new-window.sh"
+        i3open-float "$HOME/.i3/bin/dist-updates-check-new-window.sh"
         # TODO: implement a callback to update the number
         PID=$!
         num_of_upgradable_pkgs
