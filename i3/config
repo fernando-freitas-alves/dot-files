@@ -101,7 +101,7 @@ bindsym $mod+Control+space floating toggle border pixel 1
 # bindsym $mod+space focus mode_toggle
 
 # toggle sticky
-# bindsym $mod+Shift+s sticky toggle
+bindsym $mod+Shift+s sticky toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
