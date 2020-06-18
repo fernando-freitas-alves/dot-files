@@ -509,35 +509,45 @@ bindsym --release XF86MonBrightnessUp   exec "xbacklight +5"
 # Open file manager
 # bindsym $mod+e exec nautilus
 # bindsym $mod+e exec ~/.bin/nautilus-scratchpad
-bindsym $mod+e       exec ~/.bin/scratchpad 1 nemo
-bindsym $mod+Shift+e exec ~/.bin/scratchpad 2 nemo
+# bindsym $mod+e       exec ~/.bin/scratchpad 1 nemo
+# bindsym $mod+Shift+e exec ~/.bin/scratchpad 2 nemo
+bindsym $mod+e       exec ~/.i3/bin/i3-float -s -m file-explorer-1 -W 1000 -H 1000 nemo
+bindsym $mod+Shift+e exec ~/.i3/bin/i3-float -s -m file-explorer-2 -W 1000 -H 1000 nemo
 
 # Open Google Chrome
 bindsym $mod+g exec vivaldi-stable --allow-file-access-from-files
 
 # Open Youtube
-bindsym $mod+y exec ~/.bin/scratchpad vivaldi-stable --allow-file-access-from-files --app=https://www.youtube.com/
+# bindsym $mod+y exec ~/.bin/scratchpad vivaldi-stable --allow-file-access-from-files --app=https://www.youtube.com/
+bindsym $mod+y exec ~/.i3/bin/i3-float -s vivaldi-stable --allow-file-access-from-files --app=https://www.youtube.com/
 
 # Open Jupyter
-bindsym $mod+j exec ~/.bin/scratchpad vivaldi-stable --allow-file-access-from-files --app=http://127.0.0.1:8000/
+# bindsym $mod+j exec ~/.bin/scratchpad vivaldi-stable --allow-file-access-from-files --app=http://127.0.0.1:8000/
+bindsym $mod+j exec ~/.i3/bin/i3-float -s vivaldi-stable --allow-file-access-from-files --app=http://127.0.0.1:8000/
 
 # Open CoCalc
-bindsym $mod+Shift+c exec ~/.bin/scratchpad vivaldi-stable --allow-file-access-from-files --app=https://localhost/
+# bindsym $mod+Shift+c exec ~/.bin/scratchpad vivaldi-stable --allow-file-access-from-files --app=https://localhost/
+bindsym $mod+Shift+c exec ~/.i3/bin/i3-float -s vivaldi-stable --allow-file-access-from-files --app=https://localhost/
 
 # Open Spotify
-bindsym $mod+s exec ~/.bin/scratchpad spotify
+# bindsym $mod+s exec ~/.bin/scratchpad spotify
+bindsym $mod+s exec ~/.i3/bin/i3-float -s spotify
 
 # Open Blueman
-bindsym $mod+b exec ~/.bin/scratchpad blueman-manager
+# bindsym $mod+b exec ~/.bin/scratchpad blueman-manager
+bindsym $mod+b exec ~/.i3/bin/i3-float -s blueman-manager
 
 # Open PulseEffects
-bindsym $mod+p exec ~/.bin/scratchpad pulseeffects
+# bindsym $mod+p exec ~/.bin/scratchpad pulseeffects
+bindsym $mod+p exec ~/.i3/bin/i3-float -s pulseeffects
 
 # Open terminal
-bindsym $mod+Return exec ~/.bin/scratchpad i3-sensible-terminal
+# bindsym $mod+Return exec ~/.bin/scratchpad i3-sensible-terminal
+bindsym $mod+Return exec ~/.i3/bin/i3-float -s -W 1200 -H 900 i3-sensible-terminal
 
 # Open Slack
-bindsym $mod+Shift+s exec ~/.bin/scratchpad slack
+# bindsym $mod+Shift+s exec ~/.bin/scratchpad slack
+# bindsym $mod+Shift+s exec ~/.i3/bin/i3-float -s slack
 
 
 # Open Spotify in workspace 4 on the right display
