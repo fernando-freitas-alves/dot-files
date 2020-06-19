@@ -1,0 +1,5 @@
+[submodule "bundle/fugitive"]
+    path   = i3/i3scripts
+    url    = https://github.com/justbuchanan/i3scripts
+	ignore = dirty
+
