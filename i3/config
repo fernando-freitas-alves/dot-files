@@ -512,8 +512,8 @@ bindsym --release XF86MonBrightnessUp   exec "xbacklight +5"
 # bindsym $mod+e exec ~/.bin/nautilus-scratchpad
 # bindsym $mod+e       exec ~/.bin/scratchpad 1 nemo
 # bindsym $mod+Shift+e exec ~/.bin/scratchpad 2 nemo
-bindsym $mod+e       exec ~/.i3/bin/i3-float -s -m file-explorer-1 -W 1000 -H 1000 nemo
-bindsym $mod+Shift+e exec ~/.i3/bin/i3-float -s -m file-explorer-2 -W 1000 -H 1000 nemo
+bindsym $mod+e       exec ~/.i3/bin/i3-float -s -m file-explorer-1 -W 1200 -H 950 nemo
+bindsym $mod+Shift+e exec ~/.i3/bin/i3-float -s -m file-explorer-2 -W 1200 -H 950 nemo
 bindsym $mod+a       exec ~/.i3/bin/dist-updates-check-new-window.sh
 
 # Open Google Chrome
