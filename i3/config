@@ -296,14 +296,16 @@ for_window [class="Google-chrome" title="Tabman" window_role="pop-up"] floating 
 for_window [class="Google-chrome" title="Sidewise" window_role="pop-up"] floating disable border pixel 1
 for_window [class="Vivaldi-stable" title="YouTube" window_role="browser"] floating disable border pixel 1
 # for_window [class="osgViewer"] floating enable border normal
-# for_window [class="MATLAB R2018a" title="^(?!MATLAB R2018a$).*"] floating enable border normal; move position center
-for_window [class="MATLABWindow"] floating enable border normal; move position center
-for_window [class="MATLAB.*" title="Mask Editor : .*"]                 floating enable border normal; move position center
-for_window [class="MATLAB.*" title="Promoted Parameter Selector : .*"] floating enable border normal; move position center
-for_window [class="MATLAB.*" title="Initializing Simulink Signal Logging Selector"] floating enable border normal; move position center
-# for_window [class="MATLAB.*" instance="Matlab-GLEE" title="Configuration Parameters: .*"] floating enable border normal; move position center
-for_window [class="MATLAB.*" instance="Matlab-GLEE"] floating enable border normal; move position center
-for_window [class="MATLAB.*" instance="sun-awt-X11-XFramePeer" title="Constraint Manager"] floating enable border normal; move position center
+# for_window [class="MATLAB R2018a" title="^(?!MATLAB R2018a$).*"] floating enable border normal, move position center
+for_window [class="MATLABWindow"] floating enable border normal, move position center
+for_window [class="MATLAB.*" title="Mask Editor : .*"]                 floating enable border normal, move position center
+for_window [class="MATLAB.*" title="Promoted Parameter Selector : .*"] floating enable border normal, move position center
+for_window [class="MATLAB.*" title="Initializing Simulink Signal Logging Selector"] floating enable border normal, move position center
+# for_window [class="MATLAB.*" instance="Matlab-GLEE" title="Configuration Parameters: .*"] floating enable border normal, move position center
+for_window [class="MATLAB.*" instance="Matlab-GLEE"] floating enable border normal, move position center
+for_window [class="MATLAB.*" title="HG_Peer_OffScreenWindow"] floating enable border normal
+# for_window [class="MATLAB.*" instance="sun-awt-X11-XFramePeer" title="Constraint Manager"] floating enable border normal, move position center
+for_window [class="MATLAB.*" instance="sun-awt-X11-XFramePeer" title="^(?!MATLAB R[^ ]+$).*"] floating enable border normal, move position center
 for_window [class="Blueman-manager"] floating enable border pixel 1
 for_window [instance="gnome-calculator"] floating enable border pixel 1
 for_window [class="CALC"] floating enable border pixel 1
