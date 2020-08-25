@@ -1,0 +1,48 @@
+#/usr/bin/env bash
+
+round()
+{
+    printf "%.0f" $(echo "scale=2;$1" | bc)
+}
+
+get_brightness()
+{
+    round $(xbacklight -get)
+}
+
+send_notification()
+{
+    brightness=$(get_brightness)
+    if [ $brightness -ge 80 ]; then
+        icon="notification-display-brightness-full"
+    elif [ $brightness -ge 60 ]; then
+        icon="notification-display-brightness-high"
+    elif [ $brightness -ge 40 ]; then
+        icon="notification-display-brightness-medium"
+    elif [ $brightness -ge 20 ]; then
+        icon="notification-display-brightness-low"
+    else
+        icon="notification-display-brightness-off"
+    fi
+    # Make the bar with the special character ─ (it's not dash -)
+    # https://en.wikipedia.org/wiki/Box-drawing_character
+    num_levels=$(round $((brightness * 17 / 50)))
+    bar=$(seq -s "─" 0 $num_levels | sed 's/[0-9]//g')
+    # Send the notification
+    dunstify -t 1500 -i "$icon" -r 5555 -u normal "    $bar"
+}
+
+MIN=1
+STEP=$1
+if [ ! "$STEP" = "" ]; then
+    brightness=$(get_brightness)
+    if [ $brightness -ne $MIN ]; then
+        abs_step=$(echo $STEP | tr -d '-')
+        if ([ $brightness -eq 0 ] && [ $STEP -gt 0 ]) || ([ $brightness -ne 0 ] && [ $STEP -lt 0 ] && [ $abs_step -ge $brightness ]); then
+            STEP=
+            xbacklight -set 1
+        fi
+    fi
+fi
+xbacklight $STEP
+send_notification

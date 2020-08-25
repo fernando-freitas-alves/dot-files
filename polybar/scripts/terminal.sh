@@ -3,7 +3,7 @@
 case "$1" in
     --click)
         # i3-sensible-terminal bash -c "$HOME/.bin/scratchpad i3-sensible-terminal"
-        i3-float -s i3-sensible-terminal
+        ~/.i3/bin/i3-float -s i3-sensible-terminal
         # BASEDIR=$(dirname "$0")
         # "$BASEDIR/terminal-open.sh"
         # $HOME/.bin/scratchpad "i3-sensible-terminal"

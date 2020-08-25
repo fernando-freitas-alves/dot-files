@@ -12,5 +12,5 @@ CLASS=$(basename $(readlink -e $(which x-terminal-emulator)))
 # CMD="x-terminal-emulator sudo -E TERMINFO=\"$TERMINFO\" aptitude -i"
 CMD="x-terminal-emulator aptitude -i"
 # CMD="$BASEDIR/dist-updates.sh"
-i3-float -s -n $CLASS -W 1200 -H 900 $CMD
+~/.i3/bin/i3-float -s -n $CLASS -W 900 -H 600 $CMD
 # echo TERMINFO="$TERMINFO" i3-float -s -n $CLASS -W 1200 -H 900 $CMD

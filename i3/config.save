@@ -1,3 +1,4 @@
+q
 set $mod Mod4
 
 # Mouse buttons name
@@ -315,7 +316,6 @@ for_window [class="Yad" title="yad-calendar"] floating enable
 for_window [class="Matplotlib"] floating enable border pixel 1
 for_window [class="Toplevel"] floating enable border pixel 1
 for_window [class="Nemo" instance="bookmarks"] floating enable border pixel 1
-for_window [class="Anydesk" title="AnyDesk"] floating enable border pixel 1
 
 set $monitor_left DP-7
 workspace $ws10 output $monitor_left
@@ -339,17 +339,16 @@ bindsym $mod+Shift+q exec --no-startup-id "i3-nagbar -t warning -m 'You pressed 
 # Set shut down, restart and locking features
 bindsym $mod+F11 mode "$mode_system"
 bindsym $mod+Home mode "$mode_system"
-# set $mode_system (l)ock, logo(u)t, s(w)itch_user, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
-set $mode_system (l)ock, logo(u)t, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
+set $mode_system (l)ock, logo(u)t, s(w)itch_user, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 mode "$mode_system" {
-    bindsym l       exec --no-startup-id ~/.config/i3/bin/i3exit lock,         mode "default"
-    bindsym u       exec --no-startup-id ~/.config/i3/bin/i3exit logout,       mode "default"
-    # bindsym w       exec --no-startup-id ~/.config/i3/bin/i3exit switch_user,  mode "default"
-    bindsym s       exec --no-startup-id ~/.config/i3/bin/i3exit suspend,      mode "default"
-    bindsym d       exec --no-startup-id ~/.config/i3/bin/i3exit hybrid-sleep, mode "default"
-    bindsym h       exec --no-startup-id ~/.config/i3/bin/i3exit hibernate,    mode "default"
-    bindsym r       exec --no-startup-id ~/.config/i3/bin/i3exit reboot,       mode "default"
-    bindsym Shift+s exec --no-startup-id ~/.config/i3/bin/i3exit shutdown,     mode "default"
+    bindsym l exec --no-startup-id ~/.config/i3/bin/i3exit lock,         mode "default"
+    bindsym w exec --no-startup-id ~/.config/i3/bin/i3exit switch_user,  mode "default"
+    bindsym u exec --no-startup-id ~/.config/i3/bin/i3exit logout,       mode "default"
+    bindsym s exec --no-startup-id ~/.config/i3/bin/i3exit suspend,      mode "default"
+    bindsym d exec --no-startup-id ~/.config/i3/bin/i3exit hybrid-sleep, mode "default"
+    bindsym h exec --no-startup-id ~/.config/i3/bin/i3exit hibernate,    mode "default"
+    bindsym r exec --no-startup-id ~/.config/i3/bin/i3exit reboot,       mode "default"
+    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
 
     # exit system mode: "Enter" or "Escape"
     bindsym Return mode "default"
@@ -618,9 +617,6 @@ bindsym $mod+b exec --no-startup-id ~/.i3/bin/i3-float -s blueman-manager
 # Open PulseEffects
 bindsym $mod+p exec --no-startup-id ~/.i3/bin/i3-float -s pulseeffects
 
-# Open Playstation website
-bindsym $mod+Shift+p exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://my.playstation.com/whatsnew
-
 # Open terminal
 bindsym $mod+Return exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 620 i3-sensible-terminal --name=MAIN_TERMINAL
 bindsym $mod+Shift+Return exec --no-startup-id i3-sensible-terminal
@@ -660,7 +656,8 @@ exec_always --no-startup-id compton
 exec_always --no-startup-id xinput set-prop "Logitech M325" "libinput Accel Speed" -0.4
 
 # Keyboard layout & sensitivity
-exec_always --no-startup-id ~/.bin/keyboard_config
+exec_always --no-startup-id setxkbmap -layout us(altgr-intl),br -option grp:alt_space_toggle
+exec_always --no-stattup-id set r rate 225 25x
 
 # Apple Magic Trackpad 2 speed
 exec_always --no-stattup-id ~/.bin/xinputspeed 'Magic Trackpad 2' 1
@@ -707,14 +704,6 @@ exec --no-startup-id /usr/bin/syncthing -no-browser -logfile=default
 # Battery popup
 exec --no-startup-id ~/.i3/bin/i3-battery-popup/i3-battery-popup -n
 
-# Browser app
-bindsym $mod+Shift+v exec --no-startup-id ~/.config/rofi/bin/vivaldi-app
-
 # virtscreen
-exec --no-startup-id ~/.i3/bin/ipad-screen restart
-bindsym $mod+Control+Shift+r exec --no-startup-id ~/.i3/bin/ipad-screen
-
-############
-# Start up
-exec --no-startup-id i3-msg 'workspace 1,  move workspace to output left'
-exec --no-startup-id i3-msg 'workspace 11, move workspace to output right'
+exec --no-startup-id ~/.i3/bin/ipad-screen
+bindsym $mod+Mod4+Shift+r exec --no-startup-id ~/.i3/bin/ipad-screen

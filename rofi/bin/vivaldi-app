@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+xclip -o -selection clipboard | rofi -dmenu -theme-str 'prompt { enabled: false; }' -mesg 'Browser app url' | xargs -I{} $HOME/.i3/bin/i3-float -s -W 400 -H 225 vivaldi --allow-file-access-from-files --app={}

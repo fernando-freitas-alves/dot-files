@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+round()
+{
+    printf "%.0f" $(echo "scale=2;$1" | bc)
+}
+
+round_to_decimal()
+{
+    echo "$(round $(echo "scale = 10; $1/10" | bc))0"
+}
+
+pad_zeros()
+{
+    printf "%0$2d\n" $1
+}
+
+battery_info()
+{
+    upower -i $(upower -e | grep BAT) | grep "$1" | cut -d':' -f2 | xargs
+}
+
+STATE=$(battery_info state)
+PERCENTAGE=$(battery_info percentage | cut -d'%' -f1)
+if [ "$STATE" = "discharging" ]; then
+    TIME=$(battery_info 'time to empty')
+    STATE_TIME_ACTION='remaining'
+    ICON="notification-battery-$(pad_zeros $(round_to_decimal $PERCENTAGE) 3)"
+    PREFIX='Battery '
+elif [ "$STATE" = "charging" ]; then
+    TIME=$(battery_info 'time to full')
+    STATE_TIME_ACTION='to full'
+    ICON="notification-battery-$(pad_zeros $(round_to_decimal $PERCENTAGE) 3)-plugged"
+    PREFIX='Charging battery '
+else
+    TIME=
+    STATE_TIME_ACTION=
+    ICON=
+    PREFIX=
+fi
+
+MIN=$(echo $TIME | cut -d'.' -f2 | cut -d' ' -f1)
+MIN=$(round $((MIN * 6)))
+HOURS=$(echo $TIME | cut -d'.' -f1)
+if [ "$MIN" = "" ]; then
+    TIME_STR="${HOURS}h"
+else
+    TIME_STR="${HOURS}h ${MIN}min"
+fi
+
+notify-send -t 1500 -i $ICON "$PREFIX$PERCENTAGE% ($TIME_STR $STATE_TIME_ACTION)"

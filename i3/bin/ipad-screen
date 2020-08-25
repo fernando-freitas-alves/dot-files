@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+virtscreen --auto &
+sleep 1 && ~/.screenlayout/notebook-ipad_2-right.sh
+# sleep 1 && ~/.screenlayout/notebook-ipad_pro-right.sh
+
+if [ "$1" = "restart" ]; then
+    which i3-msg 2>&1 > /dev/null
+    if [ $? -eq 0 ]; then
+        i3-msg restart
+    fi
+fi

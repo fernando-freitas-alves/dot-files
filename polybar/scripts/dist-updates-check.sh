@@ -38,7 +38,9 @@ save CALLS $CALLS
 # Update function
 num_of_upgradable_pkgs()
 {
-    if ! num_of_updates=$(/usr/lib/update-notifier/apt-check --human-readable | head -1 | cut -d' ' -f1); then
+    # if ! num_of_updates=$(/usr/lib/update-notifier/apt-check --human-readable | head -1 | cut -d' ' -f1); then
+    num_of_updates=$(apt-get -s dist-upgrade | grep -o "^[[:digit:]]\+ upgraded.*installed" | tr ',' '\n' | grep -o '[[:digit:]]' | awk '{total += $1} END {print total}' 2>/dev/null)
+    if [ $? -ne 0 ]; then
         num_of_updates=0
     fi
     save num_of_updates $num_of_updates
@@ -57,7 +59,7 @@ case "$1" in
     --click)
         BASEDIR=$(dirname "$0")
         # i3open-float "$BASEDIR/dist-updates-check-new-window.sh"
-        i3open-float "$HOME/.i3/bin/dist-updates-check-new-window.sh"
+        ~/.i3/bin/i3open-float "$HOME/.i3/bin/dist-updates-check-new-window.sh"
         # TODO: implement a callback to update the number
         PID=$!
         num_of_upgradable_pkgs
