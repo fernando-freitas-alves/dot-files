@@ -38,6 +38,9 @@ case "$1" in
         --width=$YAD_WIDTH --height=$YAD_HEIGHT --posx=$pos_x --posy=$pos_y \
         --title="yad-calendar" --borders=0 >/dev/null &
     ;;
+--google-calendar)
+    ~/.i3/bin/i3-float -s -W 1000 -H 600 vivaldi-stable --allow-file-access-from-files --app=https://calendar.google.com/calendar/r
+    ;;
 *)
     echo "$DATE"
     ;;

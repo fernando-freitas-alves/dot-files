@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+amixer set Capture toggle && amixer get Capture | grep '\[off\]' && notify-send -i microphone-sensitivity-muted "Microphone OFF" || notify-send -i audio-input-microphone "Microphone ON"

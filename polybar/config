@@ -8,12 +8,11 @@ margin-bottom = 0
 [bar/i3wmthemer_bar]
 monitor = ${env:MONITOR:}
 modules-left = i3
-/* modules-center = date popup-calendar */
 modules-center = popup-calendar
-/* modules-right = wlan eth battery powermenu */
-modules-right = terminal wlan eth cpu memory filesystem pulseaudio battery dist-updates-check
+modules-right = xkeyboard terminal eth cpu memory filesystem battery pulseaudio-control dist-updates-check powermenu
+;wlan
 
-tray-position = right
+tray-position = ${env:TRAY_POSITION:}
 ;tray-padding =
 
 width = 100%
@@ -46,12 +45,20 @@ font-2 = "Font Awesome 5 Brands:pixelsize=10;1"
 cursor-click = pointer
 /* cursor-scroll = ns-resize */
 
-scroll-up = i3wm-wsnext
-scroll-down = i3wm-wsprev
+scroll-up = i3wm-wsprev
+scroll-down = i3wm-wsnext
 ;scroll-up = i3-msg workspace next_on_output
 ;scroll-down = i3-msg workspace prev_on_output
 
 /* dim-value = 0 */
+
+[colors]
+black = #000
+white = #fff
+blue = #00f
+green = #0f0
+background = #1d1f21
+foreground = #c5c8c6
 
 [module/i3]
 type = internal/i3
@@ -191,7 +198,7 @@ label-urgent-padding = 2
 
 [module/wlan]
 type = internal/network
-interface = wlan1
+interface = wlo1
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
@@ -303,36 +310,39 @@ time-format = %H:%M
 ;   <bar-capacity>
 ;   <ramp-capacity>
 ;   <animation-charging>
-format-charging = <label-charging> <animation-charging>
+format-charging = %{A1:~/.i3/bin/battery-notification:}<label-charging> <animation-charging>%{A}
 
 ; Available tags:
 ;   <label-discharging> (default)
 ;   <bar-capacity>
 ;   <ramp-capacity>
 ;   <animation-discharging>
-format-discharging = <label-discharging> <ramp-capacity> 
+format-discharging = %{A1:~/.i3/bin/battery-notification:}<label-discharging> <ramp-capacity>%{A}
 
 ; Available tags:
 ;   <label-full> (default)
 ;   <bar-capacity>
 ;   <ramp-capacity>
-;format-full = <label-full> <ramp-capacity>
+format-full = %{A1:~/.i3/bin/battery-notification:}<label-full> <ramp-capacity>%{A}
 
 ; Available tokens:
 ;   %percentage% (default)
 ;   %time%
 ;   %consumption% (shows current charge rate in watts)
 /* label-charging = Charging %percentage%% */
+label-charging = %percentage%%
 
 ; Available tokens:
 ;   %percentage% (default)
 ;   %time%
 ;   %consumption% (shows current discharge rate in watts)
 /* label-discharging = Discharging %percentage%% */
+label-discharging = %time%
 
 ; Available tokens:
 ;   %percentage% (default)
 /* label-full = Fully charged */
+label-full = %percentage%%
 
 ; Only applies if <ramp-capacity> is used
 ramp-capacity-0 = 
@@ -374,14 +384,16 @@ interval = 0.5
 ;   <bar-load>
 ;   <ramp-load>
 ;   <ramp-coreload>
-format = <label> <ramp-load>
+format = %{A1:~/.i3/bin/i3-float-top:}<label><ramp-load>%{A}
 
 ; Available tokens:
 ;   %percentage% (default) - total cpu load
 ;   %percentage-cores% - load percentage for each core
 ;   %percentage-core[1-9]% - load percentage for specific core
 /* label = %percentage:3%%  */ 
-label = %percentage:2%%
+; label = %percentage:2%%
+# label = %percentage:2%%
+label =
 
 ramp-load-0 = ▁
 ramp-load-1 = ▂
@@ -426,11 +438,11 @@ spacing = 4
 ;   <bar-free>
 ;   <bar-used>
 ;   <ramp-capacity>
-format-mounted = <label-mounted>
+format-mounted = %{A1:~/.config/polybar/scripts/float-disks.sh:}%{A3:~/.config/polybar/scripts/float-explorer.sh:} <label-mounted> %{A}%{A}
 
 ; Available tags:
 ;   <label-unmounted> (default)
-format-unmounted = <label-unmounted>
+format-unmounted = %{A1:~/.config/polybar/scripts/float-disks.sh:}%{A3:~/.config/polybar/scripts/float-explorer.sh:} <label-unmounted> %{A}%{A}
 
 ; Available tokens:
 ;   %mountpoint%
@@ -463,7 +475,7 @@ interval = 3
 ;   <bar-free>
 ;   <ramp-used>
 ;   <ramp-free>
-format = <label> <ramp-used>
+format = %{A1:~/.i3/bin/i3-float-top:}<label><ramp-used>%{A}
 
 ; Available tokens:
 ;   %percentage_used% (default)
@@ -484,7 +496,8 @@ format = <label> <ramp-used>
 ;   %gb_swap_used%
 
 /* label = %gb_used:3%  */ 
-label = %gb_used:3%
+# label = %gb_used:3%
+label = 
 
 ; Only applies if <bar-used> is used
 bar-used-indicator =
@@ -625,11 +638,31 @@ ramp-volume-1 = 
 ramp-volume-2 = 
 
 
+[module/pulseaudio-control]
+type = custom/script
+tail = true
+label=%output%
+# format-underline = ${colors.blue}
+
+exec = ~/.config/polybar/scripts/pulseaudio-control.sh listen
+click-left = ~/.config/polybar/scripts/pulseaudio-control.sh togmute
+click-middle = ~/.config/polybar/scripts/audio-settings &
+; click-middle = ~/.config/polybar/scripts/pulseaudio-control.sh next-sink
+click-right = ~/.config/polybar/scripts/pulseaudio-control.sh togmute-mic
+scroll-up = ~/.config/polybar/scripts/pulseaudio-control.sh up
+scroll-down = ~/.config/polybar/scripts/pulseaudio-control.sh down
+# label-padding = 2
+label-foreground = ${colors.foreground}
+cursor-click = pointer
+
+
 [module/popup-calendar]
 type = custom/script
 exec = ~/.config/polybar/scripts/popup-calendar.sh
 interval = 1
-click-left = ~/.config/polybar/scripts/popup-calendar.sh --popup &
+click-left = ~/.config/polybar/scripts/popup-calendar.sh --google-calendar &
+click-right = ~/.config/polybar/scripts/popup-calendar.sh --popup &
+cursor-click = pointer
 
 
 [module/dist-updates-check]
@@ -637,6 +670,7 @@ type = custom/script
 exec = ~/.config/polybar/scripts/dist-updates-check.sh
 interval = 1
 click-left = ~/.config/polybar/scripts/dist-updates-check.sh --click &
+cursor-click = pointer
 
 
 [module/terminal]
@@ -644,5 +678,68 @@ type = custom/script
 exec = ~/.config/polybar/scripts/terminal.sh
 interval = 1
 click-left = ~/.config/polybar/scripts/terminal.sh --click &
+cursor-click = pointer
 
+
+[module/xkeyboard]
+type = internal/xkeyboard
+
+; List of indicators to ignore
+blacklist-0 = num lock
+blacklist-1 = scroll lock
+
+; Available tags:
+;   <label-layout> (default)
+;   <label-indicator> (default)
+format = <label-layout> <label-indicator>
+format-spacing = 0
+
+; Available tokens:
+;   %layout%
+;   %name%
+;   %number%
+;   %icon%
+; Default: %layout%
+label-layout = %layout%
+label-layout-padding = 2
+label-layout-background = #bc99ed
+label-layout-foreground = #000
+
+; layout-icon-[0-9]+ = layout;icon
+; Assign each layout an icon that will be available as %icon% token for the
+; <label-layout> tag. The part before ';' will try to match %layout% value.
+layout-icon-default = some-icon
+layout-icon-0 = ch;C
+layout-icon-1 = us;U
+layout-icon-2 = br;B
+
+; indicator-icon-[0-9]+ = indicator;off icon;on icon
+; Provides the content of the %icon% token in label-indicator-*
+indicator-icon-default = 
+indicator-icon-0 = caps lock;-CL;+CL
+indicator-icon-1 = scroll lock;;+SL
+indicator-icon-2 = num lock;-NL;+NL
+
+; Replaces label-indicator
+; Available tokens:
+;   %name%
+;   %icon%
+; Default: %name%
+label-indicator-on = +%name%
+; Available tokens:
+;   %name%
+;   %icon%
+; Default: (none)
+label-indicator-off = -%name%
+
+; Replaces label-indicator-* if for specific indicators
+; Available tokens:
+;   %name%
+;   %icon%
+label-indicator-on-capslock = 
+label-indicator-off-capslock = 
+label-indicator-on-numlock = 
+label-indicator-off-numlock = 
+label-indicator-on-scrolllock = 
+label-indicator-off-scrolllock = 
 

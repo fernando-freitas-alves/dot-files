@@ -15,19 +15,17 @@ hide_edge_borders smart
 font xft:URWGothic-Book 11
 
 # Tab switching
-bindsym Mod4+Tab         exec ~/.config/i3/bin/i3flip next
-bindsym Mod4+Shift+Tab   exec ~/.config/i3/bin/i3flip prev
+# bindsym Mod4+Tab         exec --no-startup-id ~/.config/i3/bin/i3flip next
+# bindsym Mod4+Shift+Tab   exec --no-startup-id ~/.config/i3/bin/i3flip prev
 
 # floating_modifier $mod
 floating_modifier Control
 
-bindsym $mod+Shift+Return exec i3-sensible-terminal
-
 # Window kill command
 bindsym $mod+q kill
-# bindsym Control+Mod4+Mod1 exec xkill
+# bindsym Control+Mod4+Mod1 exec --no-startup-id xkill
 # bindsym --release Control+Mod4+Mod1 exec --no-startup-id killall --quiet xkill
-# bindcode --release 37+113+64 exec xkill
+# bindcode --release 37+113+64 exec --no-startup-id xkill
 # bindcode --release 113 exec --no-startup-id xkill
 
 # start program launcher
@@ -36,9 +34,9 @@ bindsym $mod+r exec --no-startup-id ~/.i3/bin/call-rofi
 # bindsym $mod+w exec --no-startup-id "rofi -matching fuzzy -show window"
 # bindcode --release 133 exec --no-startup-id rofi -show run
 # bindsym $mod+c exec --no-startup-id "rofi -show calc -modi calc -no-show-match -no-sort"
-# bindsym $mod+c exec /usr/bin/gnome-calculator
-bindsym $mod+c exec "CALC=1 i3-sensible-terminal --class CALC --override initial_window_width=640 --override initial_window_height=400
-# bindsym $mod+c exec ~/.bin/scratchpad CALC=1 i3-sensible-terminal --class CALC --override initial_window_width=640 --override initial_window_height=400
+# bindsym $mod+c exec --no-startup-id /usr/bin/gnome-calculator
+bindsym $mod+Shift+c exec --no-startup-id "CALC=1 i3-sensible-terminal --class CALC --override initial_window_width=640 --override initial_window_height=400
+# bindsym $mod+c exec --no-startup-id ~/.bin/scratchpad CALC=1 i3-sensible-terminal --class CALC --override initial_window_width=640 --override initial_window_height=400
 
 # change focus
 # bindsym $mod+j focus left
@@ -68,12 +66,14 @@ bindsym $mod+Shift+Right move right
 # bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_forth
 
 # split orientation
-bindsym $mod+h split h;exec notify-send 'tile horizontally'
-bindsym $mod+v split v;exec notify-send 'tile vertically'
-bindcode $mod+51 split h;exec notify-send 'tile horizontally'
-bindcode $mod+20 split v;exec notify-send 'tile vertically'
-bindcode $mod+Shift+51 split h;exec notify-send 'tile horizontally'
-bindcode $mod+Shift+20 split v;exec notify-send 'tile vertically'
+bindsym  $mod+Shift+bar   split h; exec --no-startup-id notify-send 'tile horizontally'
+bindsym  $mod+Shift+minus split h; exec --no-startup-id notify-send 'tile horizontally'
+bindsym  $mod+minus       split v; exec --no-startup-id notify-send 'tile vertically'
+bindsym  $mod+bar         split v; exec --no-startup-id notify-send 'tile vertically'
+# bindcode $mod+51          split h; exec --no-startup-id notify-send 'tile horizontally'
+# bindcode $mod+20          split v; exec --no-startup-id notify-send 'tile vertically'
+# bindcode $mod+Shift+51    split h; exec --no-startup-id notify-send 'tile horizontally'
+# bindcode $mod+Shift+20    split v; exec --no-startup-id notify-send 'tile vertically'
 # bindsym $mod+Shift+s split toggle
 
 # toggle fullscreen mode for the focused container
@@ -101,10 +101,10 @@ bindsym $mod+Control+space floating toggle border pixel 1
 # bindsym $mod+space focus mode_toggle
 
 # toggle sticky
-# bindsym $mod+Shift+s sticky toggle
+bindsym $mod+Shift+y sticky toggle
 
 # focus the parent container
-bindsym $mod+a focus parent
+# bindsym $mod+a focus parent
 
 # move the currently focused window to the scratchpad
 # bindsym $mod+Shift+space move scratchpad
@@ -116,7 +116,7 @@ bindsym $mod+Shift+equal mark --add scratchpad3; move scratchpad
 # Show the next scratchpad window or hide the focused scratchpad window.
 # If there are multiple scratchpad windows, this command cycles through them.
 # bindsym $mod+space scratchpad show
-# bindsym $mod+Mod1+space exec ~/.config/i3/bin/select-scratchpad.rb
+# bindsym $mod+Mod1+space exec --no-startup-id ~/.config/i3/bin/select-scratchpad.rb
 bindsym $mod+space [con_mark="scratchpad1"] scratchpad show
 bindsym $mod+z     [con_mark="scratchpad2"] scratchpad show
 bindsym $mod+equal [con_mark="scratchpad3"] scratchpad show
@@ -294,19 +294,28 @@ for_window [class="Peek"] floating enable border pixel 1
 for_window [class="Jamin"] floating enable border pixel 1
 for_window [class="Google-chrome" title="Tabman" window_role="pop-up"] floating disable border pixel 1
 for_window [class="Google-chrome" title="Sidewise" window_role="pop-up"] floating disable border pixel 1
-for_window [class="Vivaldi-stable" title="YouTube" window_role="browser"] floating disable border pixel 1
+for_window [class="Vivaldi-stable --password-store=basic" title="YouTube" window_role="browser"] floating disable border pixel 1
 # for_window [class="osgViewer"] floating enable border normal
-# for_window [class="MATLAB R2018a" title="^(?!MATLAB R2018a$).*"] floating enable border normal; move position center
-for_window [class="MATLABWindow"] floating enable border normal; move position center
-for_window [class="MATLAB.*" title="Mask Editor : .*"]                 floating enable border normal; move position center
-for_window [class="MATLAB.*" title="Promoted Parameter Selector : .*"] floating enable border normal; move position center
-for_window [class="MATLAB.*" instance="Matlab-GLEE" title="Configuration Parameters: .*"] floating enable border normal; move position center
+# for_window [class="MATLAB R2018a" title="^(?!MATLAB R2018a$).*"] floating enable border normal, move position center
+for_window [class="MATLABWindow"] floating enable border normal, move position center
+for_window [class="MATLAB.*" title="Mask Editor : .*"]                 floating enable border normal, move position center
+for_window [class="MATLAB.*" title="Promoted Parameter Selector : .*"] floating enable border normal, move position center
+for_window [class="MATLAB.*" title="Initializing Simulink Signal Logging Selector"] floating enable border normal, move position center
+# for_window [class="MATLAB.*" instance="Matlab-GLEE" title="Configuration Parameters: .*"] floating enable border normal, move position center
+for_window [class="MATLAB.*" instance="Matlab-GLEE"] floating enable border normal, move position center
+for_window [class="MATLAB.*" title="HG_Peer_OffScreenWindow"] floating enable border normal
+# for_window [class="MATLAB.*" instance="sun-awt-X11-XFramePeer" title="Constraint Manager"] floating enable border normal, move position center
+for_window [class="MATLAB.*" instance="sun-awt-X11-XFramePeer" title="^(?!MATLAB R[^ ]+$).*"] floating enable border normal, move position center
 for_window [class="Blueman-manager"] floating enable border pixel 1
 for_window [instance="gnome-calculator"] floating enable border pixel 1
 for_window [class="CALC"] floating enable border pixel 1
 for_window [class="teste_ui"] floating enable border pixel 1
 for_window [class="osgViewer"] floating enable border pixel 1
 for_window [class="Yad" title="yad-calendar"] floating enable
+for_window [class="Matplotlib"] floating enable border pixel 1
+for_window [class="Toplevel"] floating enable border pixel 1
+for_window [class="Nemo" instance="bookmarks"] floating enable border pixel 1
+for_window [class="Anydesk" title="AnyDesk"] floating enable border pixel 1
 
 set $monitor_left DP-7
 workspace $ws10 output $monitor_left
@@ -325,27 +334,30 @@ for_window [urgent=latest] focus
 bindsym $mod+Shift+r reload; restart
 
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+q exec --no-startup-id "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # Set shut down, restart and locking features
 bindsym $mod+F11 mode "$mode_system"
-set $mode_system (l)ock, logo(u)t, s(w)itch_user, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
+bindsym $mod+Home mode "$mode_system"
+# set $mode_system (l)ock, logo(u)t, s(w)itch_user, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
+set $mode_system (l)ock, logo(u)t, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 mode "$mode_system" {
-    bindsym l exec --no-startup-id      ~/.config/i3/bin/i3exit lock,        mode "default"
-    bindsym s exec --no-startup-id sudo ~/.config/i3/bin/i3exit suspend,     mode "default"
-    bindsym w exec --no-startup-id      ~/.config/i3/bin/i3exit switch_user, mode "default"
-    bindsym u exec --no-startup-id      ~/.config/i3/bin/i3exit logout,      mode "default"
-    bindsym h exec --no-startup-id sudo ~/.config/i3/bin/i3exit hibernate,   mode "default"
-    bindsym r exec --no-startup-id      ~/.config/i3/bin/i3exit reboot,      mode "default"
-    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
+    bindsym l       exec --no-startup-id ~/.config/i3/bin/i3exit lock,         mode "default"
+    bindsym u       exec --no-startup-id ~/.config/i3/bin/i3exit logout,       mode "default"
+    # bindsym w       exec --no-startup-id ~/.config/i3/bin/i3exit switch_user,  mode "default"
+    bindsym s       exec --no-startup-id ~/.config/i3/bin/i3exit suspend,      mode "default"
+    bindsym d       exec --no-startup-id ~/.config/i3/bin/i3exit hybrid-sleep, mode "default"
+    bindsym h       exec --no-startup-id ~/.config/i3/bin/i3exit hibernate,    mode "default"
+    bindsym r       exec --no-startup-id ~/.config/i3/bin/i3exit reboot,       mode "default"
+    bindsym Shift+s exec --no-startup-id ~/.config/i3/bin/i3exit shutdown,     mode "default"
 
     # exit system mode: "Enter" or "Escape"
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
 # i3-lock-fancy-multimonitor
-bindsym $mod+l exec ~/.i3/bin/i3lock-fancy-multimonitor.sh
-exec_always --no-startup-id ~/.i3/bin/i3lock-fancy-multimonitor-xautolock.sh
+bindsym $mod+l exec --no-startup-id ~/.i3/bin/i3lock-fancy-multimonitor.sh
+# exec_always --no-startup-id ~/.i3/bin/i3lock-fancy-multimonitor-xautolock.sh
 
 
 # # Resize window (you can also use the mouse for that)
@@ -391,7 +403,7 @@ bindsym --whole-window Control+Mod4+Mod1+Left  resize shrink width  1 px
 # Autostart applications
 # exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 exec --no-startup-id nm-applet
-exec --no-startup-id pa-applet
+# exec --no-startup-id pa-applet
 # exec --no-startup-id xfce4-power-manager
 # exec --no-startup-id pamac-tray
 # exec --no-startup-id clipit
@@ -460,83 +472,158 @@ client.background                           $bg-color
 
 
 # Change volume or toggle mute
-# bindsym --whole-window Control+$mouse_whell_up   [class="Polybar"] exec "amixer -D pulse sset Master '3%+'"
-# bindsym --whole-window Control+$mouse_whell_down [class="Polybar"] exec "amixer -D pulse sset Master '3%-'"
+# bindsym --whole-window Control+$mouse_whell_up   [class="Polybar"] exec --no-startup-id "amixer -D pulse sset Master '3%+'"
+# bindsym --whole-window Control+$mouse_whell_down [class="Polybar"] exec --no-startup-id "amixer -D pulse sset Master '3%-'"
 
 # multimedia keys
-# bindsym Control+$mod+$mouse_whell_up   exec "amixer -D pulse sset Master '3%+'"
-# bindsym Control+$mod+$mouse_whell_down exec "amixer -D pulse sset Master '3%-'"
+# bindsym Control+$mod+$mouse_whell_up   exec --no-startup-id "amixer -D pulse sset Master '3%+'"
+# bindsym Control+$mod+$mouse_whell_down exec --no-startup-id "amixer -D pulse sset Master '3%-'"
 
-# bindsym --release XF86AudioRaiseVolume exec "amixer -D pulse sset Master '3%-'"
-# bindsym --release XF86AudioLowerVolume exec "amixer -D pulse sset Master '3%+'"
-# bindsym --release XF86AudioMute        exec "amixer -D pulse set Master toggle"
-# bindsym --release XF86AudioMicMute     exec "amixer -D pulse sset Capture toggle"
+# bindsym --release XF86AudioRaiseVolume exec --no-startup-id "amixer -D pulse sset Master '3%-'"
+# bindsym --release XF86AudioLowerVolume exec --no-startup-id "amixer -D pulse sset Master '3%+'"
+# bindsym --release XF86AudioMute        exec --no-startup-id "amixer -D pulse set Master toggle"
+# bindsym --release XF86AudioMicMute     exec --no-startup-id "amixer -D pulse sset Capture toggle"
 
-exec-always --no-startup-id volnoti -t 2 -a 0.25
-bindsym --release XF86AudioRaiseVolume exec ~/.config/i3/bin/volnoti-handle down
-bindsym --release XF86AudioLowerVolume exec ~/.config/i3/bin/volnoti-handle up
-bindsym --release XF86AudioMute        exec ~/.config/i3/bin/volnoti-handle mute
-bindsym --release XF86AudioMicMute     exec "amixer -D pulse sset Capture toggle"
+## Volume control
+# exec-always --no-startup-id volnoti -t 2 -a 0.25
+# bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/bin/volnoti-handle up
+# bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/bin/volnoti-handle down
+# bindsym --release XF86AudioMute        exec --no-startup-id ~/.config/i3/bin/volnoti-handle mute
+# bindsym --release XF86AudioMicMute     exec --no-startup-id "amixer -D pulse sset Capture toggle"
+
+# Path to volume control, without trailing slash
+set $volumepath ~/.i3/bin/i3-volume/volume
+
+# Command for the status line
+#   ie: i3blocks, i3status
+set $statuscmd i3status
+
+# Signal used to update the status line
+#   i3blocks uses SIGRTMIN+10 by default
+#   i3status uses SIGUSR1 by default
+set $statussig SIGUSR1
+
+# Amount to increase/decrease volume as a percentage
+set $volumestep 5
+set $volumestepmin 1
+
+# pulseaudio-utils settings
+#
+# Symbolic name for sink (numeric index not supported)
+#   Recommended: comment out this setting and omit the -s option to use default sink
+#   List sink names: pacmd list-sinks | awk -F "[<>]" '/^\s+name: <.*>/{print $2}'
+#set $sinkname alsa_output.pci-0000_00_1b.0.analog-stereo
+
+# Using pulseaudio-utils (append "-s $sinkname" without quotes to override default sink)
+bindsym XF86AudioRaiseVolume       exec $volumepath -lynp  -i $volumestep    -t $statuscmd -u $statussig -x 100
+bindsym XF86AudioLowerVolume       exec $volumepath -lynp  -d $volumestep    -t $statuscmd -u $statussig
+bindsym Shift+XF86AudioRaiseVolume exec $volumepath -lynp  -i $volumestepmin -t $statuscmd -u $statussig -x 100
+bindsym Shift+XF86AudioLowerVolume exec $volumepath -lynp  -d $volumestepmin -t $statuscmd -u $statussig
+bindsym XF86AudioMute              exec $volumepath -lympn -t $statuscmd     -u $statussig
+
 
 
 #yaourt -S playerctl
 #Play/Pause
-bindsym --release XF86AudioPlay exec "playerctl play-pause"
-#bindsym --release XF86AudioPlay exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+bindsym --release Control+XF86AudioMute        exec --no-startup-id "playerctl play-pause"
+bindsym --release Shift+XF86AudioMute          exec --no-startup-id "playerctl play-pause"
+bindsym --release XF86AudioPlay                exec --no-startup-id "playerctl play-pause"
+#bindsym --release XF86AudioPlay               exec --no-startup-id "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
 # Next
-bindsym Control+XF86AudioRaiseVolume exec "playerctl next"
-bindsym --release XF86AudioNext exec "playerctl next"
-#bindsym --release XF86AudioNext exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
+bindsym --release Control+XF86AudioRaiseVolume exec --no-startup-id "playerctl next"
+bindsym --release XF86AudioNext                exec --no-startup-id "playerctl next"
+#bindsym --release XF86AudioNext               exec --no-startup-id "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
 # Previous
-bindsym Control+XF86AudioLowerVolume exec "playerctl previous"
-bindsym --release XF86AudioPrev exec "playerctl previous"
-#bindsym --release XF86AudioPrev exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+bindsym --release Control+XF86AudioLowerVolume exec --no-startup-id "playerctl previous"
+bindsym --release XF86AudioPrev                exec --no-startup-id "playerctl previous"
+#bindsym --release XF86AudioPrev               exec --no-startup-id "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
 # Stop
-#bindsym --release XF86AudioStop exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
+#bindsym --release XF86AudioStop               exec --no-startup-id "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
 
-bindsym --release XF86TouchpadToggle exec "synclient TouchpadOff=$(synclient | awk '/TouchpadOff/ {print ($3+1)%2}')"
+# bindsym --release XF86TouchpadToggle         exec --no-startup-id "synclient TouchpadOff=$(synclient | awk '/TouchpadOff/ {print ($3+1)%2}')"
+
+bindsym --release XF86AudioMicMute      exec --no-startup-id ~/.i3/bin/mic-mute-toggle
+
 
 #Brightness
-bindsym --release XF86MonBrightnessDown exec "xbacklight -5"
-bindsym --release XF86MonBrightnessUp   exec "xbacklight +5"
+bindsym XF86MonBrightnessDown               exec --no-startup-id ~/.config/i3/bin/brightness -10
+bindsym XF86MonBrightnessUp                 exec --no-startup-id ~/.config/i3/bin/brightness +10
+bindsym Shift+XF86MonBrightnessDown         exec --no-startup-id ~/.config/i3/bin/brightness -1
+bindsym Shift+XF86MonBrightnessUp           exec --no-startup-id ~/.config/i3/bin/brightness +1
+bindsym Control+XF86MonBrightnessDown       exec --no-startup-id ~/.config/i3/bin/brightness -1
+bindsym Control+XF86MonBrightnessUp         exec --no-startup-id ~/.config/i3/bin/brightness +1
+bindsym Control+Shift+XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/bin/brightness -1
+bindsym Control+Shift+XF86MonBrightnessUp   exec --no-startup-id ~/.config/i3/bin/brightness +1
+
+# Set internet browser
+set $browser vivaldi-stable --password-store=basic --allow-file-access-from-files
+
+# Open aptitude
+bindsym $mod+a       exec --no-startup-id ~/.i3/bin/dist-updates-check-new-window.sh
 
 # Open file manager
-# bindsym $mod+e exec nautilus
-# bindsym $mod+e exec ~/.bin/nautilus-scratchpad
-bindsym $mod+e       exec ~/.bin/scratchpad 1 nemo
-bindsym $mod+Shift+e exec ~/.bin/scratchpad 2 nemo
+bindsym $mod+e       exec --no-startup-id ~/.i3/bin/i3-float -s -m file-explorer-1 -W 900 -H 600 nemo
+bindsym $mod+Shift+e exec --no-startup-id ~/.i3/bin/i3-float -s -m file-explorer-2 -W 900 -H 600 nemo
+
+# Open top
+bindsym $mod+Shift+t exec --no-startup-id ~/.i3/bin/i3-float-top
+
+# Open Trello
+bindsym $mod+t exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://trello.com/
+
+# Open Discord
+bindsym $mod+Shift+d exec --no-startup-id ~/.i3/bin/i3-float -s -W 900 -H 600 discord
 
 # Open Google Chrome
-bindsym $mod+g exec vivaldi-stable --allow-file-access-from-files
+bindsym $mod+v exec --no-startup-id $browser
+
+# Open Google Drive
+bindsym $mod+d exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://drive.google.com/drive/u/0/my-drive
+
+# Open Google Calendar
+bindsym $mod+c exec --no-startup-id ~/.config/polybar/scripts/popup-calendar.sh --google-calendar
+# bindsym $mod+c exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://calendar.google.com/calendar/r
+
+# Open Gmail
+# (account 0)
+bindsym $mod+g exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://mail.google.com/mail/u/0/
+# (account 1)
+bindsym $mod+Shift+g exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://mail.google.com/mail/u/1/
+
+# Open Google Keep
+# (account 0)
+bindsym $mod+k exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://keep.google.com/u/0/#home
+# (account 1)
+bindsym $mod+Shift+k exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://keep.google.com/u/1/#home
 
 # Open Youtube
-bindsym $mod+y exec ~/.bin/scratchpad vivaldi-stable --allow-file-access-from-files --app=https://www.youtube.com/
+bindsym $mod+y exec --no-startup-id ~/.i3/bin/i3-float -s -W 608 -H 342 $browser --app=https://www.youtube.com/
 
-# Open Jupyter
-bindsym $mod+j exec ~/.bin/scratchpad vivaldi-stable --allow-file-access-from-files --app=http://127.0.0.1:8000/
+# Open WhatsApp
+bindsym $mod+w exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://web.whatsapp.com/
+bindsym $mod+Shift+w exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://web.whatsapp.com/
 
-# Open Spotify
-bindsym $mod+s exec ~/.bin/scratchpad spotify
-
-# Open Blueman
-bindsym $mod+b exec ~/.bin/scratchpad blueman-manager
-
-# Open PulseEffects
-bindsym $mod+p exec ~/.bin/scratchpad pulseeffects
-
-# Open terminal
-bindsym $mod+Return exec ~/.bin/scratchpad i3-sensible-terminal
+# Open Facebook Messenger
+bindsym $mod+m exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://www.messenger.com/
 
 # Open Slack
-bindsym $mod+Shift+s exec ~/.bin/scratchpad slack
+bindsym $mod+s exec --no-startup-id ~/.i3/bin/i3-float -s slack
 
+# Open Spotify
+bindsym $mod+Shift+s exec --no-startup-id ~/.i3/bin/i3-float -s spotify
 
-# Open Spotify in workspace 4 on the right display
-# for_window [class="Spotify"] move container to workspace 6, focus, move workspace to output DP-4
-# # for_window [class="Spotify"] move container to workspace 6, move workspace to output DP-4
-# # bindsym $mod+p exec spotify
-# bindsym $mod+p exec ~/.config/i3/bin/run-or-focus-spotify.sh
+# Open Blueman
+bindsym $mod+b exec --no-startup-id ~/.i3/bin/i3-float -s blueman-manager
 
+# Open PulseEffects
+bindsym $mod+p exec --no-startup-id ~/.i3/bin/i3-float -s pulseeffects
+
+# Open Playstation website
+bindsym $mod+Shift+p exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://my.playstation.com/whatsnew
+
+# Open terminal
+bindsym $mod+Return exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 620 i3-sensible-terminal --name=MAIN_TERMINAL
+bindsym $mod+Shift+Return exec --no-startup-id i3-sensible-terminal
 
 # Screenshot to clipboard
 # Whole screen
@@ -554,7 +641,7 @@ bindsym Control+Print exec --no-startup-id maim -m 1 -us --format=png ~/Pictures
 # Active window
 bindsym Mod4+Print exec --no-startup-id maim -m 1 -ui $(xdotool getactivewindow) --format=png ~/Pictures/$(date +%s).png
 
-# Screenshot to imgur
+# Screenshot to imgur+a
 set $imgur_uploader ~/.i3/bin/imgur-uploader
 # Whole screen
 bindsym Mod1+Sys_Req exec --no-startup-id "maim -m 1 -u --format=png /tmp/screenshot.png; $imgur_uploader /tmp/screenshot.png | xclip -selection clipboard"
@@ -566,31 +653,23 @@ bindsym Mod1+Mod4+Sys_Req exec --no-startup-id "maim -m 1 -ui \$(xdotool getacti
 # Sync folders
 # exec_always --no-startup-id ~/.config/i3/bin/run-sync_folders.sh
 
-# albert
-# exec albert
-
-# Rotas
-exec_always --no-startup-id ~/.bin/rotas
-
 # Composition
-# exec_always --no-startup-id compton
+exec_always --no-startup-id compton
 
 # Mouse configuration
 exec_always --no-startup-id xinput set-prop "Logitech M325" "libinput Accel Speed" -0.4
 
 # Keyboard layout & sensitivity
-exec_always --no-startup-id setxkbmap -layout us(altgr-intl),br -option grp:alt_space_toggle
-exec_always --no-stattup-id set r rate 225 25x
+exec_always --no-startup-id ~/.bin/keyboard_config
 
 # Apple Magic Trackpad 2 speed
 exec_always --no-stattup-id ~/.bin/xinputspeed 'Magic Trackpad 2' 1
 
 # Set background
-exec_always --no-startup-id xsetroot -solid "#333333"
-exec_always --no-startup-id hsetroot -solid "#333333"
-
-# Fix screen displays
-exec_always --no-startup-id ~/.screenlayout/load-configuration.sh
+# exec_always --no-startup-id xsetroot -solid "#333333"
+# exec_always --no-startup-id hsetroot -solid "#333333"
+exec_always --no-startup-id xsetroot -solid "#000"
+exec_always --no-startup-id hsetroot -solid "#000"
 
 # Mount filesystems
 exec_always --no-startup-id ~/.bin/mountall
@@ -600,15 +679,15 @@ exec_always --no-startup-id ~/.bin/mountall
 
 # Scripts
 # exec_always --no-startup-id python3 ~/.i3/i3scripts/autoname_workspaces.py --norenumber_workspaces
-# bindsym $mod+n exec "python3 ~/.ni3/i3scripts/new_workspace.py"
-# bindsym $mod+Control+n exec "python3 ~/.i3/i3scripts/rename_workspace.py"
+# bindsym $mod+n exec --no-startup-id "python3 ~/.ni3/i3scripts/new_workspace.py"
+# bindsym $mod+Control+n exec --no-startup-id "python3 ~/.i3/i3scripts/rename_workspace.py"
 
 # HUD menu
 # exec --no-startup-id ~/repo/i3-hud-menu/i3-appmenu-service.py
-# bindsym $mod+Control+x exec ~/repo/i3-hud-menu/i3-hud-menu.py
+# bindsym $mod+Control+x exec --no-startup-id ~/repo/i3-hud-menu/i3-hud-menu.py
 
 # VSCode
-# bindsym $mod+v exec code
+# bindsym $mod+v exec --no-startup-id code
 
 # Unicode special character selector
 # bindsym $mod+grave exec --no-startup-id ~/.i3/bin/dmenuunicode
@@ -617,3 +696,25 @@ bindcode $mod+49 exec --no-startup-id ~/.config/rofi/bin/rofiunicode
 
 # Leap Motion
 # exec_always --no-startup-io "sudo leapd"
+
+# Window cycling
+exec --no-startup-id ~/.config/i3/bin/i3-cycle-focus --history 2
+bindsym Mod4+Tab exec --no-startup-id ~/.config/i3/bin/i3-cycle-focus --switch
+
+# Syncthing
+exec --no-startup-id /usr/bin/syncthing -no-browser -logfile=default
+
+# Battery popup
+exec --no-startup-id ~/.i3/bin/i3-battery-popup/i3-battery-popup -n
+
+# Browser app
+bindsym $mod+Shift+v exec --no-startup-id ~/.config/rofi/bin/vivaldi-app
+
+# virtscreen
+exec --no-startup-id ~/.i3/bin/ipad-screen restart
+bindsym $mod+Control+Shift+r exec --no-startup-id ~/.i3/bin/ipad-screen
+
+############
+# Start up
+exec --no-startup-id i3-msg 'workspace 1,  move workspace to output left'
+exec --no-startup-id i3-msg 'workspace 11, move workspace to output right'

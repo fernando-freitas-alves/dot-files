@@ -1,5 +1,8 @@
 #!/bin/bash
 
+DIR="$HOME/.config/rofiemoji-rofiunicode/lists"
+VER='12.0'
+URL="https://www.unicode.org/Public/emoji/${VER}/emoji-test.txt"
 FILE="$HOME/.config/emoji"
 
 if [ ! -r $FILE ]

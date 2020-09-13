@@ -22,7 +22,7 @@ load()
 
     VAR_TMP_FILE="$TMP_FILE.var.$VAR_NAME"
     if [ -f "$VAR_TMP_FILE" ]; then
-        VAR_VALUE=$(cat "$VAR_TMP_FILE")
+        VAR_VALUE=$(tail -1 "$VAR_TMP_FILE")
     else
         VAR_VALUE="$DEFAULT_VALUE"
         save "$VAR_NAME" "$VAR_VALUE"
@@ -38,7 +38,9 @@ save CALLS $CALLS
 # Update function
 num_of_upgradable_pkgs()
 {
-    if ! num_of_updates=$(/usr/lib/update-notifier/apt-check --human-readable | head -1 | cut -d' ' -f1); then
+    # if ! num_of_updates=$(/usr/lib/update-notifier/apt-check --human-readable | head -1 | cut -d' ' -f1); then
+    num_of_updates=$(apt-get -s dist-upgrade | grep -o "^[[:digit:]]\+ upgraded.*installed" | tr ',' '\n' | grep -o '[[:digit:]]' | awk '{total += $1} END {print total}' 2>/dev/null)
+    if [ $? -ne 0 ]; then
         num_of_updates=0
     fi
     save num_of_updates $num_of_updates
@@ -47,7 +49,7 @@ num_of_upgradable_pkgs()
 
 # Update number of runs, N
 N=$(load N 0)
-if [ "$CALLS" -eq "0" ]; then
+if [ "$CALLS" = "0" ]; then
     N=$(((N+1) % TIME_RATE))
     save N $N
 fi
@@ -56,7 +58,8 @@ fi
 case "$1" in
     --click)
         BASEDIR=$(dirname "$0")
-        i3open-float "$BASEDIR/dist-updates-check-new-window.sh"
+        # i3open-float "$BASEDIR/dist-updates-check-new-window.sh"
+        ~/.i3/bin/i3open-float "$HOME/.i3/bin/dist-updates-check-new-window.sh"
         # TODO: implement a callback to update the number
         PID=$!
         num_of_upgradable_pkgs
@@ -65,7 +68,7 @@ case "$1" in
         num_of_upgradable_pkgs
         ;;
     *)
-        if [ "$N" -eq "0" ]; then
+        if [ "$N" = "0" ]; then
             num_of_updates=$(num_of_upgradable_pkgs)
         else
             num_of_updates=$(load num_of_updates 0)

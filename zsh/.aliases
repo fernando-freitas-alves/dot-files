@@ -1,9 +1,20 @@
 #!/bin/bash
 
+source_file()
+{
+    [[ -f "$1" ]] && . "$1"
+}
+
+source_file ~/.aliases_mimic
+
 unalias k 2> /dev/null
 unalias watch 2> /dev/null
 unalias xclip 2> /dev/null
 
+if [ "$(python -V 2> /dev/stdout | cut -d' ' -f2 | cut -d'.' -f1)" = "3" ]; then
+    alias python='python -q'
+fi
+alias python3='python3 -q'
 alias calc='gnome-calculator'
 alias ccat='pygmentize -O style=monokai -f console256 -g'
 alias diff='colordiff'
@@ -16,8 +27,7 @@ alias xclip='xclip -selection c'
 alias benchmark='hyperfine'
 alias bench='benchmark'
 alias bm='benchmark'
-
-alias cddev='cd /mnt/dev/home/caex/develop'
+alias open='xdg-open'
 
 ######################################3
 ## SSH

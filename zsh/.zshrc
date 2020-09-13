@@ -1,13 +1,23 @@
 #!/usr/bin/env zsh
 
-[[ -f ~/.vars           ]] && . ~/.vars
-[[ -f ~/.zsh_general    ]] && . ~/.zsh_general
-[[ -f ~/.zsh_plugins    ]] && . ~/.zsh_plugins
-[[ -f ~/.zsh_theme      ]] && . ~/.zsh_theme
-[[ -f $ZSH/oh-my-zsh.sh ]] && . $ZSH/oh-my-zsh.sh
-[[ -f ~/.aliases        ]] && . ~/.aliases
-[[ -f ~/.grep_color     ]] && . ~/.grep_color
-[[ -f ~/.zsh_keys       ]] && . ~/.zsh_keys
-[[ -f ~/.fzf.zsh        ]] && . ~/.fzf.zsh
-[[ -f ~/.nwd/preexec.sh ]] && . ~/.nwd/preexec.sh
-[[ -f ~/.zsh_start      ]] && . ~/.zsh_start
+source_file()
+{
+    [[ -f "$1" ]] && . "$1"
+}
+
+source_file ~/.vars
+source_file ~/.gitlabber/config
+source_file ~/.zsh_general
+source_file ~/.zsh_plugins
+source_file ~/.zsh_theme
+source_file $ZSH/oh-my-zsh.sh
+source_file ~/.aliases
+source_file ~/.functions
+source_file ~/.grep_color
+source_file ~/.zsh_keys
+source_file ~/.fzf.zsh
+source_file ~/.nwd/preexec.sh
+source_file ~/.zsh_pip_completion
+source_file /etc/grc.zsh
+source_file ~/.nix-profile/etc/profile.d/nix.sh # added by Nix installer
+source_file ~/.zsh_start

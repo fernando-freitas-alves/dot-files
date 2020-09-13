@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+
+import argparse
+import re
+import pkg_resources
+import sys
+import subprocess
+required = {'i3ipc'}
+
+
+def install_requirements(required_modules):
+    installed = {pkg.key for pkg in pkg_resources.working_set}
+    missing   = required_modules - installed
+    if missing:
+        print('The following modules were not found and are going to be installed: ')
+        print('  ' + ''.join([*missing]))
+        python = sys.executable
+        subprocess.check_call([python, '-m', 'pip', 'install', *missing])#, stdout=subprocess.DEVNULL)
+
+
+install_requirements(required)
+from i3ipc import Connection
+
+
+parser = argparse.ArgumentParser(description='Create an i3 floating window.')
+parser.add_argument('cmd', metavar='cmd', type=str, nargs=argparse.REMAINDER, help='path of the executable command to open the window')
+parser.add_argument('-s', '--scratchpad', dest='scratchpad', action='store_true', help='move window to its own scratchpad')
+parser.add_argument('-m', '--args.mark', dest='mark', type=str, action='store', help='unique args.mark (for distinguishable multiple scratchpads with same cmd)')
+parser.add_argument('-n', '--name', dest='class_name', metavar='CLASS_NAME', type=str, help='window class name (use only if necessary)')
+parser.add_argument('-W', '--width', dest='width', type=int, action='store', help='window width')
+parser.add_argument('-H', '--height', dest='height', type=int, action='store', help='window height')
+
+args = parser.parse_args()
+if args.mark is None:
+    args.mark = re.sub('[^0-9a-zA-Z]+', '_', '_'.join(args.cmd))
+
+
+def show_scratchpad(i3, mark):
+    i3.command('[con_mark=' + mark + '] scratchpad show')
+
+
+def on_new_window(i3, e, scratchpad, mark, class_name, width, height):
+    if class_name is None or e.container.window_class == class_name:
+        i3.command('floating enable')
+        if not width is None:
+            i3.command('resize set width ' + str(width) + ' px')
+        if not height is None:
+            i3.command('resize set height ' + str(height) + ' px')
+        i3.command('move position center')
+        if scratchpad:
+            i3.command('mark --add ' + mark)
+            i3.command('[con_mark=' + mark + '] move scratchpad')
+            show_scratchpad(i3, mark)
+        sys.exit(0)
+
+
+def create_window(i3, scratchpad, mark, class_name, width, height, cmd):
+    try:
+        i3.on('window::new', lambda i3, e: on_new_window(i3, e, scratchpad, mark, class_name, width, height))
+        subprocess.Popen(cmd, close_fds=True)
+        i3.main(timeout=60)
+    finally:
+        i3.main_quit()
+
+create_window_with_args = lambda i3, args: create_window(i3, args.scratchpad, args.mark, args.class_name, args.width, args.height, args.cmd)
+
+
+i3   = Connection()
+tree = i3.get_tree()
+if args.scratchpad:
+    marked_windows = tree.find_marked(args.mark)
+    if len(marked_windows) == 0:
+        create_window_with_args(i3, args)
+    else:
+        show_scratchpad(i3, args.mark)
+else:
+    create_window_with_args(i3, args)

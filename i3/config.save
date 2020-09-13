@@ -1,0 +1,709 @@
+q
+set $mod Mod4
+
+# Mouse buttons name
+set $mouse_left_click   button1
+set $mouse_middle_click button2
+set $mouse_right_click  button3
+set $mouse_whell_up     button4
+set $mouse_whell_down   button5
+
+new_window none
+new_float none
+
+hide_edge_borders smart
+
+font xft:URWGothic-Book 11
+
+# Tab switching
+# bindsym Mod4+Tab         exec --no-startup-id ~/.config/i3/bin/i3flip next
+# bindsym Mod4+Shift+Tab   exec --no-startup-id ~/.config/i3/bin/i3flip prev
+
+# floating_modifier $mod
+floating_modifier Control
+
+# Window kill command
+bindsym $mod+q kill
+# bindsym Control+Mod4+Mod1 exec --no-startup-id xkill
+# bindsym --release Control+Mod4+Mod1 exec --no-startup-id killall --quiet xkill
+# bindcode --release 37+113+64 exec --no-startup-id xkill
+# bindcode --release 113 exec --no-startup-id xkill
+
+# start program launcher
+bindsym $mod+r exec --no-startup-id ~/.i3/bin/call-rofi
+# bindsym $mod+space exec --no-startup-id "rofi -matching fuzzy -combi-modi drun,run,window -show combi"
+# bindsym $mod+w exec --no-startup-id "rofi -matching fuzzy -show window"
+# bindcode --release 133 exec --no-startup-id rofi -show run
+# bindsym $mod+c exec --no-startup-id "rofi -show calc -modi calc -no-show-match -no-sort"
+# bindsym $mod+c exec --no-startup-id /usr/bin/gnome-calculator
+bindsym $mod+Shift+c exec --no-startup-id "CALC=1 i3-sensible-terminal --class CALC --override initial_window_width=640 --override initial_window_height=400
+# bindsym $mod+c exec --no-startup-id ~/.bin/scratchpad CALC=1 i3-sensible-terminal --class CALC --override initial_window_width=640 --override initial_window_height=400
+
+# change focus
+# bindsym $mod+j focus left
+# bindsym $mod+k focus down
+# bindsym $mod+l focus up
+# bindsym $mod+semicolon focus right
+
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+# bindsym $mod+Shift+j move left
+# bindsym $mod+Shift+k move down
+# bindsym $mod+Shift+l move up
+# bindsym $mod+Shift+semicolon move right
+
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# workspace back and forth (with/without active container)
+# workspace_auto_back_and_forth yes
+# bindsym $mod+b workspace back_and_forth
+# bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_forth
+
+# split orientation
+bindsym  $mod+Shift+bar   split h; exec --no-startup-id notify-send 'tile horizontally'
+bindsym  $mod+Shift+minus split h; exec --no-startup-id notify-send 'tile horizontally'
+bindsym  $mod+minus       split v; exec --no-startup-id notify-send 'tile vertically'
+bindsym  $mod+bar         split v; exec --no-startup-id notify-send 'tile vertically'
+# bindcode $mod+51          split h; exec --no-startup-id notify-send 'tile horizontally'
+# bindcode $mod+20          split v; exec --no-startup-id notify-send 'tile vertically'
+# bindcode $mod+Shift+51    split h; exec --no-startup-id notify-send 'tile horizontally'
+# bindcode $mod+Shift+20    split v; exec --no-startup-id notify-send 'tile vertically'
+# bindsym $mod+Shift+s split toggle
+
+# toggle fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+# bindsym $mod+Control+space fullscreen toggle
+
+# toggle bar mode
+# bindsym $mod+minus bar mode toggle
+
+# change border/titble bar
+bindsym $mod+comma border none
+bindsym $mod+period border pixel 1
+bindsym $mod+slash border normal
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+Shift+comma  layout stacking
+bindsym $mod+Shift+period layout tabbed
+bindsym $mod+Shift+slash  layout toggle split
+
+# toggle tiling / floating
+# bindsym $mod+Control+Mod1+space floating toggle border pixel 1
+bindsym $mod+Control+space floating toggle border pixel 1
+
+# change focus between tiling / floating windows
+# bindsym $mod+space focus mode_toggle
+
+# toggle sticky
+bindsym $mod+Shift+y sticky toggle
+
+# focus the parent container
+# bindsym $mod+a focus parent
+
+# move the currently focused window to the scratchpad
+# bindsym $mod+Shift+space move scratchpad
+# bindsym $mod+Shift+Mod1+space mark --add irssi; move scratchpad
+bindsym $mod+Shift+space mark --add scratchpad1; move scratchpad
+bindsym $mod+Shift+z     mark --add scratchpad2; move scratchpad
+bindsym $mod+Shift+equal mark --add scratchpad3; move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+# bindsym $mod+space scratchpad show
+# bindsym $mod+Mod1+space exec --no-startup-id ~/.config/i3/bin/select-scratchpad.rb
+bindsym $mod+space [con_mark="scratchpad1"] scratchpad show
+bindsym $mod+z     [con_mark="scratchpad2"] scratchpad show
+bindsym $mod+equal [con_mark="scratchpad3"] scratchpad show
+
+# remove a floating window from scratchpad
+bindsym $mod+Control+Shift+space floating disable; floating enable
+bindsym $mod+Control+Shift+z     floating disable; floating enable
+bindsym $mod+Control+Shift+equal floating disable; floating enable
+
+# navigate workspaces next / previous
+bindsym $mod+Ctrl+Right workspace next
+bindsym $mod+Ctrl+Left workspace prev
+
+# workspaces
+set $ws1 1
+set $ws2 2
+set $ws3 3
+set $ws4 4
+set $ws5 5
+set $ws6 6
+set $ws7 7
+set $ws8 8
+set $ws9 9
+set $ws10 10
+set $ws11 11
+set $ws12 12
+set $ws13 13
+set $ws14 14
+set $ws15 15
+set $ws16 16
+set $ws17 17
+set $ws18 18
+set $ws19 19
+set $ws20 20
+# set $ws11 F1
+# set $ws12 F2
+# set $ws13 F3
+# set $ws14 F4
+# set $ws15 F5
+# set $ws16 F6
+# set $ws17 F7
+# set $ws18 F8
+# set $ws19 F9
+# set $ws20 F10
+
+# switch to workspace
+bindsym $mod+1   exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws1
+bindsym $mod+2   exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws2
+bindsym $mod+3   exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws3
+bindsym $mod+4   exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws4
+bindsym $mod+5   exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws5
+bindsym $mod+6   exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws6
+bindsym $mod+7   exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws7
+bindsym $mod+8   exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws8
+bindsym $mod+9   exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws9
+bindsym $mod+0   exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws10
+bindsym $mod+F1  exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws11
+bindsym $mod+F2  exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws12
+bindsym $mod+F3  exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws13
+bindsym $mod+F4  exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws14
+bindsym $mod+F5  exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws15
+bindsym $mod+F6  exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws16
+bindsym $mod+F7  exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws17
+bindsym $mod+F8  exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws18
+bindsym $mod+F9  exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws19
+bindsym $mod+F10 exec --no-startup-id ~/.config/i3/bin/workspace-rofi $ws20
+# bindsym $mod+1   workspace number $ws1
+# bindsym $mod+2   workspace number $ws2
+# bindsym $mod+3   workspace number $ws3
+# bindsym $mod+4   workspace number $ws4
+# bindsym $mod+5   workspace number $ws5
+# bindsym $mod+6   workspace number $ws6
+# bindsym $mod+7   workspace number $ws7
+# bindsym $mod+8   workspace number $ws8
+# bindsym $mod+9   workspace number $ws9
+# bindsym $mod+0   workspace number $ws10
+# bindsym $mod+F1  workspace number $ws11
+# bindsym $mod+F2  workspace number $ws12
+# bindsym $mod+F3  workspace number $ws13
+# bindsym $mod+F4  workspace number $ws14
+# bindsym $mod+F5  workspace number $ws15
+# bindsym $mod+F6  workspace number $ws16
+# bindsym $mod+F7  workspace number $ws17
+# bindsym $mod+F8  workspace number $ws18
+# bindsym $mod+F9  workspace number $ws19
+# bindsym $mod+F10 workspace number $ws20
+
+# Move focused container to workspace
+bindsym $mod+Ctrl+1   move container to workspace number $ws1
+bindsym $mod+Ctrl+2   move container to workspace number $ws2
+bindsym $mod+Ctrl+3   move container to workspace number $ws3
+bindsym $mod+Ctrl+4   move container to workspace number $ws4
+bindsym $mod+Ctrl+5   move container to workspace number $ws5
+bindsym $mod+Ctrl+6   move container to workspace number $ws6
+bindsym $mod+Ctrl+7   move container to workspace number $ws7
+bindsym $mod+Ctrl+8   move container to workspace number $ws8
+bindsym $mod+Ctrl+9   move container to workspace number $ws9
+bindsym $mod+Ctrl+0   move container to workspace number $ws10
+bindsym $mod+Ctrl+F1  move container to workspace number $ws11
+bindsym $mod+Ctrl+F2  move container to workspace number $ws12
+bindsym $mod+Ctrl+F3  move container to workspace number $ws13
+bindsym $mod+Ctrl+F4  move container to workspace number $ws14
+bindsym $mod+Ctrl+F5  move container to workspace number $ws15
+bindsym $mod+Ctrl+F6  move container to workspace number $ws16
+bindsym $mod+Ctrl+F7  move container to workspace number $ws17
+bindsym $mod+Ctrl+F8  move container to workspace number $ws18
+bindsym $mod+Ctrl+F9  move container to workspace number $ws19
+bindsym $mod+Ctrl+F10 move container to workspace number $ws20
+
+# Move to workspace with focused container
+bindsym $mod+Shift+1   move container to workspace number $ws1;  workspace number $ws1
+bindsym $mod+Shift+2   move container to workspace number $ws2;  workspace number $ws2
+bindsym $mod+Shift+3   move container to workspace number $ws3;  workspace number $ws3
+bindsym $mod+Shift+4   move container to workspace number $ws4;  workspace number $ws4
+bindsym $mod+Shift+5   move container to workspace number $ws5;  workspace number $ws5
+bindsym $mod+Shift+6   move container to workspace number $ws6;  workspace number $ws6
+bindsym $mod+Shift+7   move container to workspace number $ws7;  workspace number $ws7
+bindsym $mod+Shift+8   move container to workspace number $ws8;  workspace number $ws8
+bindsym $mod+Shift+9   move container to workspace number $ws9;  workspace number $ws9
+bindsym $mod+Shift+0   move container to workspace number $ws10; workspace number $ws10
+bindsym $mod+Shift+F1  move container to workspace number $ws11; workspace number $ws11
+bindsym $mod+Shift+F2  move container to workspace number $ws12; workspace number $ws12
+bindsym $mod+Shift+F3  move container to workspace number $ws13; workspace number $ws13
+bindsym $mod+Shift+F4  move container to workspace number $ws14; workspace number $ws14
+bindsym $mod+Shift+F5  move container to workspace number $ws15; workspace number $ws15
+bindsym $mod+Shift+F6  move container to workspace number $ws16; workspace number $ws16
+bindsym $mod+Shift+F7  move container to workspace number $ws17; workspace number $ws17
+bindsym $mod+Shift+F8  move container to workspace number $ws18; workspace number $ws18
+bindsym $mod+Shift+F9  move container to workspace number $ws19; workspace number $ws19
+bindsym $mod+Shift+F10 move container to workspace number $ws20; workspace number $ws20
+
+# Move focused workspace to display
+bindsym $mod+Ctrl+Shift+Left   move workspace to output left
+bindsym $mod+Ctrl+Shift+Right  move workspace to output right
+
+# Open specific applications in floating mode
+for_window [title="alsamixer"] floating enable border pixel 1
+for_window [class="Calamares"] floating enable border normal
+for_window [class="Clipgrab"] floating enable
+for_window [title="File Transfer*"] floating enable
+for_window [class="Galculator"] floating enable border pixel 1
+for_window [class="GParted"] floating enable border normal
+for_window [title="i3_help"] floating enable sticky enable border normal
+for_window [class="Lightdm-gtk-greeter-settings"] floating enable
+for_window [class="Lxappearance"] floating enable sticky enable border normal
+for_window [class="Manjaro-hello"] floating enable
+for_window [class="Manjaro Settings Manager"] floating enable border normal
+for_window [title="MuseScore: Play Panel"] floating enable
+for_window [class="Nitrogen"] floating enable sticky enable border normal
+for_window [class="Oblogout"] fullscreen enable
+for_window [class="octopi"] floating enable
+for_window [title="About Pale Moon"] floating enable
+for_window [class="Pamac-manager"] floating enable
+# for_window [class="Pavucontrol"] floating enable
+for_window [window_role="pop-up"] floating enable border pixel 1
+for_window [class="qt5ct"] floating enable sticky enable border normal
+for_window [class="Qtconfig-qt4"] floating enable sticky enable border normal
+for_window [class="Simple-scan"] floating enable border normal
+for_window [class="(?i)System-config-printer.py"] floating enable border normal
+for_window [class="Skype"] floating enable border normal
+for_window [class="TeamViewer"] floating enable border pixel 1
+for_window [class="Thus"] floating enable border normal
+for_window [class="Timeset-gui"] floating enable border normal
+for_window [class="(?i)virtualbox"] floating enable border normal
+for_window [class="Xfburn"] floating enable
+for_window [class="Yad"] floating enable
+for_window [title="Task Manager - Google Chrome"] floating enable border pixel 1
+for_window [title="Page Unresponsive"] floating enable border pixel 1
+for_window [window_role="app"] floating enable border pixel 1
+for_window [class="Terminator" title="Terminator Preferences"] floating enable border pixel 1
+for_window [class="X-terminal-emulator" title="Terminator Preferences"] floating enable border pixel 1
+for_window [class="Gpick"] floating enable border pixel 1
+for_window [class="Peek"] floating enable border pixel 1
+# for_window [instance="albert"] move position center
+for_window [class="Jamin"] floating enable border pixel 1
+for_window [class="Google-chrome" title="Tabman" window_role="pop-up"] floating disable border pixel 1
+for_window [class="Google-chrome" title="Sidewise" window_role="pop-up"] floating disable border pixel 1
+for_window [class="Vivaldi-stable --password-store=basic" title="YouTube" window_role="browser"] floating disable border pixel 1
+# for_window [class="osgViewer"] floating enable border normal
+# for_window [class="MATLAB R2018a" title="^(?!MATLAB R2018a$).*"] floating enable border normal, move position center
+for_window [class="MATLABWindow"] floating enable border normal, move position center
+for_window [class="MATLAB.*" title="Mask Editor : .*"]                 floating enable border normal, move position center
+for_window [class="MATLAB.*" title="Promoted Parameter Selector : .*"] floating enable border normal, move position center
+for_window [class="MATLAB.*" title="Initializing Simulink Signal Logging Selector"] floating enable border normal, move position center
+# for_window [class="MATLAB.*" instance="Matlab-GLEE" title="Configuration Parameters: .*"] floating enable border normal, move position center
+for_window [class="MATLAB.*" instance="Matlab-GLEE"] floating enable border normal, move position center
+for_window [class="MATLAB.*" title="HG_Peer_OffScreenWindow"] floating enable border normal
+# for_window [class="MATLAB.*" instance="sun-awt-X11-XFramePeer" title="Constraint Manager"] floating enable border normal, move position center
+for_window [class="MATLAB.*" instance="sun-awt-X11-XFramePeer" title="^(?!MATLAB R[^ ]+$).*"] floating enable border normal, move position center
+for_window [class="Blueman-manager"] floating enable border pixel 1
+for_window [instance="gnome-calculator"] floating enable border pixel 1
+for_window [class="CALC"] floating enable border pixel 1
+for_window [class="teste_ui"] floating enable border pixel 1
+for_window [class="osgViewer"] floating enable border pixel 1
+for_window [class="Yad" title="yad-calendar"] floating enable
+for_window [class="Matplotlib"] floating enable border pixel 1
+for_window [class="Toplevel"] floating enable border pixel 1
+for_window [class="Nemo" instance="bookmarks"] floating enable border pixel 1
+
+set $monitor_left DP-7
+workspace $ws10 output $monitor_left
+assign [title="CAEX STREV.*"] $ws10
+for_window [title="CAEX STREV.*"] focus
+for_window [title="CAEX STREV.*"] floating enable border normal
+
+
+# switch to workspace with urgent window automatically
+for_window [urgent=latest] focus
+
+# reload the configuration file
+# bindsym $mod+Shift+c reload
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r reload; restart
+
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+q exec --no-startup-id "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# Set shut down, restart and locking features
+bindsym $mod+F11 mode "$mode_system"
+bindsym $mod+Home mode "$mode_system"
+set $mode_system (l)ock, logo(u)t, s(w)itch_user, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id ~/.config/i3/bin/i3exit lock,         mode "default"
+    bindsym w exec --no-startup-id ~/.config/i3/bin/i3exit switch_user,  mode "default"
+    bindsym u exec --no-startup-id ~/.config/i3/bin/i3exit logout,       mode "default"
+    bindsym s exec --no-startup-id ~/.config/i3/bin/i3exit suspend,      mode "default"
+    bindsym d exec --no-startup-id ~/.config/i3/bin/i3exit hybrid-sleep, mode "default"
+    bindsym h exec --no-startup-id ~/.config/i3/bin/i3exit hibernate,    mode "default"
+    bindsym r exec --no-startup-id ~/.config/i3/bin/i3exit reboot,       mode "default"
+    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
+
+    # exit system mode: "Enter" or "Escape"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+# i3-lock-fancy-multimonitor
+bindsym $mod+l exec --no-startup-id ~/.i3/bin/i3lock-fancy-multimonitor.sh
+# exec_always --no-startup-id ~/.i3/bin/i3lock-fancy-multimonitor-xautolock.sh
+
+
+# # Resize window (you can also use the mouse for that)
+# bindsym $mod+Control+r mode "resize"
+# mode "resize" {
+#         # These bindings trigger as soon as you enter the resize mode
+#         # Pressing left will shrink the window’s width.
+#         # Pressing right will grow the window’s width.
+#         # Pressing up will shrink the window’s height.
+#         # Pressing down will grow the window’s height.
+#         # bindsym j resize shrink width 5 px or 5 ppt
+#         # bindsym k resize grow height 5 px or 5 ppt
+#         # bindsym l resize shrink height 5 px or 5 ppt
+#         # bindsym semicolon resize grow width 5 px or 5 ppt
+
+#         # same bindings, but for the arrow keys
+#         bindsym Left  resize shrink width  10 px or 10 ppt
+#         bindsym Down  resize grow   height 10 px or 10 ppt
+#         bindsym Up    resize shrink height 10 px or 10 ppt
+#         bindsym Right resize grow   width  10 px or 10 ppt
+
+#         # exit resize mode: Enter or Escape
+#         bindsym Return mode "default"
+#         bindsym Escape mode "default"
+# }
+
+# Resize window with mouse scroll
+bindsym --whole-window $mod+$mouse_whell_up         resize grow   height 1 px or 1 ppt
+bindsym --whole-window $mod+$mouse_whell_down       resize shrink height 1 px or 1 ppt
+bindsym --whole-window Shift+$mod+$mouse_whell_up   resize grow   width  1 px or 1 ppt
+bindsym --whole-window Shift+$mod+$mouse_whell_down resize shrink width  1 px or 1 ppt
+
+bindsym --whole-window Mod4+Mod1+Up    resize grow   height 1 px or 1 ppt
+bindsym --whole-window Mod4+Mod1+Down  resize shrink height 1 px or 1 ppt
+bindsym --whole-window Mod4+Mod1+Right resize grow   width  1 px or 1 ppt
+bindsym --whole-window Mod4+Mod1+Left  resize shrink width  1 px or 1 ppt
+
+bindsym --whole-window Control+Mod4+Mod1+Up    resize grow   height 1 px
+bindsym --whole-window Control+Mod4+Mod1+Down  resize shrink height 1 px
+bindsym --whole-window Control+Mod4+Mod1+Right resize grow   width  1 px
+bindsym --whole-window Control+Mod4+Mod1+Left  resize shrink width  1 px
+
+# Autostart applications
+# exec --no-startup-id nitrogen --restore; sleep 1; compton -b
+exec --no-startup-id nm-applet
+# exec --no-startup-id pa-applet
+# exec --no-startup-id xfce4-power-manager
+# exec --no-startup-id pamac-tray
+# exec --no-startup-id clipit
+# exec_always --no-startup-id ff-theme-util
+# exec_always --no-startup-id fix_xcursor
+exec_always --no-startup-id ~/.config/polybar/i3wmthemer_bar_launch.sh
+
+# Theme colors
+set $bg-color            #000000
+set $bd-color            #3F3F3F
+set $inactive-bg-color   #383C4A
+set $inactive-bd-color   #383C4A
+set $text-color          #f3f4f5
+set $inactive-text-color #778E8D
+#                           border          background      text                 indicator  child border
+client.focused              $bd-color       $bg-color       $text-color          $bd-color  $bd-color
+client.unfocused            $bg-color       $bg-color       $inactive-text-color $bg-color  $bg-color
+client.focused_inactive     $bg-color       $bg-color       $inactive-text-color $bg-color  $bg-color
+client.urgent               $bg-color       $bg-color       $text-color          $bg-color  $bg-color
+client.background                           $bg-color
+
+# Gaps
+# gaps inner 4
+# gaps outer -2
+# gaps inner 0
+# gaps outer 0
+
+# smart_gaps on
+
+# # Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
+# set $mode_gaps Gaps: (o) outer, (i) inner
+# set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+# set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+# bindsym $mod+Shift+g mode "$mode_gaps"
+
+# mode "$mode_gaps" {
+#         bindsym o      mode "$mode_gaps_outer"
+#         bindsym i      mode "$mode_gaps_inner"
+#         bindsym Return mode "default"
+#         bindsym Escape mode "default"
+# }
+# mode "$mode_gaps_inner" {
+#         bindsym plus  gaps inner current plus 5
+#         bindsym minus gaps inner current minus 5
+#         bindsym 0     gaps inner current set 0
+
+#         bindsym Shift+plus  gaps inner all plus 5
+#         bindsym Shift+minus gaps inner all minus 5
+#         bindsym Shift+0     gaps inner all set 0
+
+#         bindsym Return mode "default"
+#         bindsym Escape mode "default"
+# }
+# mode "$mode_gaps_outer" {
+#         bindsym plus  gaps outer current plus 5
+#         bindsym minus gaps outer current minus 5
+#         bindsym 0     gaps outer current set 0
+
+#         bindsym Shift+plus  gaps outer all plus 5
+#         bindsym Shift+minus gaps outer all minus 5
+#         bindsym Shift+0     gaps outer all set 0
+
+#         bindsym Return mode "default"
+#         bindsym Escape mode "default"
+# }
+
+
+# Change volume or toggle mute
+# bindsym --whole-window Control+$mouse_whell_up   [class="Polybar"] exec --no-startup-id "amixer -D pulse sset Master '3%+'"
+# bindsym --whole-window Control+$mouse_whell_down [class="Polybar"] exec --no-startup-id "amixer -D pulse sset Master '3%-'"
+
+# multimedia keys
+# bindsym Control+$mod+$mouse_whell_up   exec --no-startup-id "amixer -D pulse sset Master '3%+'"
+# bindsym Control+$mod+$mouse_whell_down exec --no-startup-id "amixer -D pulse sset Master '3%-'"
+
+# bindsym --release XF86AudioRaiseVolume exec --no-startup-id "amixer -D pulse sset Master '3%-'"
+# bindsym --release XF86AudioLowerVolume exec --no-startup-id "amixer -D pulse sset Master '3%+'"
+# bindsym --release XF86AudioMute        exec --no-startup-id "amixer -D pulse set Master toggle"
+# bindsym --release XF86AudioMicMute     exec --no-startup-id "amixer -D pulse sset Capture toggle"
+
+## Volume control
+# exec-always --no-startup-id volnoti -t 2 -a 0.25
+# bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/bin/volnoti-handle up
+# bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/bin/volnoti-handle down
+# bindsym --release XF86AudioMute        exec --no-startup-id ~/.config/i3/bin/volnoti-handle mute
+# bindsym --release XF86AudioMicMute     exec --no-startup-id "amixer -D pulse sset Capture toggle"
+
+# Path to volume control, without trailing slash
+set $volumepath ~/.i3/bin/i3-volume/volume
+
+# Command for the status line
+#   ie: i3blocks, i3status
+set $statuscmd i3status
+
+# Signal used to update the status line
+#   i3blocks uses SIGRTMIN+10 by default
+#   i3status uses SIGUSR1 by default
+set $statussig SIGUSR1
+
+# Amount to increase/decrease volume as a percentage
+set $volumestep 5
+set $volumestepmin 1
+
+# pulseaudio-utils settings
+#
+# Symbolic name for sink (numeric index not supported)
+#   Recommended: comment out this setting and omit the -s option to use default sink
+#   List sink names: pacmd list-sinks | awk -F "[<>]" '/^\s+name: <.*>/{print $2}'
+#set $sinkname alsa_output.pci-0000_00_1b.0.analog-stereo
+
+# Using pulseaudio-utils (append "-s $sinkname" without quotes to override default sink)
+bindsym XF86AudioRaiseVolume       exec $volumepath -lynp  -i $volumestep    -t $statuscmd -u $statussig -x 100
+bindsym XF86AudioLowerVolume       exec $volumepath -lynp  -d $volumestep    -t $statuscmd -u $statussig
+bindsym Shift+XF86AudioRaiseVolume exec $volumepath -lynp  -i $volumestepmin -t $statuscmd -u $statussig -x 100
+bindsym Shift+XF86AudioLowerVolume exec $volumepath -lynp  -d $volumestepmin -t $statuscmd -u $statussig
+bindsym XF86AudioMute              exec $volumepath -lympn -t $statuscmd     -u $statussig
+
+
+
+#yaourt -S playerctl
+#Play/Pause
+bindsym --release Control+XF86AudioMute        exec --no-startup-id "playerctl play-pause"
+bindsym --release Shift+XF86AudioMute          exec --no-startup-id "playerctl play-pause"
+bindsym --release XF86AudioPlay                exec --no-startup-id "playerctl play-pause"
+#bindsym --release XF86AudioPlay               exec --no-startup-id "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+# Next
+bindsym --release Control+XF86AudioRaiseVolume exec --no-startup-id "playerctl next"
+bindsym --release XF86AudioNext                exec --no-startup-id "playerctl next"
+#bindsym --release XF86AudioNext               exec --no-startup-id "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
+# Previous
+bindsym --release Control+XF86AudioLowerVolume exec --no-startup-id "playerctl previous"
+bindsym --release XF86AudioPrev                exec --no-startup-id "playerctl previous"
+#bindsym --release XF86AudioPrev               exec --no-startup-id "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+# Stop
+#bindsym --release XF86AudioStop               exec --no-startup-id "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
+
+# bindsym --release XF86TouchpadToggle         exec --no-startup-id "synclient TouchpadOff=$(synclient | awk '/TouchpadOff/ {print ($3+1)%2}')"
+
+bindsym --release XF86AudioMicMute      exec --no-startup-id ~/.i3/bin/mic-mute-toggle
+
+
+#Brightness
+bindsym XF86MonBrightnessDown               exec --no-startup-id ~/.config/i3/bin/brightness -10
+bindsym XF86MonBrightnessUp                 exec --no-startup-id ~/.config/i3/bin/brightness +10
+bindsym Shift+XF86MonBrightnessDown         exec --no-startup-id ~/.config/i3/bin/brightness -1
+bindsym Shift+XF86MonBrightnessUp           exec --no-startup-id ~/.config/i3/bin/brightness +1
+bindsym Control+XF86MonBrightnessDown       exec --no-startup-id ~/.config/i3/bin/brightness -1
+bindsym Control+XF86MonBrightnessUp         exec --no-startup-id ~/.config/i3/bin/brightness +1
+bindsym Control+Shift+XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/bin/brightness -1
+bindsym Control+Shift+XF86MonBrightnessUp   exec --no-startup-id ~/.config/i3/bin/brightness +1
+
+# Set internet browser
+set $browser vivaldi-stable --password-store=basic --allow-file-access-from-files
+
+# Open aptitude
+bindsym $mod+a       exec --no-startup-id ~/.i3/bin/dist-updates-check-new-window.sh
+
+# Open file manager
+bindsym $mod+e       exec --no-startup-id ~/.i3/bin/i3-float -s -m file-explorer-1 -W 900 -H 600 nemo
+bindsym $mod+Shift+e exec --no-startup-id ~/.i3/bin/i3-float -s -m file-explorer-2 -W 900 -H 600 nemo
+
+# Open top
+bindsym $mod+Shift+t exec --no-startup-id ~/.i3/bin/i3-float-top
+
+# Open Trello
+bindsym $mod+t exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://trello.com/
+
+# Open Discord
+bindsym $mod+Shift+d exec --no-startup-id ~/.i3/bin/i3-float -s -W 900 -H 600 discord
+
+# Open Google Chrome
+bindsym $mod+v exec --no-startup-id $browser
+
+# Open Google Drive
+bindsym $mod+d exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://drive.google.com/drive/u/0/my-drive
+
+# Open Google Calendar
+bindsym $mod+c exec --no-startup-id ~/.config/polybar/scripts/popup-calendar.sh --google-calendar
+# bindsym $mod+c exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://calendar.google.com/calendar/r
+
+# Open Gmail
+# (account 0)
+bindsym $mod+g exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://mail.google.com/mail/u/0/
+# (account 1)
+bindsym $mod+Shift+g exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://mail.google.com/mail/u/1/
+
+# Open Google Keep
+# (account 0)
+bindsym $mod+k exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://keep.google.com/u/0/#home
+# (account 1)
+bindsym $mod+Shift+k exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://keep.google.com/u/1/#home
+
+# Open Youtube
+bindsym $mod+y exec --no-startup-id ~/.i3/bin/i3-float -s -W 608 -H 342 $browser --app=https://www.youtube.com/
+
+# Open WhatsApp
+bindsym $mod+w exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://web.whatsapp.com/
+bindsym $mod+Shift+w exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://web.whatsapp.com/
+
+# Open Facebook Messenger
+bindsym $mod+m exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 600 $browser --app=https://www.messenger.com/
+
+# Open Slack
+bindsym $mod+s exec --no-startup-id ~/.i3/bin/i3-float -s slack
+
+# Open Spotify
+bindsym $mod+Shift+s exec --no-startup-id ~/.i3/bin/i3-float -s spotify
+
+# Open Blueman
+bindsym $mod+b exec --no-startup-id ~/.i3/bin/i3-float -s blueman-manager
+
+# Open PulseEffects
+bindsym $mod+p exec --no-startup-id ~/.i3/bin/i3-float -s pulseeffects
+
+# Open terminal
+bindsym $mod+Return exec --no-startup-id ~/.i3/bin/i3-float -s -W 1000 -H 620 i3-sensible-terminal --name=MAIN_TERMINAL
+bindsym $mod+Shift+Return exec --no-startup-id i3-sensible-terminal
+
+# Screenshot to clipboard
+# Whole screen
+bindsym Shift+Print exec --no-startup-id maim -m 1 -u --format=png /dev/stdout | xclip -selection clipboard -t image/png -i
+# Select box area
+bindsym Shift+Control+Print exec --no-startup-id maim -m 1 -us --format=png /dev/stdout | xclip -selection clipboard -t image/png -i
+# Active window
+bindsym Shift+Mod4+Print exec --no-startup-id maim -m 1 -ui $(xdotool getactivewindow) --format=png /dev/stdout | xclip -selection clipboard -t image/png -i
+
+# Screenshot to ~/Pictures
+# Whole screen
+bindsym Print exec --no-startup-id maim -m 1 -u --format=png ~/Pictures/$(date +%s).png
+# Select box area
+bindsym Control+Print exec --no-startup-id maim -m 1 -us --format=png ~/Pictures/$(date +%s).png
+# Active window
+bindsym Mod4+Print exec --no-startup-id maim -m 1 -ui $(xdotool getactivewindow) --format=png ~/Pictures/$(date +%s).png
+
+# Screenshot to imgur+a
+set $imgur_uploader ~/.i3/bin/imgur-uploader
+# Whole screen
+bindsym Mod1+Sys_Req exec --no-startup-id "maim -m 1 -u --format=png /tmp/screenshot.png; $imgur_uploader /tmp/screenshot.png | xclip -selection clipboard"
+# Select box area
+bindsym Mod1+Control+Sys_Req exec --no-startup-id "maim -m 1 -us --format=png /tmp/screenshot.png; $imgur_uploader /tmp/screenshot.png | xclip -selection clipboard"
+# Active window
+bindsym Mod1+Mod4+Sys_Req exec --no-startup-id "maim -m 1 -ui \$(xdotool getactivewindow) --format=png /tmp/screenshot.png; $imgur_uploader /tmp/screenshot.png | xclip -selection clipboard"
+
+# Sync folders
+# exec_always --no-startup-id ~/.config/i3/bin/run-sync_folders.sh
+
+# Composition
+exec_always --no-startup-id compton
+
+# Mouse configuration
+exec_always --no-startup-id xinput set-prop "Logitech M325" "libinput Accel Speed" -0.4
+
+# Keyboard layout & sensitivity
+exec_always --no-startup-id setxkbmap -layout us(altgr-intl),br -option grp:alt_space_toggle
+exec_always --no-stattup-id set r rate 225 25x
+
+# Apple Magic Trackpad 2 speed
+exec_always --no-stattup-id ~/.bin/xinputspeed 'Magic Trackpad 2' 1
+
+# Set background
+# exec_always --no-startup-id xsetroot -solid "#333333"
+# exec_always --no-startup-id hsetroot -solid "#333333"
+exec_always --no-startup-id xsetroot -solid "#000"
+exec_always --no-startup-id hsetroot -solid "#000"
+
+# Mount filesystems
+exec_always --no-startup-id ~/.bin/mountall
+
+# Tunnel service
+# exec_always --no-startup-id ~/.bin/tadeu_tunnel
+
+# Scripts
+# exec_always --no-startup-id python3 ~/.i3/i3scripts/autoname_workspaces.py --norenumber_workspaces
+# bindsym $mod+n exec --no-startup-id "python3 ~/.ni3/i3scripts/new_workspace.py"
+# bindsym $mod+Control+n exec --no-startup-id "python3 ~/.i3/i3scripts/rename_workspace.py"
+
+# HUD menu
+# exec --no-startup-id ~/repo/i3-hud-menu/i3-appmenu-service.py
+# bindsym $mod+Control+x exec --no-startup-id ~/repo/i3-hud-menu/i3-hud-menu.py
+
+# VSCode
+# bindsym $mod+v exec --no-startup-id code
+
+# Unicode special character selector
+# bindsym $mod+grave exec --no-startup-id ~/.i3/bin/dmenuunicode
+# bindcode $mod+49 exec --no-startup-id "rofi -modi 'run,drun,emoji:~/.config/rofi/bin/rofiemoji' -show emoji -font 'Inconsolata 12'"
+bindcode $mod+49 exec --no-startup-id ~/.config/rofi/bin/rofiunicode
+
+# Leap Motion
+# exec_always --no-startup-io "sudo leapd"
+
+# Window cycling
+exec --no-startup-id ~/.config/i3/bin/i3-cycle-focus --history 2
+bindsym Mod4+Tab exec --no-startup-id ~/.config/i3/bin/i3-cycle-focus --switch
+
+# Syncthing
+exec --no-startup-id /usr/bin/syncthing -no-browser -logfile=default
+
+# Battery popup
+exec --no-startup-id ~/.i3/bin/i3-battery-popup/i3-battery-popup -n
+
+# virtscreen
+exec --no-startup-id ~/.i3/bin/ipad-screen
+bindsym $mod+Mod4+Shift+r exec --no-startup-id ~/.i3/bin/ipad-screen

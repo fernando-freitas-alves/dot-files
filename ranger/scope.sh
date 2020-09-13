@@ -36,8 +36,8 @@ FILE_EXTENSION_LOWER=$(echo ${FILE_EXTENSION} | tr '[:upper:]' '[:lower:]')
 # Settings
 HIGHLIGHT_SIZE_MAX=262143  # 256KiB
 HIGHLIGHT_TABWIDTH=8
-HIGHLIGHT_STYLE='pablo'
-PYGMENTIZE_STYLE='autumn'
+HIGHLIGHT_STYLE='molokai'
+PYGMENTIZE_STYLE='monokai'
 
 
 handle_extension() {

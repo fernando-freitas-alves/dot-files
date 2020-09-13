@@ -2,8 +2,9 @@
 
 apply_theme
 
-if [ "$TMUX" = "" ] && [ "$SSH_TTY" = "" ] && [ "$VSCODE" = "" ] && [ "$NAUTILUS" = "" ] && [ "$CALC" = "" ]; then
-    tmux new-session -A -s Dashboard -n monitor
+if [ "$TMUX" = "" ] && [ "$SSH_TTY" = "" ] && [ "$VSCODE" = "" ] && [ "$NAUTILUS" = "" ] && [ "$CALC" = "" ] && [ "$TOP" = "" ]; then
+    SHELL_BASENAME=$(basename $(echo $SHELL))
+    tmux new-session -A -s 1 -n $SHELL_BASENAME
     exit
 elif [ "$NAUTILUS" != "" ]; then
     basedir=$(basename "$NAUTILUS")
@@ -26,6 +27,16 @@ elif [ "$CALC" != "" ]; then
         tmux attach-session -t $session
     else
         tmux new-session -A -s $session 'tmux set status off; insect'
+    fi
+    exit
+elif [ "$TOP" != "" ]; then
+    session="top"
+    tmux has-session -t $session >/dev/null 2>&1
+    has_session=$?
+    if [ $has_session -eq 0 ]; then
+        tmux attach-session -t $session
+    else
+        tmux new-session -A -s $session 'tmux set status off; sudo htop'
     fi
     exit
 fi
