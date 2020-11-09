@@ -20,48 +20,13 @@ alias ccat='pygmentize -O style=monokai -f console256 -g'
 alias diff='colordiff'
 alias git_clean='git reset --hard && git clean -f -d :/'
 alias k='k -h'
-# alias make='colormake'
 alias tailf='tail -f'
-alias watch='watch '
-alias xclip='xclip -selection c'
 alias benchmark='hyperfine'
 alias bench='benchmark'
 alias bm='benchmark'
-alias open='xdg-open'
 
 ######################################3
 ## SSH
 
 export SSH_OPTIONS="-t -tt -xXY -o StrictHostKeyChecking=no -o LogLevel=QUIET"
 export FAST_CYPHER="-c aes128-gcm@openssh.com"
-
-alias dev="ssh $SSH_OPTIONS $FAST_CYPHER dev"
-alias dev-build="ssh $SSH_OPTIONS $FAST_CYPHER dev-build"
-
-alias omniwarrior="ssh $SSH_OPTIONS $FAST_CYPHER omniwarrior"
-alias ow="omniwarrior"
-
-alias jira="ssh $SSH_OPTIONS $FAST_CYPHER jira"
-
-alias fabiana="ssh $SSH_OPTIONS $FAST_CYPHER fabiana"
-alias fab="fabiana"
-alias fabiana2="ssh $SSH_OPTIONS $FAST_CYPHER fabiana2"
-alias fab2="fabiana2"
-alias fabiana3="ssh $SSH_OPTIONS $FAST_CYPHER fabiana3"
-alias fab3="fabiana3"
-
-alias lucas="ssh $SSH_OPTIONS $FAST_CYPHER lucas"
-alias lu="lucas"
-alias lucas2="ssh $SSH_OPTIONS $FAST_CYPHER lucas2"
-alias lu2="lucas2"
-
-alias samuel="ssh $SSH_OPTIONS $FAST_CYPHER samuel"
-alias samuca="samuel"
-alias samu="samuel"
-
-alias vitor="ssh $SSH_OPTIONS $FAST_CYPHER vitor"
-alias vic="vitor"
-alias eleven="ssh $SSH_OPTIONS $FAST_CYPHER eleven"
-
-alias tadeu="ssh $SSH_OPTIONS $FAST_CYPHER tadeu"
-alias t="tadeu"

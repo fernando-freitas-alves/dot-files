@@ -6,7 +6,7 @@ source_file()
 }
 
 source_file ~/.vars
-source_file ~/.gitlabber/config
+source_file ~/.gitlabber
 source_file ~/.zsh_general
 source_file ~/.zsh_plugins
 source_file ~/.zsh_theme
